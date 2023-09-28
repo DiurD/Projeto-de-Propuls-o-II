@@ -12,6 +12,13 @@ class AircraftEngines:
         self.T0 = self.atm.temperature[0]
         self.P0 = self.atm.pressure[0]
         self.a0 = self.atm.speed_of_sound[0]
+        print(f"\nDados atmosféricos:\nT0 = {self.T0} \nP0 = {self.P0}\na0 = {self.a0}\n")
+
+    def set_param(self,new_T0,new_P0,new_a0):
+        self.T0 = new_T0
+        self.P0 = new_P0
+        self.a0 = new_a0
+        
 
 
 
@@ -2038,9 +2045,9 @@ class AircraftEngines:
 
         Arguments:
             M0: Mach number                             [  -  ]
-            gamma: Ratio of specific heats              [kJ/kgK]
-            cp: Specific heat at constant pressure      [ J/K ]
-            hpr: Low heating value of fuel              [kJ/kg]
+            gamma: Ratio of specific heats              [  -  ]
+            cp: Specific heat at constant pressure      [J/kgK]
+            hpr: Low heating value of fuel              [ J/kg]
             Tt4: Total temperature leaving the burner   [  K  ]
 
         Returns: A dictionary containing the list of calculated outputs.
@@ -2065,11 +2072,11 @@ class AircraftEngines:
         R = (gamma - 1)/gamma*cp # J/(kg.K)
 
         a0 = (gamma*R*self.T0)**(1/2) #m/s
-
-        tau_r = 1 + (gamma - 1)/2*M0**2
+        
+        tau_r = 1 + ((gamma - 1)/2)*(M0**2)
 
         tau_lambda = Tt4/self.T0
-        V9_a0 = M0 * (tau_lambda/tau_r)**0.5
+        V9_a0 = M0 * ((tau_lambda/tau_r)**0.5)
 
         F_m0 = a0 * (V9_a0 - M0)
         f = (cp * self.T0)/hpr * (tau_lambda - tau_r)
