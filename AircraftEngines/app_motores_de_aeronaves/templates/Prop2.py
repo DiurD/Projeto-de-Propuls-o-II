@@ -12,7 +12,9 @@ class AircraftEngines:
         self.T0 = self.atm.temperature[0]
         self.P0 = self.atm.pressure[0]
         self.a0 = self.atm.speed_of_sound[0]
-        print(f"\nDados atmosféricos:\nT0 = {self.T0} \nP0 = {self.P0}\na0 = {self.a0}\n")
+
+    def __str__(self):
+        return f"\nDados atmosféricos:\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
 
     def set_param(self,new_T0,new_P0,new_a0):
         self.T0 = new_T0
@@ -2066,7 +2068,7 @@ class AircraftEngines:
             'eta_T': [],
             'eta_P': [],
             'eta_Total': [],
-            'FR': []
+            #'FR': []
         }
 
         R = (gamma - 1)/gamma*cp # J/(kg.K)

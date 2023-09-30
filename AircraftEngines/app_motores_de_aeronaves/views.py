@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import resolve
-from AircraftEngines.app_motores_de_aeronaves.templates import Prop2
+from app_motores_de_aeronaves.templates import Prop2
 
 # Create your views here.
 
