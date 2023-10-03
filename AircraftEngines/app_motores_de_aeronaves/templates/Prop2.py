@@ -2099,6 +2099,8 @@ class AircraftEngines:
 
 
 
+
+
 #-------------------------------------------- TURBOPROP --------------------------------------------------
     def ideal_turboprop(self, M0, gamma, cp, hpr, Tt4, pi_c, tau_t, eta_prop, batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
@@ -2264,7 +2266,3 @@ class AircraftEngines:
             pi_c += pi_c_increase
 
         return output
-
-
-a = AircraftEngines(10000)
-a.ideal_turbojet(1, 1.4, 1005, 42, 1500, 20)

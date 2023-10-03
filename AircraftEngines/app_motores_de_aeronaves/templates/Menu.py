@@ -1,4 +1,4 @@
-import Prop2
+import Prop2,Ramjet_missile
 import re
 from tabulate import tabulate
 
@@ -42,8 +42,8 @@ class menu:
                     print("Digite um valor válido!\n")
 
     def ramjet(self,ideal):
-        opcao = input("Deseja ver os resultados com a atmosfera atual ou criar nova atmosfera para simulação do Ramjet? \n0 - Ver atmosfera atual\n1 - Ver resultados com atmosfera atual\n2 - Criar nova atmosfera e simular\n3 - Voltar \n")
-        while opcao !="3":
+        opcao = input("Deseja ver os resultados com a atmosfera atual ou criar nova atmosfera para simulação do Ramjet? \n0 - Ver atmosfera atual\n1 - Ver resultados com atmosfera atual\n2 - Criar nova atmosfera e simular\n3 - Simular um caso real \n4 - Voltar \n")
+        while opcao !="4":
             match (opcao,ideal):
                 case ("0",_):
                     print(self.motor)
@@ -59,6 +59,7 @@ class menu:
 
                 case ("2",True):
                     self.cria_motor()
+                    
                     variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 [Mach]; gamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
                     # print(variables)
                     M0 = float(variables[0]); gamma = float(variables[1]); cp =float(variables[2]); hpr = float(variables[3]); Tt4 = float(variables[4])
@@ -66,12 +67,18 @@ class menu:
                     self.results = self.motor.ideal_ramjet(M0, gamma, cp*1000, hpr*1000, Tt4)
                     self.exibe_resultados(self.results)
 
-                case ("1"|"2",False):
+                case ("1"|"2"|"3",False):
                     print("Ciclo não ideal ainda não implementado!\n")
 
-                case ("3",_):
+                case("3",True):
+                    self.missil = Ramjet_missile.missile()
+                    print(self.missil)
+                    # self.missil.define_param()
+
+                case ("5",_):
+                    print(self.missil)
                     return
-            opcao = input("-- MENU RAMJET --")
+            opcao = input("-- MENU RAMJET --\n0 - Ver atmosfera atual\n1 - Ver resultados com atmosfera atual\n2 - Criar nova atmosfera e simular\n3 - Simular um caso real \n4 - Voltar \n")
                     
             
                     
