@@ -1,4 +1,4 @@
-import Prop2,re
+import Prop2,re,math
 
 class missile:
     
@@ -20,6 +20,12 @@ class missile:
         self.D = self.insere_porcentagem()
         print(self.D)
         self.cd = float(input("\nPor fim, qual o coeficiente de arrasto do míssil? "))
+        self.A=[float(0)]*10
+
+        for i in range(0,len(self.D)):
+            self.A[i] = (math.pi*self.D[i]**2)/2
+
+
 
     def __str__(self):
         string = "------------\nNome: {}".format(self.name)
@@ -28,7 +34,7 @@ class missile:
         string = string+ "\nPeso: {}".format(self.weight)
         string += "\n°°°°°°°°°°°°°°°°°°°°"
         for i in range(0,len(self.D)):
-            string = string+ "\nDiâmetro da seção {}: {}".format(i,self.D[i])
+            string = string+ "\nDiâmetro e área da seção {}: {} [m] | {} [m²]".format(i,self.D[i],self.A[i])
         string += "\n°°°°°°°°°°°°°°°°°°°°"
         return string
          
