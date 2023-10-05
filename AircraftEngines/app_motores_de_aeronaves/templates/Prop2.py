@@ -15,6 +15,9 @@ class AircraftEngines:
 
     def __str__(self):
         return f"\nDados atmosféricos:\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
+    
+    def get_param(self):
+        return self.T0,self.P0,self.a0
 
     def set_param(self,new_T0,new_P0,new_a0):
         self.T0 = new_T0
@@ -2018,7 +2021,7 @@ class AircraftEngines:
 
         return output
 
-    def real_ramjet(self, M0, gamma_c, gamma_t, cpc, cpt, hpr, Tt4, pi_b, eta_b, pi_dmax, pi_n):
+    def real_ramjet(self, M0, hpr, Tt4, pi_b=1, eta_b=1, pi_dmax=1, pi_n=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004):
         """
         Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
@@ -2045,7 +2048,6 @@ class AircraftEngines:
             'eta_T': [],
             'eta_P': [],
             'eta_Total': [],
-            #'FR': []
         }
         
         

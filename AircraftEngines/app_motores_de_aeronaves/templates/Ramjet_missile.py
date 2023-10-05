@@ -63,6 +63,14 @@ class missile:
                 print("Digite uma opção válida!\n")
         return resp
 
+    def calculatabela(self, M0, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines):
+        R = (gamma-1)/gamma*cp
+        T0,P0,a0 = atmos.get_param()
+        output = atmos.real_ramjet(M0, hpr, Tt4, pi_b=1, eta_b=1, pi_dmax=1, pi_n=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004)
+        pis = [float(1)]*10
+        taus = [float(1)]*10
+        
+
 
 
 
