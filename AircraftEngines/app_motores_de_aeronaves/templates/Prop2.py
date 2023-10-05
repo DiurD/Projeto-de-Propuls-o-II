@@ -2097,7 +2097,87 @@ class AircraftEngines:
 
         return output
 
+    def real_ramjet(self, M0, gamma_c, gamma_t, cpc, cpt, hpr, Tt4, pi_b, eta_b, pi_dmax, pi_n):
+        """
+        Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
+        Arguments:
+            M0: Mach number                             [  -  ]
+            gamma: Ratio of specific heats              [  -  ]
+            cp: Specific heat at constant pressure      [J/kgK]
+            hpr: Low heating value of fuel              [ J/kg]
+            Tt4: Total temperature leaving the burner   [  K  ]
+
+        Returns: A dictionary containing the list of calculated outputs.
+            F_m0: Specific Thrust
+            f: Fuel Air ratio
+            S: Specific fuel consumption
+            eta_T: Thermal efficiency
+            eta_P: Propulsive efficiency
+            eta_Total: Total efficiency
+        """
+
+        output = {
+            'F_m0': [],
+            'f': [],
+            'S': [],
+            'eta_T': [],
+            'eta_P': [],
+            'eta_Total': [],
+            #'FR': []
+        }
+        
+        
+        R_c = (gamma_c - 1)/gamma_c*cpc # J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cpt
+
+        a0 = (gamma_c*R_c*self.T0)**(1/2) #m/s
+        V0 = a0*M0
+        
+        tau_r = 1 + ((gamma_c - 1)/2)*(M0**2)
+        pi_r  = tau_r**(gamma_c/(gamma_c-1))
+        
+        if M0 <= 1:
+            eta_r = 1
+        else:
+            eta_r = (1 - 0.075*(M0-1)**1.35)
+            
+        pi_d = eta_r*pi_dmax
+        tau_d = pi_d**((gamma_c-1)/gamma_c)
+        
+        tau_lambda = cpt*Tt4/(self.T0*cpc)
+        
+        tau_n = 1
+        
+        tau_b = Tt4/(self.T0*tau_d*tau_r)
+        
+        Pt9_P9 = pi_r*pi_d*pi_b*pi_n
+        Pt9 = self.P0*pi_r*pi_d*pi_b*pi_n
+        
+        P9 = Pt9/Pt9_P9
+        
+        Tt9 = self.T0*tau_r*tau_d*tau_b*tau_n
+        
+        T9 = Tt9/(Pt9_P9**((gamma_t-1)/gamma_t))
+        
+        V9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))
+        
+        f = (tau_lambda - tau_r*tau_d)/(eta_b*hpr/(cpc*self.T0) - tau_lambda + tau_r*tau_d)
+        F_m0 = a0*((1+f)*V9/a0 - M0 + (1+f)*R_t*T9/self.T0*(1-self.P0/P9)/(R_c*V9/a0*gamma_c))
+        S = f/F_m0
+
+        eta_T = a0**2*((1+f)*(V9/a0)**2 - M0**2)/(2*f*hpr)
+        eta_P = 2*V0*F_m0/(a0**2*((1+f)*(V9/a0)**2)-M0**2)
+        eta_Total = eta_P*eta_T
+
+        output['F_m0'].append(F_m0)
+        output['f'].append(f)
+        output['S'].append(S)
+        output['eta_T'].append(eta_T)
+        output['eta_P'].append(eta_P)
+        output['eta_Total'].append(eta_Total)
+
+        return output
 
 
 
