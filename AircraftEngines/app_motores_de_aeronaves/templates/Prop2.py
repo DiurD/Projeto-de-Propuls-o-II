@@ -1024,7 +1024,6 @@ class AircraftEngines:
                 pi_c += pi_c_increase
                 continue
 
-
             if input_choice_case == 1:
                 output['pi_c'].append(pi_c)
                 output['F_m0'].append(F_m0)
@@ -1131,32 +1130,30 @@ class AircraftEngines:
             'FR': []
         }
 
-        R_c = (gamma_c - 1) / gamma_c * cp_c  # J/(kg.K)
-        R_t = (gamma_t - 1) / gamma_t * cp_t  # J/(kg.K)
-
-        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # m/s
-        V0 = a0 * M0  # m/s
+        R_c = (gamma_c - 1) / gamma_c * cp_c  # eq. 7.52a
+        R_t = (gamma_t - 1) / gamma_t * cp_t  # eq. 7.52b
+        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # eq. 7.52c
+        V0 = a0 * M0  # eq. 7.52d
 
         # Free stream parameters
-        tau_r = 1 + (gamma_c - 1) / 2 * M0 ** 2
-
-        pi_r = tau_r ** (gamma_c / (gamma_c - 1))
+        tau_r = 1 + (gamma_c - 1) / 2 * M0 ** 2  # eq. 7.52e
+        pi_r = tau_r ** (gamma_c / (gamma_c - 1))  # eq. 7.52f
 
         if M0 <= 1:
-            eta_r = 1
+            eta_r = 1  # eq. 7.52g
         else:
-            eta_r = 1 - 0.075 * (M0 - 1) ** 1.35
+            eta_r = 1 - 0.075 * (M0 - 1) ** 1.35  # eq. 7.52h
 
         # Diffuser parameters
-        pi_d = pi_d_max * eta_r
-        tau_d = pi_d ** ((gamma_c - 1) / gamma_c)
+        pi_d = pi_d_max * eta_r  # eq. 7.52i
+        tau_d = pi_d ** ((gamma_c - 1) / gamma_c)   # eq. padrão
 
         # Fan parameters
-        tau_f = pi_f ** ((gamma_c - 1) / (gamma_c * e_f))
-        eta_f = (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (tau_f - 1)
+        tau_f = pi_f ** ((gamma_c - 1) / (gamma_c * e_f))  # eq. 7.52m
+        eta_f = (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (tau_f - 1)  # eq. 7.52n
 
         # Enthalpy
-        tau_lambda = cp_t * Tt4 / (cp_c * self.T0)
+        tau_lambda = cp_t * Tt4 / (cp_c * self.T0)  # eq. 7.52j
 
         # Compressor parameters
         tau_cL = pi_cL ** ((gamma_c - 1) / (gamma_c * e_cL))
