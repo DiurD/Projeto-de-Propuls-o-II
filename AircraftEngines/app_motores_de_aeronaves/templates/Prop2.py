@@ -692,75 +692,24 @@ class AircraftEngines:
 
         while pi_c <= max_pi_c:
 
-
-
-            R = (gamma - 1)/gamma * cp
-
-
-            V0 = self.a0 * M0
-
-
+            R = (gamma - 1)/gamma * cp # eq padrão
+            V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.18c
-
-
-
-            tau_f = pi_f**((gamma - 1)/gamma) # eq 5.58e
-
-
-            V19_a0 = (2/(gamma - 1) * (tau_r * tau_f - 1))**(1/2)
-
-
-
-            tau_c = pi_c**((gamma - 1)/gamma)  # assumption ideal cycle
-
-
-
-            tau_lambda = Tt4/self.T0 # eq 5.18d
-
-
-
-            f = cp * self.T0/hpr * (tau_lambda - tau_r * tau_c)
-
-
-
-
-            tau_t = 1 - tau_r/tau_lambda * (tau_c - 1) # eq 5.27 (porque não a equação 5.52?)(não é usado nos calculos adiante)
-
-
-
+            tau_f = pi_f**((gamma - 1)/gamma) # eq 5.58f
+            V19_a0 = (2/(gamma - 1) * (tau_r * tau_f - 1))**(1/2) # eq 5.58h
+            tau_c = pi_c**((gamma - 1)/gamma)  # assumption ideal cycle # eq 5.58e
+            tau_lambda = Tt4/self.T0 # eq 5.58d
+            f = cp * self.T0/hpr * (tau_lambda - tau_r * tau_c) # eq 5.58j
+            tau_t = 1 - tau_r/tau_lambda * (tau_c - 1 + alpha * (tau_f - 1)) # eq 5.52
             V9_a0 = (2/(gamma - 1) * (tau_lambda - tau_r*(tau_c - 1 + alpha * (tau_f - 1)) - tau_lambda/(tau_r * tau_c)))**(1/2)  #eq 5.53
-
-
-
             F_m0 = self.a0 * 1/(1 + alpha) * (V9_a0 - M0 + alpha * (V19_a0 - M0)) # eq. 5.48 (por que não entra o g_c)
-
-
-
             f = cp * self.T0/hpr * (tau_lambda - tau_r * tau_c) # eq 5.51
-
-
-
-
             S = f/((1 + alpha) * F_m0) #eq 5.54
-
-
-
             eta_T = 1 - 1/(tau_r * tau_c) # eq 5.22
-
-
-
             eta_P = 2 * M0 * (V9_a0 - M0 + alpha * (V19_a0 - M0))/((V9_a0 * self.a0)**2/(self.a0**2) - M0**2 + alpha * ((V19_a0*self.a0)**2/(self.a0**2) - M0**2)) # eq 5.55
-
-
-
-            eta_Total = eta_P * eta_T
-
-
-
+            eta_Total = eta_P * eta_T # eq 5.58n
             FR = (V9_a0 - M0)/(V19_a0 - M0)  #eq 5.57
-
-
-
+            
             if math.isnan(F_m0) or math.isnan(S) or math.isnan(f) or math.isnan(eta_P) or math.isnan(eta_T) or math.isnan(eta_Total):
                 pi_c += pi_c_increase
                 continue
@@ -829,32 +778,20 @@ class AircraftEngines:
         while pi_c <= max_pi_c:
 
 
-            R = (gamma - 1)/gamma * cp
-            V0 = self.a0 * M0
-
+            R = (gamma - 1)/gamma * cp # eq padrão
+            V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.18c
             tau_c = pi_c ** ((gamma - 1) / gamma)  # assumption ideal cycle
             tau_lambda = Tt4/self.T0 # eq 5.58d
-
-
             tau_f_opt = ( tau_lambda - tau_r*(tau_c-1) - (tau_lambda/(tau_r*tau_c)) + alpha*tau_r + 1)/ ( tau_r*(alpha+1)) #eq 5.66
-
-            pi_f_optimal = tau_f_opt**(gamma/(gamma-1))
-
-            V19_a0 = ( (2/(gamma -1))*(tau_r*tau_f_opt -1) )**0.5 #5.69c
-
-            F_m0 = self.a0 * (( (2/(gamma -1))*(tau_r*tau_f_opt -1) )**0.5 - M0) #eq. 5.67
-
-            eta_P =  (2*M0)/(V19_a0 + M0)
-
-            eta_T = 1 - 1 / (tau_r * tau_c)  # eq 5.22
-
+            pi_f_optimal = tau_f_opt**(gamma/(gamma-1)) # eq 5.69b
+            V19_a0 = ( (2/(gamma -1))*(tau_r*tau_f_opt -1) )**0.5 # eq. 5.69c
+            F_m0 = self.a0 * (V19_a0 - M0) #eq. 5.69d
+            eta_P =  (2*M0)/(V19_a0 + M0) #eq. 5.69e
+            eta_T = 1 - 1 / (tau_r * tau_c)  # eq. 5.22
             f = cp * self.T0 / hpr * (tau_lambda - tau_r * tau_c)  # eq 5.51
-
             S = f / ((1 + alpha) * F_m0)  # eq 5.54
-
-            eta_Total = eta_P * eta_T
-
+            eta_Total = eta_P * eta_T # eq 5.58n
 
             if math.isnan(F_m0) or math.isnan(S) or math.isnan(f) or math.isnan(eta_P) or math.isnan(
                     eta_T) or math.isnan(eta_Total):
@@ -925,37 +862,26 @@ class AircraftEngines:
 
         while pi_c <= max_pi_c:
 
-
-            R = (gamma - 1)/gamma * cp  #5.58a
-
-            V0 = self.a0 * M0 #
-
+            R = (gamma - 1)/gamma * cp  # eq. padrão
+            V0 = self.a0 * M0 # eq. padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.58c
-
             tau_lambda = Tt4 / self.T0  # eq 5.58d
-
             tau_c = pi_c ** ((gamma - 1) / gamma)  # eq 5.58e  assumption ideal cycle
-
             tau_f = pi_f**((gamma - 1)/gamma) # eq 5.58f
-
             V19_a0 = (2 / (gamma - 1) * (tau_r * tau_f - 1)) ** (1 / 2)  # eq 5.58h
 
             # optimal bypass for fuel minimization:
 
             alpha_opt = (1 / (tau_r*(tau_f-1))) * (tau_lambda - tau_r*(tau_c - 1) - (tau_lambda/ (tau_r*tau_c)) - 0.25*( (tau_r*tau_f - 1)**0.5 + (tau_r -1))**2) #eq 5.63a
-
             F_m0 = self.a0 * ( (1 + 2*alpha_opt)/ 2*(1 + alpha_opt) )  * (( (2/(gamma -1))*(tau_r*tau_f -1) )**0.5 - M0) #eq. 5.63b
-
             eta_P =  (4*( 1 + 2*alpha_opt)*M0) / ( (3 + 4*alpha_opt)*M0  + (1+ 4*alpha_opt)*V19_a0 ) #eq 5.63c
 
+            # eqs restantes
+        
             eta_T = 1 - 1 / (tau_r * tau_c)  # eq 5.58l
-
             f = cp * self.T0 / hpr * (tau_lambda - tau_r * tau_c)  # eq 5.58j
-
             S = f / ((1 + alpha_opt) * F_m0)  # eq 5.58k
-
             eta_Total = eta_P * eta_T # eq 5.58 n
-
 
             if math.isnan(F_m0) or math.isnan(S) or math.isnan(f) or math.isnan(eta_P) or math.isnan(
                     eta_T) or math.isnan(eta_Total):
@@ -1056,16 +982,11 @@ class AircraftEngines:
         while pi_c <= max_pi_c:
 
 
-            R = (gamma - 1)/gamma * cp  #5.86a
-
-            V0 = self.a0 * M0 #
-
+            R = (gamma - 1)/gamma * cp  #eq padrão
+            V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.86c
-
             tau_lambda = Tt4 / self.T0  # eq 5.86d
-
             tau_c = pi_c ** ((gamma - 1) / gamma)  # eq 5.86e  assumption ideal cycle
-
 
             if input_choice_case == 1: #caso escolhido o pi_f como entrada
                 tau_f = pi_f ** ((gamma - 1) / gamma)  # eq 5.86f
