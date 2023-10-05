@@ -981,7 +981,6 @@ class AircraftEngines:
 
         while pi_c <= max_pi_c:
 
-
             R = (gamma - 1)/gamma * cp  #eq padrão
             V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.86c
@@ -995,16 +994,11 @@ class AircraftEngines:
                     alpha = 0
 
             elif input_choice_case == 2: #caso escolhido o alpha como entrada
-
                 tau_f = ((tau_lambda/tau_r) - (tau_c - 1) + alpha) / ((tau_lambda / (tau_r*tau_c)) + alpha) #eq 5.86h
                 pi_f = tau_f **(gamma/(gamma -1)) #eq 5.86i
 
-
-
             tau_t = 1 - ((tau_r/tau_lambda)*(tau_c - 1 + (alpha*(tau_f - 1)))) #eq 5.86j
-
             f = cp * self.T0 / hpr * (tau_lambda - tau_r * tau_c)  # eq 5.86k
-
             tau_m = (1 / (1 + alpha)) * (1 + alpha*((tau_f*tau_r )/ (tau_lambda*tau_t)))   # eq 5.86l
 
             if afterburner == 1:
@@ -1012,20 +1006,15 @@ class AircraftEngines:
                 f_AB =  cp * self.T0 / hpr * (tau_lambda_AB - tau_lambda*tau_t*tau_m)  # eq 5.86n
                 T9_T0 = tau_lambda_AB / (tau_r*tau_f)  # eq 5.86o
 
-
             elif afterburner == 0:
                 f_AB = 0 # eq 5.86p
                 T9_T0 = (tau_lambda*tau_t*tau_m)/(tau_r*tau_f)  # eq 5.86q
 
-
             M9 =  ((2/(gamma - 1)) * (tau_r*tau_f - 1))**0.5  # eq 5.86r
             V9_a0 = (T9_T0**0.5) * M9  # eq 5.86s
             f_overall = f/ (1+alpha) + f_AB  # eq 5.86t
-
             F_m0 = self.a0 * ( V9_a0 - M0)  # eq 5.86u
-
             S = f_overall/ F_m0 # eq 5.86v
-
             eta_T = (gamma - 1)/2 *  ((cp * self.T0)/ (hpr * f_overall))* (V9_a0**2 - M0**2)  # eq 5.86w
             eta_P = (2*M0) / (V9_a0 + M0)  # eq 5.86x
             eta_Total = eta_T*eta_P  # eq 5.86y
