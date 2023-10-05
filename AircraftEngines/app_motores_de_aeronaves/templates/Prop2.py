@@ -984,7 +984,6 @@ class AircraftEngines:
 
         while pi_c <= max_pi_c:
 
-
             R = (gamma - 1)/gamma * cp  #eq padrão
             V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.86c
@@ -998,16 +997,11 @@ class AircraftEngines:
                     alpha = 0
 
             elif input_choice_case == 2: #caso escolhido o alpha como entrada
-
                 tau_f = ((tau_lambda/tau_r) - (tau_c - 1) + alpha) / ((tau_lambda / (tau_r*tau_c)) + alpha) #eq 5.86h
                 pi_f = tau_f **(gamma/(gamma -1)) #eq 5.86i
 
-
-
             tau_t = 1 - ((tau_r/tau_lambda)*(tau_c - 1 + (alpha*(tau_f - 1)))) #eq 5.86j
-
             f = cp * self.T0 / hpr * (tau_lambda - tau_r * tau_c)  # eq 5.86k
-
             tau_m = (1 / (1 + alpha)) * (1 + alpha*((tau_f*tau_r )/ (tau_lambda*tau_t)))   # eq 5.86l
 
             if afterburner == 1:
@@ -1015,20 +1009,15 @@ class AircraftEngines:
                 f_AB =  cp * self.T0 / hpr * (tau_lambda_AB - tau_lambda*tau_t*tau_m)  # eq 5.86n
                 T9_T0 = tau_lambda_AB / (tau_r*tau_f)  # eq 5.86o
 
-
             elif afterburner == 0:
                 f_AB = 0 # eq 5.86p
                 T9_T0 = (tau_lambda*tau_t*tau_m)/(tau_r*tau_f)  # eq 5.86q
 
-
             M9 =  ((2/(gamma - 1)) * (tau_r*tau_f - 1))**0.5  # eq 5.86r
             V9_a0 = (T9_T0**0.5) * M9  # eq 5.86s
             f_overall = f/ (1+alpha) + f_AB  # eq 5.86t
-
             F_m0 = self.a0 * ( V9_a0 - M0)  # eq 5.86u
-
             S = f_overall/ F_m0 # eq 5.86v
-
             eta_T = (gamma - 1)/2 *  ((cp * self.T0)/ (hpr * f_overall))* (V9_a0**2 - M0**2)  # eq 5.86w
             eta_P = (2*M0) / (V9_a0 + M0)  # eq 5.86x
             eta_Total = eta_T*eta_P  # eq 5.86y
@@ -1037,7 +1026,6 @@ class AircraftEngines:
                     eta_T) or math.isnan(eta_Total):
                 pi_c += pi_c_increase
                 continue
-
 
             if input_choice_case == 1:
                 output['pi_c'].append(pi_c)
@@ -1145,32 +1133,30 @@ class AircraftEngines:
             'FR': []
         }
 
-        R_c = (gamma_c - 1) / gamma_c * cp_c  # J/(kg.K)
-        R_t = (gamma_t - 1) / gamma_t * cp_t  # J/(kg.K)
-
-        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # m/s
-        V0 = a0 * M0  # m/s
+        R_c = (gamma_c - 1) / gamma_c * cp_c  # eq. 7.52a
+        R_t = (gamma_t - 1) / gamma_t * cp_t  # eq. 7.52b
+        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # eq. 7.52c
+        V0 = a0 * M0  # eq. 7.52d
 
         # Free stream parameters
-        tau_r = 1 + (gamma_c - 1) / 2 * M0 ** 2
-
-        pi_r = tau_r ** (gamma_c / (gamma_c - 1))
+        tau_r = 1 + (gamma_c - 1) / 2 * M0 ** 2  # eq. 7.52e
+        pi_r = tau_r ** (gamma_c / (gamma_c - 1))  # eq. 7.52f
 
         if M0 <= 1:
-            eta_r = 1
+            eta_r = 1  # eq. 7.52g
         else:
-            eta_r = 1 - 0.075 * (M0 - 1) ** 1.35
+            eta_r = 1 - 0.075 * (M0 - 1) ** 1.35  # eq. 7.52h
 
         # Diffuser parameters
-        pi_d = pi_d_max * eta_r
-        tau_d = pi_d ** ((gamma_c - 1) / gamma_c)
+        pi_d = pi_d_max * eta_r  # eq. 7.52i
+        tau_d = pi_d ** ((gamma_c - 1) / gamma_c)   # eq. padrão
 
         # Fan parameters
-        tau_f = pi_f ** ((gamma_c - 1) / (gamma_c * e_f))
-        eta_f = (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (tau_f - 1)
+        tau_f = pi_f ** ((gamma_c - 1) / (gamma_c * e_f))  # eq. 7.52m
+        eta_f = (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (tau_f - 1)  # eq. 7.52n
 
         # Enthalpy
-        tau_lambda = cp_t * Tt4 / (cp_c * self.T0)
+        tau_lambda = cp_t * Tt4 / (cp_c * self.T0)  # eq. 7.52j
 
         # Compressor parameters
         tau_cL = pi_cL ** ((gamma_c - 1) / (gamma_c * e_cL))
