@@ -13,6 +13,7 @@ class AircraftEngines:
         self.P0 = self.atm.pressure[0]
         self.a0 = self.atm.speed_of_sound[0]
         self.rho0 = self.atm.density[0]
+        
 
     def __str__(self):
         return f"\nDados atmosféricos:\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
@@ -2013,7 +2014,7 @@ class AircraftEngines:
 
         return output
 
-    def real_ramjet(self, M0, gamma_c, gamma_t, cpc, cpt, hpr, Tt4, pi_b, eta_b, pi_dmax, pi_n, P0_P9, A0):
+    def real_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004, eta_b=1):
         """
         Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
@@ -2026,6 +2027,8 @@ class AircraftEngines:
 
         Returns: A dictionary containing the list of calculated outputs.
             F_m0: Specific Thrust
+            dot_m0: Air mass flow
+            F: Thrust
             f: Fuel Air ratio
             S: Specific fuel consumption
             eta_T: Thermal efficiency
@@ -2035,6 +2038,8 @@ class AircraftEngines:
 
         output = {
             'F_m0': [],
+            'dot_m0':[],
+            'F':[],
             'f': [],
             'S': [],
             'eta_T': [],
@@ -2084,6 +2089,7 @@ class AircraftEngines:
         
         f = (tau_lambda - tau_r*tau_d)/(eta_b*hpr/(cpc*self.T0) - tau_lambda + tau_r*tau_d)
         F_m0 = a0*((1+f)*V9/a0 - M0 + (1+f)*R_t*T9/self.T0*(1-P0_P9)/(R_c*V9/a0*gamma_c))
+        F = F_m0*m0_dot
         S = f/F_m0
         
         F = F_m0*m0_dot
@@ -2097,13 +2103,16 @@ class AircraftEngines:
         eta_Total = eta_P*eta_T
 
         output['F_m0'].append(F_m0)
+        output['dot_m0'].append(m0_dot)
+        output['F'].append(F)
+        output['F_m0'].append(F_m0)
         output['f'].append(f)
         output['S'].append(S)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output
+        return output,tau_lambda,tau_r,pi_r,tau_b,Pt9_P9,T9/Tt9,T9/self.T0
 
 
 

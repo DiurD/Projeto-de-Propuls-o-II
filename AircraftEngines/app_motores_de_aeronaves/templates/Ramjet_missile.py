@@ -23,7 +23,13 @@ class missile:
         self.A=[float(0)]*10
 
         for i in range(0,len(self.D)):
-            self.A[i] = (math.pi*self.D[i]**2)/2
+            if i == 1:
+                self.A[i] = (math.pi*self.D[i]**2)/2*self.airIntakes
+            else:
+                if self.D[i]==0:
+                    self.A[i] = self.A[i-1]
+                else:
+                    self.A[i] = (math.pi*self.D[i]**2)/2
 
 
 
@@ -66,9 +72,51 @@ class missile:
     def calculatabela(self, M0, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines):
         R = (gamma-1)/gamma*cp
         T0,P0,a0 = atmos.get_param()
-        output = atmos.real_ramjet(M0, hpr, Tt4, pi_b=1, eta_b=1, pi_dmax=1, pi_n=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004)
+        secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
         taus = [float(1)]*10
+        Pts = [float(1)]*10
+        Tts = [float(1)]*10
+        Ps = [float(1)]*10
+        Ts = [float(1)]*10
+        
+        Ms = [float(1)]*10
+        Ms[0] = 0
+        Ms[1] = self.M0
+
+        As = [float(1)]*10
+        A_optimum = [float(1)]*10
+
+        
+        while 'P0_P9' not in locals():
+            text = input("\n O fluxo é engasgado (choked)? ")
+            if re.search('(?i)^sim|^s|^1',text):
+                P0_P9 = float(1)
+            elif re.search('(?i)^não|^n|^nao|^2',text):
+                P0_P9 = float(input("Qual a razão de pressão P0/P9?"))
+            else:
+                print("Digite uma opção válida!\n")
+
+        output,tau_lambda,taus[1],pis[1],taus[4],Pt9_P9,T9_Tt9,T9_T0 = atmos.real_ramjet(self, M0, hpr, Tt4, self.A[1], pis[4], pis[3], pis[8], P0_P9=P0_P9)
+        f = output.get('f')
+        air_comb = 1/f
+        Ms[9] = (2/(gamma-1)*Pt9_P9**((gamma-1)/gamma-1)  )**0.5
+
+
+        for i in range(len(secao)):
+            if i == 0:
+                Pts[i] = P0
+                Tts[i] = T0
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+            else:
+                Pts[i] = pis[i]*Ps[i-1]
+                Tts[i] = taus[i]*Ts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+
+
+        
         
 
 
