@@ -12,6 +12,7 @@ class AircraftEngines:
         self.T0 = self.atm.temperature[0]
         self.P0 = self.atm.pressure[0]
         self.a0 = self.atm.speed_of_sound[0]
+        self.rho0 = self.atm.density[0]
 
     def __str__(self):
         return f"\nDados atmosféricos:\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
