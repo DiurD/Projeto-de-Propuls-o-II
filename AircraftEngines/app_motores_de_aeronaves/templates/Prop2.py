@@ -1975,8 +1975,12 @@ class AircraftEngines:
 
         output = {
             'F_m0': [],
+            'F': [],
+            'm0_dot': [],
             'f': [],
             'S': [],
+            'FC': [],
+            'Ar_Comb': [],
             'eta_T': [],
             'eta_P': [],
             'eta_Total': [],
@@ -2000,14 +2004,22 @@ class AircraftEngines:
         S = f/F_m0
         
         F = F_m0*m0_dot
+        
+        FC = F/S
+        
+        Ar_Comb = 1/f
 
         eta_T = 1 - 1/(tau_r)
         eta_P = 2/((tau_lambda/tau_r)**0.5 + 1)
         eta_Total = eta_P*eta_T
 
         output['F_m0'].append(F_m0)
+        output['F'].append(F)
+        output['m0_dot'].append(m0_dot)
         output['f'].append(f)
         output['S'].append(S)
+        output['FC'].append(FC)
+        output['Ar_Comb'].append(Ar_Comb)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
@@ -2038,10 +2050,12 @@ class AircraftEngines:
 
         output = {
             'F_m0': [],
-            'dot_m0':[],
+            'm0_dot':[],
             'F':[],
             'f': [],
             'S': [],
+            'FC': [],
+            'AF': [],
             'eta_T': [],
             'eta_P': [],
             'eta_Total': [],
@@ -2096,23 +2110,239 @@ class AircraftEngines:
         
         FC = F/S
         
-        Ar_Comb = 1/f
+        AF = 1/f
 
         eta_T = a0**2*((1+f)*(V9/a0)**2 - M0**2)/(2*f*hpr)
         eta_P = 2*V0*F_m0/(a0**2*((1+f)*(V9/a0)**2)-M0**2)
         eta_Total = eta_P*eta_T
 
         output['F_m0'].append(F_m0)
-        output['dot_m0'].append(m0_dot)
+        output['m0_dot'].append(m0_dot)
         output['F'].append(F)
-        output['F_m0'].append(F_m0)
         output['f'].append(f)
         output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
         return output,tau_lambda,tau_r,pi_r,tau_b,Pt9_P9,T9/Tt9,T9/self.T0
+
+    def offdesign_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004, eta_b=1):
+        """
+        Description: This method calculates the on design parameters of an ramjet turbojet engine.
+
+        Arguments:
+            M0: Mach number                             [  -  ]
+            gamma: Ratio of specific heats              [  -  ]
+            cp: Specific heat at constant pressure      [J/kgK]
+            hpr: Low heating value of fuel              [ J/kg]
+            Tt4: Total temperature leaving the burner   [  K  ]
+
+        Returns: A dictionary containing the list of calculated outputs.
+            F_m0: Specific Thrust
+            dot_m0: Air mass flow
+            F: Thrust
+            f: Fuel Air ratio
+            S: Specific fuel consumption
+            eta_T: Thermal efficiency
+            eta_P: Propulsive efficiency
+            eta_Total: Total efficiency
+        """
+
+        output = {
+            'F_m0': [],
+            'm0_dot':[],
+            'F':[],
+            'f': [],
+            'S': [],
+            'FC': [],
+            'AF': [],
+            'eta_T': [],
+            'eta_P': [],
+            'eta_Total': [],
+            #'FR': []
+        }
+        
+        # Comentar sobre cpc 
+        R_c = (gamma_c - 1)/gamma_c*cpc # J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cpt
+
+        a0 = (gamma_c*R_c*self.T0)**(1/2) #m/s
+        V0 = a0*M0
+        
+        m0_dot = A0*self.rho0*V0
+        
+        tau_r = 1 + ((gamma_c - 1)/2)*(M0**2)
+        pi_r  = tau_r**(gamma_c/(gamma_c-1))
+        
+        if M0 <= 1:
+            eta_r = 1
+        else:
+            eta_r = (1 - 0.075*(M0-1)**1.35)
+            
+        pi_d = eta_r*pi_dmax
+        tau_d = pi_d**((gamma_c-1)/gamma_c)
+        
+        tau_lambda = cpt*Tt4/(self.T0*cpc)
+        
+        tau_n = 1
+        
+        tau_b = Tt4/(self.T0*tau_d*tau_r)
+        
+        Pt9_P9 = P0_P9*pi_r*pi_d*pi_b*pi_n
+        P9 = self.P0/P0_P9
+        Pt9 = Pt9_P9*P9
+        
+        M9 = (2/(gamma_t-1)*(Pt9/P9**((gamma_t-1)/gamma_t)-1))**(1/2)
+        
+        Tt9 = self.T0*tau_r*tau_d*tau_b*tau_n
+        
+        T9 = Tt9/(Pt9_P9**((gamma_t-1)/gamma_t))
+        
+        V9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))
+        a9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**(1/2)
+        
+        f = (tau_lambda - tau_r*tau_d)/(eta_b*hpr/(cpc*self.T0) - tau_lambda + tau_r*tau_d)
+        F_m0 = a0*((1+f)*V9/a0 - M0 + (1+f)*R_t*T9/self.T0*(1-P0_P9)/(R_c*V9/a0*gamma_c))
+        F = F_m0*m0_dot
+        S = f/F_m0
+        
+        F = F_m0*m0_dot
+        
+        FC = F/S
+        
+        AF = 1/f
+
+        eta_T = a0**2*((1+f)*(V9/a0)**2 - M0**2)/(2*f*hpr)
+        eta_P = 2*V0*F_m0/(a0**2*((1+f)*(V9/a0)**2)-M0**2)
+        eta_Total = eta_P*eta_T
+
+        output['F_m0'].append(F_m0)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
+        output['f'].append(f)
+        output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
+        output['eta_T'].append(eta_T)
+        output['eta_P'].append(eta_P)
+        output['eta_Total'].append(eta_Total)
+
+        return output,tau_lambda,tau_r,pi_r,tau_b,Pt9_P9,T9/Tt9,T9/self.T0
+
+    def offdesign_ramjet(self,
+        M0,
+        Tt4,
+        P0_P9,
+
+        # Constantes
+        gamma_c,
+        cp_c,
+        gamma_t,
+        cp_t,
+        hpr,
+        pi_d_max,
+        pi_b,
+        pi_n,
+        eta_b,
+        eta_m,
+
+        # Condições de referência
+        M0_R,
+        T0_R,
+        P0_R,
+        tau_r_R,
+        pi_r_R,
+        Tt4_R,
+        pi_d_R,
+        Pt9_P9_R,
+
+        #  Inputs extras do SA6 Gainful
+        m0_R = 0.1277 # kg/s (?)
+        ):
+
+        output = {
+            'F_m0': [],
+            'm0_dot':[],
+            'F':[],
+            'f': [],
+            'S': [],
+            'FC': [],
+            'AF': [],
+            'eta_T': [],
+            'eta_P': [],
+            'eta_Total': [],
+        }
+
+        T0 = self.T0
+        P0 = self.P0
+
+        Tt2_R = T0_R*tau_r_R
+
+
+        #  Equations
+        R_c = (gamma_c - 1)/gamma_c*cp_c # J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cp_t # J/(kg.K)
+        a0 = (gamma_c*R_c*T0)**(1/2) # m/s
+        V0 = a0*M0
+        tau_r = 1 + (gamma_c - 1)/2*M0**2
+        pi_r = tau_r**(gamma_c/(gamma_c - 1))
+
+        if M0 <= 1:
+            eta_r = 1
+        else:
+            eta_r = 1 - 0.075*(M0 - 1)**1.35
+
+        pi_d = pi_d_max*eta_r
+        Tt2 = T0*tau_r
+        
+        # Ramjet simplifications
+        tau_c   = 1
+        pi_c    = 1
+        pi_c_R  = 1
+        
+        pi_t    = 1
+        
+        tau_lambda = cp_t*Tt4/(cp_c*T0)
+        f = (tau_lambda - tau_r*tau_c)/(hpr*eta_b/(cp_c*T0) - tau_lambda) # kgFuel/kgAir
+        m0_dot = m0_R*P0*pi_r*pi_d*pi_c/(P0_R*pi_r_R*pi_d_R*pi_c_R)*(Tt4_R/Tt4)**(1/2) # kg/s
+
+        Pt9_P9 = P0_P9*pi_r*pi_d*pi_c*pi_b*pi_t*pi_n
+        M9 = (2/(gamma_t - 1)*(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
+        T9_T0 = Tt4/T0/(Pt9_P9)**((gamma_t - 1)/gamma_t)
+        V9_a0 = M9*(gamma_t*R_t/(gamma_c*R_c)*T9_T0)**(1/2)
+        F_m0 = a0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t*T9_T0/(R_c*V9_a0)*(1 - P0_P9)/gamma_c) # N/(kg/s)
+        F = F_m0*m0_dot # N
+        S = f/F_m0 # (kgFuel/s)/N
+        eta_T = a0**2*((1 + f)*V9_a0**2 - M0**2)/(2*f*hpr)
+        eta_P = 2*V0*F_m0/(a0**2*((1 + f)*V9_a0**2 - M0**2))
+        eta_Total = eta_P*eta_T
+        N_NR = (T0*tau_r/(T0_R*tau_r_R)*(pi_c**((gamma_c - 1)/gamma_c) - 1)/(pi_c_R**((gamma_c - 1)/gamma_c) - 1))**(1/2)
+        A9_A9R = (Pt9_P9/Pt9_P9_R)**((gamma_t + 1)/(2*gamma_t))*((Pt9_P9_R**((gamma_t - 1)/gamma_t) - 1)/(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
+        mc2_mc2_R = pi_c/pi_c_R*((Tt4_R/Tt2_R)/(Tt4/Tt2))**(1/2) # vazão mássica corrigida no compressor
+
+        #  Outputs extras
+        V9 = V9_a0*a0 # m/s
+        AF = 1/f  # kgAir/kgFuel
+        Pt4 = P0*pi_r*pi_d*pi_c*pi_b # Pa
+        Pt9 = P0*pi_r*pi_d*pi_c*pi_b*pi_t # Pa
+        T9 = T0*T9_T0 # K
+        FC = F/S
+
+        output['F_m0'].append(F_m0)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
+        output['f'].append(f)
+        output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
+        output['eta_T'].append(eta_T)
+        output['eta_P'].append(eta_P)
+        output['eta_Total'].append(eta_Total)
+
+        return output
 
 
 
