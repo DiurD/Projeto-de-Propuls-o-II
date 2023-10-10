@@ -1054,35 +1054,7 @@ class AircraftEngines:
 
         return output
 
-    def real_turbofan(self,
-                          M0,
-                          gamma_c,
-                          gamma_t,
-                          cp_c,
-                          cp_t,
-                          hpr,
-                          Tt4,
-                          pi_d_max,
-                          pi_b,
-                          pi_n,
-                          pi_fn,
-                          e_cL,
-                          e_cH,
-                          e_f,
-                          e_tL,
-                          e_tH,
-                          eta_b,
-                          eta_mL,
-                          eta_mH,
-                          P0_P9,
-                          P0_P19,
-                          tau_n,
-                          tau_fn,
-                          pi_cL,
-                          pi_cH,
-                          pi_f,
-                          alpha,
-                          batch_size=1, min_pi_c=0.001, max_pi_c=40):
+    def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
         """
         Description: This method calculates the on design parameters of a real twin spool turbofan engine.
@@ -1163,57 +1135,40 @@ class AircraftEngines:
         # Compressor parameters
         tau_cL = pi_cL ** ((gamma_c - 1) / (gamma_c * e_cL))
         tau_cH = pi_cH ** ((gamma_c - 1) / (gamma_c * e_cH))
-
         eta_cL = (pi_cL ** ((gamma_c - 1) / gamma_c) - 1) / (tau_cL - 1)
         eta_cH = (pi_cH ** ((gamma_c - 1) / gamma_c) - 1) / (tau_cH - 1)
 
         # Turbine parameters
         f = (tau_lambda - tau_r * tau_d * tau_f * tau_cL * tau_cH) / (hpr * eta_b / (cp_c * self.T0) - tau_lambda)
-
         tau_tH = 1 - (tau_cH - 1) / (1 + f) / tau_lambda * tau_r * tau_d * tau_f * tau_cL * eta_mH
         tau_tL = 1 - ((alpha * (tau_f - 1) + (tau_cL - 1)) * eta_mL / (1 + f) * tau_r * tau_d / tau_lambda / tau_tH)
-
         pi_tH = tau_tH ** (gamma_t / ((gamma_t - 1) * e_tH))
         pi_tL = tau_tL ** (gamma_t / ((gamma_t - 1) * e_tL))
-
         eta_tH = (tau_tH - 1) / (pi_tH ** ((gamma_t - 1) / gamma_t) - 1)
         eta_tL = (tau_tL - 1) / (pi_tL ** ((gamma_t - 1) / gamma_t) - 1)
 
         # Engine core parameters
         Pt9_P9 = P0_P9 * pi_r * pi_d * pi_f * pi_cL * pi_cH * pi_b * pi_tH * pi_tL * pi_n
-
         M9 = (2 / (gamma_c - 1) * (Pt9_P9 ** ((gamma_c - 1) / gamma_c) - 1)) ** (1 / 2)
-
         Tt9_T0 = cp_c / cp_t * tau_lambda * tau_tH * tau_tL * tau_n
-
         T9_T0 = Tt9_T0 / Pt9_P9 ** ((gamma_t - 1) / gamma_t)
-
         V9_a0 = M9 * (R_t * gamma_t / (R_c * gamma_c) * T9_T0) ** (1 / 2)
 
         # Parametros referentes a saida do bypass apos o fan
         Pt19_P19 = P0_P19 * pi_r * pi_d * pi_f * pi_fn
-
         M19 = (2 / (gamma_c - 1) * (Pt19_P19 ** ((gamma_c - 1) / gamma_c) - 1)) ** (1 / 2)
-
         Tt19_T0 = tau_r * tau_d * tau_f * tau_fn
-
         T19_T0 = Tt19_T0 / Pt19_P19 ** ((gamma_c - 1) / gamma_c)
-
         V19_a0 = M19 * (T19_T0) ** (1 / 2)
 
         # Engine performance parameters
         FF_m0 = alpha / (1 + alpha) * a0 * (V19_a0 - M0 + T19_T0 / V19_a0 * (1 - P0_P19) / gamma_c)  # N/(kg/s)
-        FC_m0 = 1 / (1 + alpha) * a0 * (
-                    (1 + f) * V9_a0 - M0 + (1 + f) * R_t / R_c * T9_T0 / V9_a0 * (1 - P0_P9) / gamma_c)  # N/(kg/s)
+        FC_m0 = 1 / (1 + alpha) * a0 * ((1 + f) * V9_a0 - M0 + (1 + f) * R_t / R_c * T9_T0 / V9_a0 * (1 - P0_P9) / gamma_c)  # N/(kg/s)
         F_m0 = FF_m0 + FC_m0  # N/(kg/s)
-
         S = f / ((1 + alpha) * F_m0)
-
         FR = FF_m0 / FC_m0
-
         eta_T = a0 * a0 * ((1 + f) * V9_a0 * V9_a0 + alpha * (V19_a0 * V19_a0) - (1 + alpha) * M0 * M0) / (2 * f * hpr)
-        eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / (
-                    (1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
+        eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / ( (1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
         eta_Total = eta_P * eta_T
 
         output['F_m0'].append(F_m0)
@@ -1296,13 +1251,11 @@ class AircraftEngines:
         while pi_c <= max_pi_c:
             R_c = (gamma_c - 1) / gamma_c * cp_c  # J/(kg.K)
             R_t = (gamma_t - 1) / gamma_t * cp_t  # J/(kg.K)
-
             a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # m/s
             V0 = a0 * M0  # m/s
 
             # Free stream parameters
             tau_r = 1 + (gamma_c - 1) / 2 * M0 ** 2
-
             pi_r = tau_r ** (gamma_c / (gamma_c - 1))
 
             if M0 <= 1:
@@ -1349,15 +1302,12 @@ class AircraftEngines:
 
                 # Engine performance parameters
                 FF_m0 = alpha / (1 + alpha) * a0 * (V19_a0 - M0 + T19_T0 / V19_a0 * (1 - P0_P19) / gamma_c)  # N/(kg/s)
-                FC_m0 = 1 / (1 + alpha) * a0 * ((1 + f) * V9_a0 - M0 + (1 + f) * R_t / R_c * T9_T0 / V9_a0 * (
-                            1 - P0_P9) / gamma_c)  # N/(kg/s)
+                FC_m0 = 1 / (1 + alpha) * a0 * ((1 + f) * V9_a0 - M0 + (1 + f) * R_t / R_c * T9_T0 / V9_a0 * (1 - P0_P9) / gamma_c)  # N/(kg/s)
                 F_m0 = FF_m0 + FC_m0  # N/(kg/s)
                 S = f / ((1 + alpha) * F_m0)
                 FR = FF_m0 / FC_m0
-                eta_T = a0 * a0 * ((1 + f) * V9_a0 * V9_a0 + alpha * (V19_a0 * V19_a0) - (1 + alpha) * M0 * M0) / (
-                            2 * f * hpr)
-                eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / (
-                            (1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
+                eta_T = a0 * a0 * ((1 + f) * V9_a0 * V9_a0 + alpha * (V19_a0 * V19_a0) - (1 + alpha) * M0 * M0) / (2 * f * hpr)
+                eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / ((1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
                 eta_Total = eta_P * eta_T
 
                 if math.isnan(F_m0) or math.isnan(S) or math.isnan(f) or math.isnan(eta_P) or math.isnan(
@@ -1427,7 +1377,6 @@ class AircraftEngines:
                 pi_c += pi_c_increase
             else:
                 # Turbofan with afterburner - Mixed flow: Here, the afterburner can be on or off, but DB =0
-
                 # Gas constants
                 R_AB = ((gamma_AB - 1) / gamma_AB) * cp_AB
 
@@ -1435,19 +1384,14 @@ class AircraftEngines:
                 tal_lambda_AB = cp_AB * Tt7 / (cp_c * self.T0)
 
                 # Turbine
-                alpha = (eta_m * (1 + f) * (tau_lambda / tau_r) * (
-                            1 - (pi_f / (pi_c * pi_b)) ** ((gamma_t - 1) * (e_t / gamma_t))) - (tau_c - 1)) / (
-                                    tau_f - 1)
+                alpha = (eta_m * (1 + f) * (tau_lambda / tau_r) * (1 - (pi_f / (pi_c * pi_b)) ** ((gamma_t - 1) * (e_t / gamma_t))) - (tau_c - 1)) / (tau_f - 1)
                 tau_t = 1 - (1 / (eta_m * (1 + f))) * (tau_r / tau_lambda) * (tau_c - 1 + alpha * (tau_f - 1))
                 pi_t = tau_t ** (gamma_t / ((gamma_t - 1) * e_t))
                 eta_t = (1 - tau_t) / (1 - tau_t ** (1 / e_t))
 
                 # Auxiliar
                 Pt16_P6 = pi_f / (pi_c * pi_b * pi_t)
-
-                M16 = ((2 / (gamma_c - 1)) * (
-                            Pt16_P6 * (1 + (((gamma_t - 1) / 2) * M6 ** 2) ** (gamma_t / (gamma_t - 1))) ** (
-                                (gamma_c - 1) / gamma_c)) - 1) ** 0.5
+                M16 = ((2 / (gamma_c - 1)) * (Pt16_P6 * (1 + (((gamma_t - 1) / 2) * M6 ** 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_c - 1) / gamma_c)) - 1) ** 0.5
                 alpha_line = alpha / (1 + f)
 
                 # Constants of the mixer area
@@ -1465,18 +1409,14 @@ class AircraftEngines:
                 # 6A --> mixed streams
                 phi_M6_gamma6 = (M6 ** 2) * (1 + ((gamma_t - 1) / 2) * M6 ** 2) / (1 + (gamma_t * M6 ** 2)) ** 2
                 phi_M16_gamma16 = (M16 ** 2) * (1 + ((gamma_c - 1) / 2) * M16 ** 2) / (1 + (gamma_c * M16 ** 2)) ** 2
-                phi = (((1 + alpha_line) / ((1 / phi_M6_gamma6) + alpha_line * (R_c * (gamma_t / (R_t * gamma_c)) * (
-                            Tt16_Tt6 / phi_M16_gamma16)) ** 0.5)) ** 2) * R_6A * gamma_t * tau_M / (R_t * gamma_6A)
+                phi = (((1 + alpha_line) / ((1 / phi_M6_gamma6) + alpha_line * (R_c * (gamma_t / (R_t * gamma_c)) * (Tt16_Tt6 / phi_M16_gamma16)) ** 0.5)) ** 2) * R_6A * gamma_t * tau_M / (R_t * gamma_6A)
                 M6A = (2 * phi / (1 - 2 * gamma_6A * phi + (1 - 2 * (gamma_6A + 1)) ** 0.5)) ** 0.5
-                A16_A6 = (alpha_line * (Tt16_Tt6) ** 0.5) / ((M16 / M6) * (((gamma_c * R_t / (gamma_t * R_c)) * (
-                (1 + ((gamma_c - 1) / 2) * M16 ** 2)) / ((1 + ((gamma_t - 1) / 2) * M6 ** 2))) ** 0.5))
+                A16_A6 = (alpha_line * (Tt16_Tt6) ** 0.5) / ((M16 / M6) * (((gamma_c * R_t / (gamma_t * R_c)) * ((1 + ((gamma_c - 1) / 2) * M16 ** 2)) / ((1 + ((gamma_t - 1) / 2) * M6 ** 2))) ** 0.5))
 
                 # Mass Flow Parameter
                 MFP_M6_t_rt = M6 / ((gamma_t / R_t) ** 0.5)
                 MFP_A = M6A / ((gamma_6A / R_6A) ** 0.5)
-
                 pi_M_ideal = (((1 + alpha_line) * (tau_M) ** 0.5) / (1 + A16_A6)) * (MFP_M6_t_rt / MFP_A)
-
                 pi_M = pi_M_max * pi_M_ideal
 
                 # Auxiliar
@@ -1498,7 +1438,6 @@ class AircraftEngines:
                     T9_T0 = (Tt4 * tau_t * tau_M / self.T0) / (Pt9_P9) ** ((gamma_9 - 1) / gamma_9)
 
                 # Auxiliar
-
                 M9 = (2 / (gamma_9 - 1) * (Pt9_P9 ** ((gamma_9 - 1) / gamma_9) - 1)) ** (0.5)
                 V9_a0 = M9 * (math.sqrt(gamma_9 * R9 * (T9_T0) / (gamma_c * R_c)))
 
@@ -1527,81 +1466,8 @@ class AircraftEngines:
                 pi_c += pi_c_increase
         return output
 
-
-    def real_turbofan_with_AB_mixed_off_design(
-            ## Choices ##
-            # Flight Parameters
-            self,
-            M0,
-
-            # Throttle Setting
-            Tt4,
-            Tt7,
-
-            # Exhaust Nozzle
-            P0_P9,
-
-            # Engine control
-            TR,
-
-            ## Design Constants ##
-            # pressure ratio
-            pi_d_max,
-            pi_b,
-            pi_tH,
-            pi_AB,
-            pi_n,
-            pi_M_max,
-
-            # temperature ratio
-            tau_tH,
-
-            # Isentropic Efficiency
-            eta_f,
-            eta_cH,
-            eta_b,
-            eta_AB,
-            eta_mH,
-            eta_mL,
-
-            # Gas Properties
-            gamma_c,
-            gamma_t,
-            gamma_AB,
-            cp_c,
-            cp_t,
-            cp_AB,
-
-            # Fuel
-            hpr,
-
-            ## Reference Conditions ##
-            # Flight Parameters
-            M0_R,
-            T0_R,
-            P0_R,
-            tau_r_R,
-            pi_r_R,
-            theta0_R,
-            m0_R,
-
-            # Throttle Setting
-            Tt4_R,
-            Tt7_R,
-
-            # Component Behavior
-            pi_d_R,
-            pi_f_R,
-            pi_cH_R,
-            pi_tL_R,
-            tau_f_R,
-            tau_cH_R,
-            tau_tL_R,
-            alpha_R,
-            M6_R,
-            M9_R,
-            A6_A16
-    ):
+    def real_turbofan_with_AB_mixed_off_design(self,M0,Tt4,Tt7,P0_P9,TR,pi_d_max,pi_b,pi_tH,pi_AB,pi_n,pi_M_max,tau_tH,eta_f,eta_cH,eta_b,eta_AB,eta_mH,eta_mL,gamma_c,gamma_t,gamma_AB,cp_c,
+            cp_t,cp_AB,hpr,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,theta0_R,m0_R,Tt4_R,Tt7_R,pi_d_R,pi_f_R,pi_cH_R,pi_tL_R,tau_f_R,tau_cH_R,tau_tL_R,alpha_R,M6_R,M9_R,A6_A16):
 
         # Equations
         R_c = (gamma_c - 1) / gamma_c * cp_c
@@ -1620,7 +1486,6 @@ class AircraftEngines:
             eta_r = 1 - 0.075 * (M0 - 1) ** 1.35
 
         pi_d = pi_d_max * eta_r
-
         tau_lambda = cp_t * Tt4 / (cp_c * self.T0)
         tau_lambda_R = cp_t * Tt4_R / (cp_c * self.T0)
         alpha_linha_N = 0
@@ -1645,8 +1510,6 @@ class AircraftEngines:
         else:
             alpha_linha = alpha_linha_R * theta0 / theta0_R
 
-
-
         while abs(alpha_linha_N - alpha_linha) > 0.001:
             alpha_linha = alpha_linha_N
 
@@ -1659,8 +1522,7 @@ class AircraftEngines:
                     pi_tL = pi_tL_R
 
                 alpha = alpha_R / alpha_linha_R
-                tau_f = 1 + ((1 - tau_tL) / (1 - tau_tL_R) * (tau_lambda / tau_r / (tau_lambda_R / tau_r_R)) * (
-                        (1 + alpha_R) / (1 + alpha)) * (tau_f_R - 1))
+                tau_f = 1 + ((1 - tau_tL) / (1 - tau_tL_R) * (tau_lambda / tau_r / (tau_lambda_R / tau_r_R)) * ((1 + alpha_R) / (1 + alpha)) * (tau_f_R - 1))
                 pi_f = (1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))
                 tau_cH = 1 + ((Tt4 / self.T0) / (Tt4_R / T0_R)) * (tau_r_R * tau_f_R / (tau_r * tau_f)) * (tau_cH_R - 1)
                 pi_cH = (1 + (tau_cH - 1) * eta_cH) ** (gamma_c / (gamma_c - 1))
@@ -1670,12 +1532,10 @@ class AircraftEngines:
                 cp16 = cp_c
                 gamma6 = gamma_t
                 gamma16 = gamma_c
-                MFP_M6_R = M6_R * (gamma_t / R_t) ** (1 / 2) * (1 + (gamma_t - 1) / 2 * M6_R ** 2) ** (
-                        (gamma_t + 1) / (2 * (1 - gamma_t)))
+                MFP_M6_R = M6_R * (gamma_t / R_t) ** (1 / 2) * (1 + (gamma_t - 1) / 2 * M6_R ** 2) ** ((gamma_t + 1) / (2 * (1 - gamma_t)))
                 MFP_M6 = MFP_M6_R * (tau_tL / tau_tL_R) ** (1 / 2) * pi_tL_R / pi_tL
 
                 ## Solving M6
-
                 M6_solve = 0
                 MFP = 1
 
@@ -1685,14 +1545,10 @@ class AircraftEngines:
                         (gamma_t + 1) / (2 * (1 - gamma_t)))
 
                 M6 = M6_solve
-
                 Pt16_Pt6_R = pi_f_R / (pi_cH_R * pi_b * pi_tL * pi_tH)
-                Pt16_P16 = pi_cH_R * pi_tL_R / (pi_cH * pi_tL) * (Pt16_Pt6_R) * (1 + (gamma6 - 1) / 2 * M6 ** 2) ** (
-                        gamma6 / (gamma6 - 1))
+                Pt16_P16 = pi_cH_R * pi_tL_R / (pi_cH * pi_tL) * (Pt16_Pt6_R) * (1 + (gamma6 - 1) / 2 * M6 ** 2) ** (gamma6 / (gamma6 - 1))
                 M16 = (2 / (gamma16 - 1) * (Pt16_P16 ** ((gamma16 - 1) / gamma16) - 1)) ** (1 / 2)
-                tau_tL_N = Tt2 / Tt4 * tau_f / tau_tH * (
-                        A6_A16 * M6 / M16 * alpha_linha) ** 2 * gamma6 / gamma16 * R16 / R6 * (
-                                   1 + (gamma6 - 1) / 2 * M6 ** 2) / (1 + (gamma16 - 1) / 2 * M16 ** 2)
+                tau_tL_N = Tt2 / Tt4 * tau_f / tau_tH * (A6_A16 * M6 / M16 * alpha_linha) ** 2 * gamma6 / gamma16 * R16 / R6 * (1 + (gamma6 - 1) / 2 * M6 ** 2) / (1 + (gamma16 - 1) / 2 * M16 ** 2)
                 teste = tau_tL_N - tau_tL
 
                 if teste > 0.0001:
@@ -1711,11 +1567,9 @@ class AircraftEngines:
             tau_M_R = cp6 / cp6A_R * (1 + alpha_linha_R * (cp16 / cp6) * (Tt16_Tt6)) / (1 + alpha_linha_R)
             phi6 = M6 ** 2 * (1 + (gamma6 - 1) / 2 * M6 ** 2) / (1 + gamma6 * M6 ** 2) ** 2
             phi16 = M16 ** 2 * (1 + (gamma16 - 1) / 2 * M16 ** 2) / (1 + gamma16 * M16 ** 2) ** 2
-            PHI = ((1 + alpha_linha) / ((1 / phi6) ** (1 / 2) + alpha_linha * (
-                (R16 * gamma6 / (R_t * gamma16) * Tt16_Tt6 / phi16)))) ** 2 * R6A * gamma6 / (R6 * gamma6A) * tau_M
+            PHI = ((1 + alpha_linha) / ((1 / phi6) ** (1 / 2) + alpha_linha * ((R16 * gamma6 / (R_t * gamma16) * Tt16_Tt6 / phi16)))) ** 2 * R6A * gamma6 / (R6 * gamma6A) * tau_M
             M6A = (2 * PHI / (1 - 2 * gamma6A * PHI + (1 - 2 * (gamma6A + 1) * PHI))) ** (1 / 2)
-            MFP_M6A = M6A * (gamma6A / R6A) ** (1 / 2) * (1 + (gamma6A - 1) / 2 * M6A ** 2) ** (
-                    (gamma6A + 1) / (2 * (1 - gamma6A)))
+            MFP_M6A = M6A * (gamma6A / R6A) ** (1 / 2) * (1 + (gamma6A - 1) / 2 * M6A ** 2) ** ((gamma6A + 1) / (2 * (1 - gamma6A)))
             pi_M_ideal = (1 + alpha_linha) * tau_M ** (1 / 2) / (1 + 1 / A6_A16) * MFP_M6 / MFP_M6A
             pi_M = pi_M_max * pi_M_ideal
             pi_AB_dry = 1 - (1 / 2) * (1 - pi_AB)
@@ -1727,18 +1581,13 @@ class AircraftEngines:
             else:
                 choked = 0
                 M8_dry = (2 / (gamma6A - 1) * (Pt9_P9_dry ** ((gamma6A - 1) / gamma6A) - 1)) ** (1 / 2)
-                MFP_M8 = M8_dry * (gamma6A / R6A) ** (1 / 2) * (1 + (gamma6A - 1) / 2 * M8_dry ** 2) ** (
-                        (gamma6A + 1) / (2 * (1 - gamma6A)))
-                MFP_M8_R = M8_dry * (gamma6A_R / R6A_R) ** (1 / 2) * (1 + (gamma6A_R - 1) / 2 * M8_dry ** 2) ** (
-                        (gamma6A_R + 1) / (2 * (1 - gamma6A_R)))
-                alpha_linha_N = (1 + alpha_linha_R) * (pi_tL * pi_M) / (pi_tL_R * pi_M_ideal) * (
-                        (tau_tL_R * tau_M_R) / (tau_tL * tau_M)) ** (1 / 2) * MFP_M8 / MFP_M8_R - 1
+                MFP_M8 = M8_dry * (gamma6A / R6A) ** (1 / 2) * (1 + (gamma6A - 1) / 2 * M8_dry ** 2) ** ((gamma6A + 1) / (2 * (1 - gamma6A)))
+                MFP_M8_R = M8_dry * (gamma6A_R / R6A_R) ** (1 / 2) * (1 + (gamma6A_R - 1) / 2 * M8_dry ** 2) ** ((gamma6A_R + 1) / (2 * (1 - gamma6A_R)))
+                alpha_linha_N = (1 + alpha_linha_R) * (pi_tL * pi_M) / (pi_tL_R * pi_M_ideal) * ((tau_tL_R * tau_M_R) / (tau_tL * tau_M)) ** (1 / 2) * MFP_M8 / MFP_M8_R - 1
 
         alpha = alpha_R * alpha_linha / alpha_linha_R
-        m0 = m0_R * (1 + alpha) / (1 + alpha_R) * self.P0 * pi_r * pi_d * pi_f * pi_cH / (
-                P0_R * pi_r_R * pi_d_R * pi_f_R * pi_cH_R) * (Tt4_R / Tt4) ** (1 / 2)
+        m0 = m0_R * (1 + alpha) / (1 + alpha_R) * self.P0 * pi_r * pi_d * pi_f * pi_cH / (P0_R * pi_r_R * pi_d_R * pi_f_R * pi_cH_R) * (Tt4_R / Tt4) ** (1 / 2)
         f = (tau_lambda - tau_r * tau_f * tau_cH) / (hpr * eta_b / (cp_t * self.T0) - tau_lambda)
-
         Tt5 = tau_tH * tau_tL * Tt4
         Tt3 = tau_f * tau_cH * Tt2
         Tt6 = self.T0 * Tt2 / self.T0 * tau_f * tau_cH * Tt4 / Tt3 * tau_tH * tau_tL * Tt7 / Tt5
@@ -1754,8 +1603,7 @@ class AircraftEngines:
         gamma_AB = cp_AB / (cp_AB - R_AB)
         pi_AB = 1 - (1 - x) * (1 - pi_AB_dry)
         tau_lambda_AB = cp_AB * Tt7 / (cp_c * self.T0)
-        f_AB = (1 + f / (1 + alpha)) * (tau_lambda_AB - (cp6A / cp_t) * tau_lambda * tau_tH * tau_tL * tau_M) / (
-                eta_AB * hpr / (cp_c * self.T0) - tau_lambda_AB)
+        f_AB = (1 + f / (1 + alpha)) * (tau_lambda_AB - (cp6A / cp_t) * tau_lambda * tau_tH * tau_tL * tau_M) / (eta_AB * hpr / (cp_c * self.T0) - tau_lambda_AB)
         f_Total = f / (1 + alpha) + f_AB
         Pt9_P9 = P0_P9 * pi_r * pi_d * pi_f * pi_cH * pi_b * pi_tH * pi_tL * pi_M * pi_AB * pi_n
         M9 = (2 / (gamma_AB - 1) * (Pt9_P9 ** ((gamma_AB - 1) / gamma_AB)) - 1) ** (1 / 2)
@@ -1766,12 +1614,9 @@ class AircraftEngines:
         eta_P = 2 * V0 * F_m0 / (a0 ** 2 * ((1 + f_Total) * V9_a0 ** 2 - M0 ** 2))
         eta_T = a0 ** 2 * ((1 + f_Total) * V9_a0 ** 2 - M0 ** 2) / (2 * f_Total * hpr)
         eta_Total = eta_P * eta_T
-        mc2_mc2_R = (1 + alpha) / (1 + alpha_R) * pi_f * pi_cH / (pi_f_R * pi_cH_R) * (
-                (Tt4_R / Tt2_R) / (Tt4 / Tt2)) ** (1 / 2)
-        N_NR_L = ((self.T0 * tau_r) / (T0_R * tau_r_R) * (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (
-                pi_f_R ** ((gamma_c - 1) / gamma_c))) ** (1 / 2)
-        N_NR_H = ((self.T0 * tau_r * pi_f) / (T0_R * tau_r_R * pi_f_R) * (pi_cH ** ((gamma_c - 1) / gamma_c) - 1) / (
-                pi_cH_R ** ((gamma_c - 1) / gamma_c))) ** (1 / 2)
+        mc2_mc2_R = (1 + alpha) / (1 + alpha_R) * pi_f * pi_cH / (pi_f_R * pi_cH_R) * ((Tt4_R / Tt2_R) / (Tt4 / Tt2)) ** (1 / 2)
+        N_NR_L = ((self.T0 * tau_r) / (T0_R * tau_r_R) * (pi_f ** ((gamma_c - 1) / gamma_c) - 1) / (pi_f_R ** ((gamma_c - 1) / gamma_c))) ** (1 / 2)
+        N_NR_H = ((self.T0 * tau_r * pi_f) / (T0_R * tau_r_R * pi_f_R) * (pi_cH ** ((gamma_c - 1) / gamma_c) - 1) / (pi_cH_R ** ((gamma_c - 1) / gamma_c))) ** (1 / 2)
 
         if choked == 1:
             A9_A8 = gamma_AB / pi_n * ((gamma_AB - 1) / (2 * gamma_AB)) ** (1 / 2) * Pt9_P9 ** (
@@ -1804,53 +1649,11 @@ class AircraftEngines:
 
         return output
 
-    def real_turbofan_off_design(self,
-        M0,
-        gamma_c,
-        gamma_t,
-        cp_c,
-        cp_t,
-        hpr,
-        Tt4,
-        pi_d_max,
-        pi_b,
-        pi_c,
-        pi_tH,
-        pi_n,
-        pi_fn,
-        tau_tH,
-        eta_f,
-        eta_cL,
-        eta_cH,
-        eta_b,
-        eta_mL,
-        eta_mH,
-        eta_tL,
-
-        # On-design references
-        M0_R,
-        T0_R,
-        P0_R,
-        tau_r_R,
-        tau_lambda_R,
-        pi_r_R,
-        Tt4_R,
-        pi_d_R,
-        pi_f_R,
-        pi_cH_R,
-        pi_cL_R,
-        pi_tL_R,
-        tau_f_R,
-        tau_tL_R,
-        alpha_R,
-        M9_R,
-        M19_R,
-        m0_R
-        ):
+    def real_turbofan_off_design(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_c,pi_tH,pi_n,pi_fn,tau_tH,eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,
+        tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R):
 
         tau_cH_R = pi_cH_R**((gamma_c - 1)/(gamma_c))
         tau_cL_R = pi_cL_R**((gamma_c - 1)/(gamma_c))
-
         R_c = (gamma_c - 1)/gamma_c*cp_c
         R_t = (gamma_t - 1)/gamma_t*cp_t
         a0 = (gamma_c*R_c*self.T0)**(1/2)
