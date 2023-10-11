@@ -21,7 +21,7 @@ class AircraftEngines:
     def get_param(self):
         return self.T0,self.P0,self.a0
 
-    def set_param(self,new_T0,new_P0,new_a0):
+    def set_param(self,new_T0:float,new_P0:float,new_a0:float):
         self.T0 = new_T0
         self.P0 = new_P0
         self.a0 = new_a0
@@ -1756,7 +1756,7 @@ class AircraftEngines:
 
 
 #------------------------- RAMJET -------------------------------------------------------
-    def ideal_ramjet(self, M0, gamma, cp, hpr, Tt4, A0):
+    def ideal_ramjet(self, M0, gamma, cp, hpr, Tt4, A0 = 1):
         """
         Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
@@ -1778,11 +1778,11 @@ class AircraftEngines:
 
         output = {
             'F_m0': [],
-            'F': [],
-            'm0_dot': [],
+        #    'F': [],
+        #    'm0_dot': [],
             'f': [],
             'S': [],
-            'FC': [],
+        #    'FC': [],
             'Ar_Comb': [],
             'eta_T': [],
             'eta_P': [],
@@ -1795,7 +1795,7 @@ class AircraftEngines:
         a0 = (gamma*R*self.T0)**(1/2) #m/s
         V0 = M0*a0
         
-        m0_dot = A0*self.rho0*V0
+        #m0_dot = A0*self.rho0*V0
         
         tau_r = 1 + ((gamma - 1)/2)*(M0**2)
 
@@ -1806,9 +1806,9 @@ class AircraftEngines:
         f = (cp * self.T0)/hpr * (tau_lambda - tau_r)
         S = f/F_m0
         
-        F = F_m0*m0_dot
+        #F = F_m0*m0_dot
         
-        FC = F/S
+        #FC = F/S
         
         Ar_Comb = 1/f
 
@@ -1817,11 +1817,11 @@ class AircraftEngines:
         eta_Total = eta_P*eta_T
 
         output['F_m0'].append(F_m0)
-        output['F'].append(F)
-        output['m0_dot'].append(m0_dot)
+        #output['F'].append(F)
+        #output['m0_dot'].append(m0_dot)
         output['f'].append(f)
         output['S'].append(S)
-        output['FC'].append(FC)
+        # output['FC'].append(FC)
         output['Ar_Comb'].append(Ar_Comb)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
@@ -1829,7 +1829,7 @@ class AircraftEngines:
 
         return output
 
-    def real_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1, gamma_c=1.4, gamma_t=1.4, cpc=1004, cpt=1004, eta_b=1):
+    def real_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1.0, gamma_c=1.4, gamma_t=1.4, cpc=1004.0, cpt=1004.0, eta_b=1.0):
         """
         Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
