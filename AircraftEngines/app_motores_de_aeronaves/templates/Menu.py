@@ -2,6 +2,8 @@ import Prop2,Ramjet_missile
 import re
 from tabulate import tabulate
 import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
 
 class menu:
     
@@ -66,17 +68,8 @@ class menu:
                     print("Ciclo não ideal ainda não implementado!\n")
 
                 case("3",_):
-                    self.missil = Ramjet_missile.missile()
-                    print(self.missil)
-                    variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
-                    # print(variables)
-                    gamma = float(variables[0]); cp =float(variables[1])*1000; hpr = float(variables[2])*1000; Tt4 = float(variables[3])
-                    # 1.4 1.004 42000 1600
-                    results1,results2 = self.missil.calcula_parametrico(gamma,cp,hpr,Tt4,self.atmos,ideal)
-                    self.exibe_resultados(results1)
-                    self.exibe_resultados(results2)
+                    self.simula_missil(ideal)
                     
-
                 case ("5",_):
                     print(self.missil)
                     return
@@ -122,6 +115,99 @@ class menu:
         #print(resultados)
         print(tabulate(resultados,headers="keys",tablefmt="github",numalign="center"))
         print("\n-------------------------------------------------------------------------------")
+
+    def exibe_grafico(self, resultados:dict):
+        #resultados = {key : np.around(resultados[key], 8) for key in resultados}
+        print("\n------MENU GRÁFICO------------------------------------------------------------------\n")
+        print("Estas são as características que você pode plotar:\n")
+        print(resultados.keys())
+        x_axis = input("Digite o eixo X do gráfico, exatamente como aparece na lista acima: ")
+        while x_axis not in resultados.keys():
+            x_axis = input("Valor inválido, digite novamente o eixo X do gráfico: ")
+        
+        contador = int(input("Quantos dados deseja inserir no eixo Y? "))
+        while contador not in [1,2]:
+            contador = input(f"Digite um valor válido. Você poderá plotar apenas um ou dois dados por vez no eixo Y.\n Você tentou plotar {contador} dados.")
+        if contador == 1 :
+            print(resultados.keys())
+            y_axis = input("Digite o dado do eixo Y do gráfico, exatamente como aparece na lista acima: ")
+            while y_axis not in resultados.keys():
+                y_axis = input("Valor inválido, digite novamente o dado do eixo Y do gráfico: ")
+            plt.plot(resultados[x_axis],resultados[y_axis],'bs-')
+            plt.xlabel(x_axis) ; plt.ylabel(y_axis); plt.grid(which='minor')
+            plt.xlim(resultados[x_axis][0], resultados[x_axis][-1])
+        
+        else:
+            print(resultados.keys())
+            y1_axis = input("Digite o dado do 1° eixo Y do gráfico, exatamente como aparece na lista acima: ")
+            while y1_axis not in resultados.keys():
+                y1_axis = input("Valor inválido, digite novamente o 1° eixo Y do gráfico: ")
+
+            y2_axis = input("Digite o dado do 2° eixo Y do gráfico, exatamente como aparece na lista acima: ")
+            while y2_axis not in resultados.keys():
+                y2_axis = input("Valor inválido, digite novamente o 2° eixo Y do gráfico: ")
+            
+            fig, ax1 = plt.subplots()
+
+            color = 'tab:red'
+            ax1.set_xlabel(x_axis); ax1.set_xlim(resultados[x_axis][0], resultados[x_axis][-1])
+            ax1.set_ylabel(y1_axis, color=color)
+            ax1.plot(resultados[x_axis], resultados[y1_axis],'s-' ,color=color)
+            ax1.tick_params(axis='y', labelcolor=color)
+            ax1.grid()
+
+            ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis
+
+            color = 'tab:blue'
+            ax2.set_ylabel(y2_axis, color=color)  # we already handled the x-label with ax1
+            ax2.plot(resultados[x_axis], resultados[y2_axis],'o-' ,color=color)
+            ax2.tick_params(axis='y', labelcolor=color)
+            ax2.grid()
+
+            fig.tight_layout()  # otherwise the right y-label is slightly clipped
+        
+        plt.show()
+
+        
+        print("\n-------------------------------------------------------------------------------")
+
+    def simula_missil(self,ideal:bool):
+        self.missil = Ramjet_missile.missile()
+        string = "ideal" if ideal else "não ideal"
+        print(self.missil)
+        escolha = input(f"\n-- MENU SIMULA MÍSSIL --\n1 - Exibir tabelas de ciclo paramétrico {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n9 - Voltar\n")
+        while escolha != "9":
+            pi_d_max = 1
+            eta_b = 1
+            variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+            # print(variables)
+            gamma = float(variables[0]); cp =float(variables[1])*1000; hpr = float(variables[2])*1000; Tt4 = float(variables[3])
+            # 1.4 1.004 42000 1600
+            
+            if not ideal:
+                variables = re.split("\s",input(f"Como o ciclo é {string}, adicione os seguintes parâmetros:\npi_d_max []; eta_b []\n"))
+                pi_d_max = float(variables[0]); eta_b = float(variables[1])
+
+            match escolha:
+                case "1":
+                    results1,results2 = self.missil.calcula_parametrico(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b)
+                    self.exibe_resultados(results1)
+                    self.exibe_resultados(results2)
+                case "2": 
+                    results = self.missil.calcula_datum(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b)
+                    self.exibe_resultados(results)
+                case "3":
+                    results = self.missil.calcula_datum(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b)
+                    self.exibe_resultados(results)
+                    self.exibe_grafico(results)
+
+                case _:
+                    print("!!! Digite um valor válido !!!")   
+
+            escolha = input(f"\n-- MENU SIMULA MÍSSIL --\n1 - Exibir tabelas de ciclo paramétrico {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n9 - Voltar\n")
+
+        
+        
 
 
 

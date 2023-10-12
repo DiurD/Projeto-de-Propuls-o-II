@@ -1877,7 +1877,7 @@ class AircraftEngines:
         tau_r = 1 + ((gamma_c - 1)/2)*(M0**2)
         pi_r  = tau_r**(gamma_c/(gamma_c-1))
         
-        if M0 <= 1:
+        if M0 <= 1 or eta_b == 1:
             eta_r = 1
         else:
             eta_r = (1 - 0.075*(M0-1)**1.35)
@@ -1890,18 +1890,19 @@ class AircraftEngines:
         tau_n = 1
         
         tau_b = Tt4/(self.T0*tau_d*tau_r)
+        pi_b  = tau_b**(gamma_c/(gamma_c-1))
         
         Pt9_P9 = P0_P9*pi_r*pi_d*pi_b*pi_n
         P9 = self.P0/P0_P9
         Pt9 = Pt9_P9*P9
         
-        M9 = (2/(gamma_t-1)*(Pt9/P9**((gamma_t-1)/gamma_t)-1))**(1/2)
+        M9 = (2/(gamma_t-1)*((Pt9/P9)**((gamma_t-1)/gamma_t)-1))**(1/2)
         
         Tt9 = self.T0*tau_r*tau_d*tau_b*tau_n
         
         T9 = Tt9/(Pt9_P9**((gamma_t-1)/gamma_t))
         
-        V9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))
+        V9 = a0*M9*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))
         a9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**(1/2)
         
         f = (tau_lambda - tau_r*tau_d)/(eta_b*hpr/(cpc*self.T0) - tau_lambda + tau_r*tau_d)
@@ -1916,8 +1917,10 @@ class AircraftEngines:
         AF = 1/f
 
         eta_T = a0**2*((1+f)*(V9/a0)**2 - M0**2)/(2*f*hpr)
-        eta_P = 2*V0*F_m0/(a0**2*((1+f)*(V9/a0)**2)-M0**2)
+        eta_P = 2*V0*F_m0/( (a0**2)*((1+f)* ((V9/a0)**2) -M0**2)  )
         eta_Total = eta_P*eta_T
+
+        pi_n = (Pt9/self.P0)/(pi_r*pi_d*pi_b)
 
         output['F_m0'].append(F_m0)
         output['m0_dot'].append(m0_dot)
@@ -1930,7 +1933,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output,tau_lambda,tau_r,pi_r,tau_b,Pt9_P9,T9/Tt9,T9/self.T0
+        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
 
     def offdesign_ramjet(self,
         M0,
