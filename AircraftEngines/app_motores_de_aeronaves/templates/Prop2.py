@@ -730,7 +730,7 @@ class AircraftEngines:
 
             pi_c += pi_c_increase
 
-        return output
+        return output,tau_r,tau_f,tau_c,tau_lambda,self.T0,tau_t,pi_c
 
     def ideal_turbofan_optimal_fan_pressure_ratio(self,M0, gamma, cp, hpr, Tt4, pi_c, alpha, batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
@@ -815,7 +815,7 @@ class AircraftEngines:
 
             pi_c += pi_c_increase
 
-        return output
+        return output,tau_r,tau_c,tau_lambda,tau_f_opt,pi_f_optimal,self.T0,pi_c
 
 
 
@@ -904,7 +904,7 @@ class AircraftEngines:
 
             pi_c += pi_c_increase
 
-        return output
+        return output,tau_r,tau_c,tau_lambda,tau_f,self.T0,pi_c
 
 
     def ideal_turbofan_mixed_flow(self,M0, gamma, cp, hpr, Tt4, Tt7, pi_c, afterburner, alpha = 123456789, pi_f = 123456789, input_choice_case = 0, batch_size=1, min_pi_c=0.001, max_pi_c=40):
@@ -1052,7 +1052,7 @@ class AircraftEngines:
 
             pi_c += pi_c_increase
 
-        return output
+        return output,tau_r,tau_c,tau_lambda,tau_f,self.T0,pi_c,pi_f,tau_t,tau_m,T9_T0
 
     def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
@@ -1179,7 +1179,7 @@ class AircraftEngines:
         output['eta_Total'].append(eta_Total)
         output['FR'].append(FR)
 
-        return output
+        return output,self.T0,tau_r,pi_r,pi_d,tau_d,tau_f,tau_lambda,tau_cL,tau_cH,tau_tH,tau_tL,pi_tH,pi_tL,Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0
 
     def real_turbofan_with_afterburner(self, M0, gamma_c, gamma_t, gamma_AB, gamma_DB, cp_c, cp_t, cp_AB, AB, DB, cp_DB, hpr, Tt4, Tt7,
                       Tt17, pi_d_max, pi_b, pi_M_max, pi_AB, pi_DB, pi_n, pi_fn, e_c, e_f, e_t, eta_b, eta_m, eta_AB,
@@ -1464,7 +1464,7 @@ class AircraftEngines:
                 # output['FR'].append(FR)
 
                 pi_c += pi_c_increase
-        return output
+        return output,self.T0,pi_c,tau_r,pi_r,pi_d,tau_d,tau_lambda,tau_c,tau_t,pi_t,Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0,tal_lambda_AB,tal_lambda_DB,Pt9_P9,T9_T0,Pt16_P6,Tt16_Tt6,tau_M,pi_M_ideal,pi_M
 
     def real_turbofan_with_AB_mixed_off_design(self,M0,Tt4,Tt7,P0_P9,TR,pi_d_max,pi_b,pi_tH,pi_AB,pi_n,pi_M_max,tau_tH,eta_f,eta_cH,eta_b,eta_AB,eta_mH,eta_mL,gamma_c,gamma_t,gamma_AB,cp_c,
             cp_t,cp_AB,hpr,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,theta0_R,m0_R,Tt4_R,Tt7_R,pi_d_R,pi_f_R,pi_cH_R,pi_tL_R,tau_f_R,tau_cH_R,tau_tL_R,alpha_R,M6_R,M9_R,A6_A16):
@@ -1647,7 +1647,7 @@ class AircraftEngines:
             'A9_A8': [A9_A8]
         }
 
-        return output
+        return output,self.T0,tau_r,pi_r,Tt2,Tt2_R,pi_d,tau_lambda,tau_lambda_R,Tt4_max,Tt4_lim,Tt4,tau_tL,tau_f,pi_tL,tau_f,pi_f,tau_cH,pi_cH,Pt16_Pt6_R,Pt16_P16,tau_tL_N,Tt16_Tt6,tau_M,tau_M_R,pi_M_ideal,pi_M,pi_AB_dry,Pt9_P9_dry,Tt5,Tt3,Tt6,Tt6A,pi_AB,tau_lambda_AB,Pt9_P9,T9_T0
 
     def real_turbofan_off_design(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_c,pi_tH,pi_n,pi_fn,tau_tH,eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,
         tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R):
@@ -1752,7 +1752,7 @@ class AircraftEngines:
             'N_hp_spool': [N_NR_H]
         }
 
-        return output
+        return output,self.T0,tau_cH_R,tau_cL_R,tau_r,pi_r,pi_d,tau_lambda,tau_tL,tau_f,tau_cL,pi_tL,pi_cL,tau_cH,pi_cH,pi_f,Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,tau_f,tau_tL_R,tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0
 
 
 #------------------------- RAMJET -------------------------------------------------------
