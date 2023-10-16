@@ -35,7 +35,7 @@ class menu:
             escolha = input("1 - Ramjet\n2 - Turbofan\n3 - Sair\n")
             match escolha:
                 case "1":
-                    design = self.checa_design
+                    design = self.checa_design()
                     ideal = self.checa_ideal(design)
                     self.ramjet( design,ideal )
                 case "2":
@@ -90,7 +90,7 @@ class menu:
                     print("Ciclo não ideal ainda não implementado!\n")
 
                 case("3",_):
-                    self.simula_missil(ideal)
+                    self.simula_missil(design,ideal)
                     
                 case ("5",_):
                     print(self.missil)
