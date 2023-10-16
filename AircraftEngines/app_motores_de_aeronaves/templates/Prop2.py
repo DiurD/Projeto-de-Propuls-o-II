@@ -27,10 +27,6 @@ class AircraftEngines:
         self.a0 = new_a0
         
 
-
-
-
-
 #--------------------------- TURBOJET --------------------------------------------------
 
 
@@ -1999,6 +1995,8 @@ class AircraftEngines:
             eta_r = 1 - 0.075*(M0 - 1)**1.35
 
         pi_d = pi_d_max*eta_r
+        tau_d = pi_d**((gamma_c-1)/gamma_c)
+        
         Tt2 = T0*tau_r
         
         # Ramjet simplifications
@@ -2007,6 +2005,8 @@ class AircraftEngines:
         pi_c_R  = 1
         
         pi_t    = 1
+        
+        tau_n = 1
         
         tau_lambda = cp_t*Tt4/(cp_c*T0)
         f = (tau_lambda - tau_r*tau_c)/(hpr*eta_b/(cp_c*T0) - tau_lambda) # kgFuel/kgAir
@@ -2027,6 +2027,8 @@ class AircraftEngines:
         mc2_mc2_R = pi_c/pi_c_R*((Tt4_R/Tt2_R)/(Tt4/Tt2))**(1/2) # vazão mássica corrigida no compressor
 
         #  Outputs extras
+        tau_b = Tt4/(self.T0*tau_d*tau_r)
+        Tt9 = self.T0*tau_r*tau_d*tau_b*tau_n
         V9 = V9_a0*a0 # m/s
         AF = 1/f  # kgAir/kgFuel
         Pt4 = P0*pi_r*pi_d*pi_c*pi_b # Pa
@@ -2045,7 +2047,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output
+        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
 
 
 
