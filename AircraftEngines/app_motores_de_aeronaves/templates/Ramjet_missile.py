@@ -116,6 +116,7 @@ class missile:
                     P0_P9 = float(input("Qual a razão de pressão P0/P9? "))
                 else:
                     print("Digite uma opção válida!\n")
+            pis[8] = 0.98
             
         
 
@@ -174,7 +175,7 @@ class missile:
 
         return output,saidas
     
-    def calcula_datum(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b):
+    def calcula_datum(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b, design:bool,eta_m):
         secao = [0,1,1.1,2,3,4,7,8,9]
         datum = [0, 0.068,0.086,0.128,0.412,0.744,0.744,0.838,1]
         posicao = [self.length*i for i in datum]
@@ -200,7 +201,10 @@ class missile:
                 else:
                     print("Digite uma opção válida!\n")
 
-        _,saida = self.calcula_parametrico(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
+        if design:
+            _,saida = self.calcula_parametrico(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
+        else: 
+            _,saida = self.calcula_offdesign(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b,eta_m)
 
         nova_saida = {
         'Section': secao,
@@ -263,6 +267,109 @@ class missile:
                 nova_saida['T [K]'].append(saida['T [K]'][i+1])
 
         return nova_saida
+    
+
+
+    def calcula_offdesign(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b,eta_m):
+        T0,P0,_ = atmos.get_param()
+        secao = [0,1,2,3,4,5,6,7,8,9]
+        pis = [float(1)]*10
+        taus = [float(1)]*10
+        Pts = [float(1)]*10
+        Tts = [float(1)]*10
+        Ps = [float(1)]*10
+        Ts = [float(1)]*10
+        
+
+        while 'Mcomb' not in locals():
+            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
+            if re.search('(?i)^sim|^s|^1',text):
+                Mcomb = float(0.14)
+            elif re.search('(?i)^não|^n|^nao|^2',text):
+                Mcomb = float(input("Qual o Mach na câmara de combustão? "))
+            else:
+                print("Digite uma opção válida!\n")
+
+        Ms = [float(1)]*10
+        Ms[0] = 0.01
+        Ms[1] = self.M0
+        Ms[3] = Mcomb
+        Ms[2] = Ms[4] =Ms[5] = Ms[6] = Ms[7] = Mcomb*1.25
+        Ms[8] = 1
+        #Ms[9] = self.M0
+            
+        A_opt = [float(1)]*10
+        A_Aopt = [float(1)]*10
+
+        if ideal:
+            P0_P9 = 1.0
+        else:
+            while 'P0_P9' not in locals():
+                text = input("\n O fluxo é engasgado (choked)? ")
+                if re.search('(?i)^sim|^s|^1',text):
+                    P0_P9 = float(1)
+                elif re.search('(?i)^não|^n|^nao|^2',text):
+                    P0_P9 = float(input("Qual a razão de pressão P0/P9? "))
+                else:
+                    print("Digite uma opção válida!\n")
+        
+        output,saida = self.calcula_parametrico(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
+            
+        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.offdesign_ramjet(self.M0, Tt4, P0_P9, gamma,cp,gamma,cp,hpr,pi_d_max,pis[4],pis[8],eta_b,eta_m,saida['Mach'][0],saida['T [K]'][0],saida['P [Pa]'][0],saida['Tau'][1],saida['Pi'][1],saida['Tt [K]'][4],saida['Pi'][3],output['Pt9/P9'][0])
+        
+        #f = output.get('f')
+        #air_comb = 1/f[0]
+        #output['AF ratio'] = [air_comb]
+        output['Tau_lambda'] = [tau_lambda]
+        output['P0/P9'] = [P0_P9]
+        output['Pt9/P9'] = [Pt9_P9]
+        output['T9/Tt9'] = [T9_Tt9]
+        output['T9/T0'] = [T9_T0]
+        
+        #pis[2] = pis[1]
+        #taus[2] = taus[1]
+        #pis[7] = pis[6] = pis[5] =pis[4]
+        #taus[7] = taus[6] = taus[5] =taus[4]
+
+
+        for i in range(len(secao)):
+            if i == 0:
+                Pts[i] = P0
+                Tts[i] = T0
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
+            else:
+                Pts[i] = pis[i]*Pts[i-1]
+                Tts[i] = taus[i]*Tts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
+
+        Ps[9] = Pts[9]/Pt9_P9
+        Ts[9] = Tts[0]*T9_T0
+        Ms[9] = (2/(gamma-1)*(Pt9_P9**((gamma-1)/gamma)-1) )**0.5
+        A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[9]**2))**((gamma+1)/(gamma-1))   )**0.5
+        A_opt[9]=self.A[9]/A_Aopt[9]
+        
+
+        saidas = {
+        'Section': secao,
+        'Pi':pis,
+        'Tau':taus,
+        'Pt [Pa]': Pts,
+        'P [Pa]': Ps,
+        'Tt [K]': Tts,
+        'T [K]': Ts,
+        'Mach': Ms,
+        'A [m²]' : self.A,
+        'A* [m²]': A_opt,
+        'A/A*': A_Aopt,
+        }
+
+        return output,saidas
 
 
         
