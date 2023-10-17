@@ -86,12 +86,9 @@ class menu:
                     results,_,_,_,_,_,_,_,_,_,_,_= self.atmos.offdesign_ramjet(M0, Tt4, P0_P9, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_n,eta_b,eta_m,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R)
                     self.exibe_resultados(results)
 
-                case ("1",True): # Cria atmosfera
+                case ("1",_): # Cria atmosfera
                     self.cria_atmos()
                     print(self.atmos)
-
-                case ("1",False):
-                    print("Ciclo não ideal ainda não implementado!\n")
 
                 case("3",_):
                     self.simula_missil(design,ideal)
