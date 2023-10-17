@@ -74,7 +74,9 @@ class missile:
         return resp       
                 
 
-    def calcula_parametrico(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b):
+    def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b):
+        gamma = (gamma_c+gamma_t)/2
+
         T0,P0,_ = atmos.get_param()
         secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
@@ -120,7 +122,7 @@ class missile:
             
         
 
-        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.real_ramjet(self.M0, hpr, Tt4, self.A[1], pis[4], pi_d_max, pis[8], P0_P9, gamma, gamma, cp, cp, eta_b)
+        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.real_ramjet(self.M0, hpr, Tt4, self.A[1], pis[4], pi_d_max, pis[8], P0_P9, gamma_c, gamma_t, cp_c, cp_t, eta_b)
         #f = output.get('f')
         #air_comb = 1/f[0]
         #output['AF ratio'] = [air_comb]
@@ -175,7 +177,8 @@ class missile:
 
         return output,saidas
     
-    def calcula_datum(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b, design:bool,eta_m):
+    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b, design:bool,eta_m):
+        gamma = (gamma_c+gamma_t)/2
         secao = [0,1,1.1,2,3,4,7,8,9]
         datum = [0, 0.068,0.086,0.128,0.412,0.744,0.744,0.838,1]
         posicao = [self.length*i for i in datum]
@@ -202,9 +205,9 @@ class missile:
                     print("Digite uma opção válida!\n")
 
         if design:
-            _,saida = self.calcula_parametrico(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
+            _,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
         else: 
-            _,saida = self.calcula_offdesign(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b,eta_m)
+            _,saida = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_d_max,eta_b,eta_m)
 
         nova_saida = {
         'Section': secao,
@@ -270,7 +273,8 @@ class missile:
     
 
 
-    def calcula_offdesign(self, gamma, cp, hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b,eta_m):
+    def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,pi_d_max,eta_b,eta_m):
+        gamma = (gamma_c+gamma_t)/2
         T0,P0,_ = atmos.get_param()
         secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
@@ -280,42 +284,24 @@ class missile:
         Ps = [float(1)]*10
         Ts = [float(1)]*10
         
+        output,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
+        
+        #while 'Mcomb' not in locals():
+        #    text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
+        #    if re.search('(?i)^sim|^s|^1',text):
+        #        Mcomb = float(0.14)
+        #    elif re.search('(?i)^não|^n|^nao|^2',text):
+        #        Mcomb = float(input("Qual o Mach na câmara de combustão? "))
+        #    else:
+        #        print("Digite uma opção válida!\n")
 
-        while 'Mcomb' not in locals():
-            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
-            if re.search('(?i)^sim|^s|^1',text):
-                Mcomb = float(0.14)
-            elif re.search('(?i)^não|^n|^nao|^2',text):
-                Mcomb = float(input("Qual o Mach na câmara de combustão? "))
-            else:
-                print("Digite uma opção válida!\n")
-
-        Ms = [float(1)]*10
-        Ms[0] = 0.01
-        Ms[1] = self.M0
-        Ms[3] = Mcomb
-        Ms[2] = Ms[4] =Ms[5] = Ms[6] = Ms[7] = Mcomb*1.25
-        Ms[8] = 1
-        #Ms[9] = self.M0
+        Ms = saida['Mach']
+        P0_P9 = output['P0/P9'][0]
             
         A_opt = [float(1)]*10
         A_Aopt = [float(1)]*10
-
-        if ideal:
-            P0_P9 = 1.0
-        else:
-            while 'P0_P9' not in locals():
-                text = input("\n O fluxo é engasgado (choked)? ")
-                if re.search('(?i)^sim|^s|^1',text):
-                    P0_P9 = float(1)
-                elif re.search('(?i)^não|^n|^nao|^2',text):
-                    P0_P9 = float(input("Qual a razão de pressão P0/P9? "))
-                else:
-                    print("Digite uma opção válida!\n")
-        
-        output,saida = self.calcula_parametrico(gamma, cp, hpr, Tt4,atmos,ideal,pi_d_max,eta_b)
             
-        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.offdesign_ramjet(self.M0, Tt4, P0_P9, gamma,cp,gamma,cp,hpr,pi_d_max,pis[4],pis[8],eta_b,eta_m,saida['Mach'][0],saida['T [K]'][0],saida['P [Pa]'][0],saida['Tau'][1],saida['Pi'][1],saida['Tt [K]'][4],saida['Pi'][3],output['Pt9/P9'][0])
+        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.offdesign_ramjet(self.M0, Tt4, P0_P9, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,eta_m,saida['Mach'][0],saida['T [K]'][0],saida['P [Pa]'][0],saida['Tau'][1],saida['Pi'][1],saida['Tt [K]'][4],saida['Pi'][3],output['Pt9/P9'][0])
         
         #f = output.get('f')
         #air_comb = 1/f[0]

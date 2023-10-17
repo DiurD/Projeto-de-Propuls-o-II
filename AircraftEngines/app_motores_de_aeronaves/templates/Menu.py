@@ -55,31 +55,35 @@ class menu:
 
                 case ("2",True): # Análise on design, ideal e não ideal
                     print(self.atmos)
-                    variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 [Mach]; gamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
-                    # print(variables)
-                    M0 = float(variables[0]); gamma = float(variables[1]); cp =float(variables[2])*1000; hpr = float(variables[3])*1000; Tt4 = float(variables[4])
-                    # 1 1.4 1.004 42000 1600
-
+                    
                     if ideal:
+                        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 [Mach]; gamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+                        # print(variables)
+                        M0 = float(variables[0]); gamma = float(variables[1]); cp =float(variables[2])*1000; hpr = float(variables[3])*1000; Tt4 = float(variables[4])
+                        # 1 1.4 1.004 42000 1600
                         results = self.atmos.ideal_ramjet(M0, gamma, cp, hpr, Tt4)
                         self.exibe_resultados(results)
                     else:
+                        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 []; gamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+                        # print(variables)
+                        M0 = float(variables[0]);gamma_c = float(variables[1]); gamma_t = float(variables[2]); cp_c =float(variables[3])*1000; cp_t =float(variables[4])*1000; hpr = float(variables[5])*1000; Tt4 = float(variables[6])
+                        # 1.4 1.004 42000 1600
                         variables = re.split("\s",input("Como o ciclo é não ideal, adicione os seguintes parâmetros:\npi_b []; pi_n []; pi_d_max []; eta_b []; P0/P9 []\n"))
                         pi_b = float(variables[0]); pi_n = float(variables[1]);pi_d_max = float(variables[2]); eta_b = float(variables[3]); P0_P9 = float(variables[4])
-                        results,_,_,_,_,_,_,_,_,_,_,_= self.atmos.real_ramjet(M0, hpr, Tt4, 0, pi_b, pi_d_max, pi_n, P0_P9, gamma, gamma, cp, cp, eta_b)
+                        results,_,_,_,_,_,_,_,_,_,_,_= self.atmos.real_ramjet(M0, hpr, Tt4, 0, pi_b, pi_d_max, pi_n, P0_P9, gamma_c, gamma_t, cp_c, cp_t, eta_b)
                         self.exibe_resultados(results)
 
                 case("2",False):
                     print(self.atmos)
-                    variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 [Mach]; gamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+                    variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\nM0 []; gamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
                     # print(variables)
-                    M0 = float(variables[0]); gamma = float(variables[1]); cp =float(variables[2])*1000; hpr = float(variables[3])*1000; Tt4 = float(variables[4])
-                    # 1 1.4 1.004 42000 1600
+                    M0 = float(variables[0]);gamma_c = float(variables[1]); gamma_t = float(variables[2]); cp_c =float(variables[3])*1000; cp_t =float(variables[4])*1000; hpr = float(variables[5])*1000; Tt4 = float(variables[6])
+                    # 1.4 1.004 42000 1600
                     variables = re.split("\s",input("Como o ciclo é não ideal, adicione os seguintes parâmetros:\npi_b []; pi_n []; pi_d_max []; eta_b []; eta_m []; P0/P9 []\n"))
                     pi_b = float(variables[0]); pi_n = float(variables[1]);pi_d_max = float(variables[2]); eta_b = float(variables[3]); eta_m = float(variables[4]); P0_P9 = float(variables[5])
                     variables = re.split("\s",input("Por fim, insira os parâmetros de referência:\nM0_R, T0_R, P0_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, Pt9_P9_R\n"))
                     M0_R = float(variables[0]); T0_R = float(variables[1]); P0_R = float(variables[2]); tau_r_R = float(variables[3]); pi_r_R = float(variables[4]); Tt4_R = float(variables[5]); pi_d_R = float(variables[6]); Pt9_P9_R = float(variables[7])
-                    results,_,_,_,_,_,_,_,_,_,_,_= self.atmos.offdesign_ramjet(M0, Tt4, P0_P9, gamma,cp,gamma,cp,hpr,pi_d_max,pi_b,pi_n,eta_b,eta_m,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R)
+                    results,_,_,_,_,_,_,_,_,_,_,_= self.atmos.offdesign_ramjet(M0, Tt4, P0_P9, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_n,eta_b,eta_m,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R)
                     self.exibe_resultados(results)
 
                 case ("1",True): # Cria atmosfera
@@ -213,15 +217,15 @@ class menu:
         texto = "on-design" if ideal else "off-design"
         string = "ideal" if ideal else "não ideal"
         print(self.missil)
-        escolha = input(f"\n-- MENU SIMULA MÍSSIL ({texto}) --\n1 - Exibir tabelas de ciclo paramétrico {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n4 - Alterar inputs\n9 - Voltar\n")
+        escolha = input(f"\n-- MENU SIMULA MÍSSIL ({texto}) --\n1 - Exibir tabelas de ciclo {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n4 - Alterar inputs\n9 - Voltar\n")
         
         pi_d_max = 1
         eta_b = 1
         eta_m = 1.0
         
-        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma [];cp [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
         # print(variables)
-        gamma = float(variables[0]); cp =float(variables[1])*1000; hpr = float(variables[2])*1000; Tt4 = float(variables[3])
+        gamma_c = float(variables[0]); gamma_t = float(variables[1]); cp_c =float(variables[2])*1000; cp_t =float(variables[3])*1000; hpr = float(variables[4])*1000; Tt4 = float(variables[5])
         # 1.4 1.004 42000 1600
         
         if not design:
@@ -237,17 +241,17 @@ class menu:
             match escolha:
                 case "1":
                     if design:
-                        results1,results2 = self.missil.calcula_parametrico(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b)
+                        results1,results2 = self.missil.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b)
                     else:
-                        results1,results2 = self.missil.calcula_offdesign(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,eta_m)
+                        results1,results2 = self.missil.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,eta_m)
                         
                     self.exibe_resultados(results1)
                     self.exibe_resultados(results2)
                 case "2": 
-                    results = self.missil.calcula_datum(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,design,eta_m)
+                    results = self.missil.calcula_datum(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,design,eta_m)
                     self.exibe_resultados(results)
                 case "3":
-                    results = self.missil.calcula_datum(gamma,cp,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,design,eta_m)
+                    results = self.missil.calcula_datum(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,eta_b,design,eta_m)
                     self.exibe_resultados(results)
                     self.exibe_grafico(results)
                 case "4":
@@ -268,7 +272,7 @@ class menu:
                 case _:
                     print("!!! Digite um valor válido !!!")   
 
-            escolha = input(f"\n-- MENU SIMULA MÍSSIL ({texto}) --\n1 - Exibir tabelas de ciclo paramétrico {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n4 - Alterar inputs\n9 - Voltar\n")
+            escolha = input(f"\n-- MENU SIMULA MÍSSIL ({texto}) --\n1 - Exibir tabelas de ciclo {string}\n2 - Exibir tabelas com datum para ciclo {string}\n3 - Exibir gráficos\n4 - Alterar inputs\n9 - Voltar\n")
 
         
         
