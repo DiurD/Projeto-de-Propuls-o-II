@@ -253,7 +253,7 @@ class missile:
         if design:
             _,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
         else: 
-            _,saida = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
+            _,saida,_,_ = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
 
         nova_saida = {
         'Section': secao,
@@ -336,11 +336,15 @@ class missile:
         print(f"\n Com velocidade de referência como Mach {self.M0}")
         self.altera_M0()
         M0_AT = float(input("\nQual o novo Mach para cálculo do off design? "))
+        P0_P9_AT = float(input("\nQual o novo P0/P9 para cálculo do off design? "))
+        Tt4_AT = float(input("\nQual o novo Tt4 [K] para cálculo do off design? "))
+
+
         print("\nCrie agora a nova atmosfera para simulação do off-design:\n")
         atmos_AT = self.cria_atmos()
         print(atmos_AT)
 
-        output,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
+        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
         
         #while 'Mcomb' not in locals():
         #    text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
@@ -351,8 +355,8 @@ class missile:
         #    else:
         #        print("Digite uma opção válida!\n")
 
-        Ms = saida['Mach']
-        P0_P9 = output['P0/P9'][0]
+        Ms = saida_REF['Mach'];  Ms[1] = M0_AT
+        P0_P9_REF = output_REF['P0/P9'][0]
             
         A_opt = [float(1)]*10
         A_Aopt = [float(1)]*10
@@ -360,12 +364,12 @@ class missile:
         while 'escolha' not in locals():
             mudar = input("\nDeseja simular com os parâmetros de referência do ciclo on desing?  Caso não, insira-os manualmente\n")
             if re.search('(?i)^sim|^s|^1|^on|design',mudar):
-                output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4, P0_P9, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida['Mach'][0],saida['T [K]'][0],saida['P [Pa]'][0],saida['Tau'][1],saida['Pi'][1],saida['Tt [K]'][4],saida['Pi'][3],output['Pt9/P9'][0],output['m0_dot'][0])
+                output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
                 escolha = True
             elif re.search('(?i)^nao|^2|^n|^man|^manualmente|manual',mudar):
                 variables = re.split("\s",input("Por fim, insira os parâmetros de referência:\nM0_R, T0_R, P0_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, Pt9_P9_R, m0_R\n"))
                 M0_R = float(variables[0]); T0_R = float(variables[1]); P0_R = float(variables[2]); tau_r_R = float(variables[3]); pi_r_R = float(variables[4]); Tt4_R = float(variables[5]); pi_d_R = float(variables[6]); Pt9_P9_R = float(variables[7]); m0_R = float(variables[8])
-                output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4, P0_P9, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
+                output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
                 escolha = True
             else:
                 print("!!! DIGITE UMA OPÇÃO VÁLIDA !!!")
@@ -426,7 +430,7 @@ class missile:
         'A/A*': A_Aopt,
         }
 
-        return output,saidas
+        return output,saidas,output_REF,saida_REF
     
     def cria_atmos(self) -> Prop2.AircraftEngines:
         while 'nova_atmos' not in locals():
@@ -444,7 +448,7 @@ class missile:
                     self.atmos.set_param(T0,P0,a0)
                 case _:
                     print("Digite um valor válido!")
-        return nova_atmos
+        return nova_atmos 
 
 
         

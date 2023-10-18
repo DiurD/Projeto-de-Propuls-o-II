@@ -221,7 +221,7 @@ class menu:
         eta_b = 1
         eta_m = 1.0
         
-        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
+        variables = re.split("\s",input("Insira as seguintes variáveis, em ordem e espaçadas por um espaço em branco:\ngamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n")) if design else re.split("\s",input("Insira as seguintes variáveis de referência, em ordem e espaçadas por um espaço em branco:\ngamma_c []; gamma_t []; cp_c [kJ/kg]; cp_t [kJ/kg]; h_PR [kJ/kg]; T_t4 [K]\n"))
         # print(variables)
         gamma_c = float(variables[0]); gamma_t = float(variables[1]); cp_c =float(variables[2])*1000; cp_t =float(variables[3])*1000; hpr = float(variables[4])*1000; Tt4 = float(variables[5])
         # 1.4 1.004 42000 1600
@@ -237,8 +237,12 @@ class menu:
                     if design:
                         results1,results2 = self.missil.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
                     else:
-                        results1,results2 = self.missil.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,pi_b,pi_n,eta_b)
-                        
+                        results1,results2,results1_REF,results2_REF = self.missil.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t ,hpr,Tt4,self.atmos,ideal,pi_d_max,pi_b,pi_n,eta_b)
+                        print(f"\n ****** Resultado da referência:  ****** \n")
+                        self.exibe_resultados(results1_REF)
+                        self.exibe_resultados(results2_REF)
+                    
+                    print(f"\n ****** Resultado da simulação {texto} {string}:  ****** \n")
                     self.exibe_resultados(results1)
                     self.exibe_resultados(results2)
                 case "2": 
