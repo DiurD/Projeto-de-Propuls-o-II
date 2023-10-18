@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 class AircraftEngines:
 
     def __init__(self, height):
+        self.height = height
         self.atm = Atmosphere(height)
         self.T0 = self.atm.temperature[0]
         self.P0 = self.atm.pressure[0]
@@ -16,12 +17,13 @@ class AircraftEngines:
         
 
     def __str__(self):
-        return f"\nDados atmosféricos:\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
+        return f"\nDados atmosféricos:\nAltitude = {self.height} m\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
     
     def get_param(self):
         return self.T0,self.P0,self.a0
 
     def set_param(self,new_T0:float,new_P0:float,new_a0:float):
+        self.height = "dados inseridos manualmente (sem dados de altitude padronizada)"
         self.T0 = new_T0
         self.P0 = new_P0
         self.a0 = new_a0
@@ -1893,12 +1895,12 @@ class AircraftEngines:
         Pt9 = Pt9_P9*P9
         
         M9 = (2/(gamma_t-1)*((Pt9/P9)**((gamma_t-1)/gamma_t)-1))**(1/2)
-        
+        #print(f"Mach 9 on design = {M9}")
         Tt9 = self.T0*tau_r*tau_d*tau_b*tau_n
         
         T9 = Tt9/(Pt9_P9**((gamma_t-1)/gamma_t))
         
-        V9 = a0*M9*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))
+        V9 = a0*M9*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**(1/2)
         a9 = a0*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**(1/2)
         
         f = (tau_lambda - tau_r*tau_d)/(eta_b*hpr/(cpc*self.T0) - tau_lambda + tau_r*tau_d)
@@ -1912,7 +1914,7 @@ class AircraftEngines:
         
         AF = 1/f
 
-        eta_T = a0**2*((1+f)*(V9/a0)**2 - M0**2)/(2*f*hpr)
+        eta_T = (a0**2)*((1+f)*((V9/a0)**2) - (M0**2) )/(2*f*hpr)
         eta_P = 2*V0*F_m0/( (a0**2)*((1+f)* ((V9/a0)**2) -M0**2)  )
         eta_Total = eta_P*eta_T
 
@@ -2013,7 +2015,9 @@ class AircraftEngines:
 
         Pt9_P9 = P0_P9*pi_r*pi_d*pi_c*pi_b*pi_t*pi_n
         M9 = (2/(gamma_t - 1)*(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
+        #print(f"Mach 9 off design = {M9}")
         T9_T0 = Tt4/T0/(Pt9_P9)**((gamma_t - 1)/gamma_t)
+        
         V9_a0 = M9*(gamma_t*R_t/(gamma_c*R_c)*T9_T0)**(1/2)
         F_m0 = a0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t*T9_T0/(R_c*V9_a0)*(1 - P0_P9)/gamma_c) # N/(kg/s)
         F = F_m0*m0_dot # N

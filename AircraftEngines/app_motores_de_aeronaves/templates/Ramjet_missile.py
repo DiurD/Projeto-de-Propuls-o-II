@@ -130,7 +130,7 @@ class missile:
         
 
         while 'Mcomb' not in locals():
-            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
+            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M_3 = 0.14)? ")
             if re.search('(?i)^sim|^s|^1',text):
                 Mcomb = float(0.14)
             elif re.search('(?i)^não|^n|^nao|^2',text):
@@ -335,11 +335,11 @@ class missile:
         
         print("\nA atmosfera de referência é a seguinte:\n")
         print(atmos_REF)
-        print(f"\n Com velocidade de referência como Mach {self.M0}")
+        print(f"\nCom velocidade de referência como Mach {self.M0}")
         self.altera_M0()
 
         M0_AT = float(input("\nQual o novo Mach para cálculo do off design? "))
-        P0_P9_AT = float(input("\nQual o novo P0/P9 para cálculo do off design? "))
+        P0_P9_AT = float(input("\nQual o P0/P9 para cálculo do off design? "))
         Tt4_AT = float(input("\nQual o novo Tt4 [K] para cálculo do off design? "))
 
         print("\nCrie agora a nova atmosfera para simulação do off-design:\n")
@@ -367,7 +367,7 @@ class missile:
         
         
         while 'Mcomb' not in locals():
-            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão no ciclo off-design (M = 0.14)? ")
+            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão PARA O CICLO OFF DESIGN (M_3 = 0.14)? ")
             if re.search('(?i)^sim|^s|^1',text):
                 Mcomb = float(0.14)
             elif re.search('(?i)^não|^n|^nao|^2',text):
