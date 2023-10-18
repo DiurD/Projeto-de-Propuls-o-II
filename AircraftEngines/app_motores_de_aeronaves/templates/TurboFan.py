@@ -17,7 +17,7 @@ class turbofan:
             'Bypass ratio (Alpha)': float(1),
         }
         self.preenche_diametros(SI)
-        
+        self.preenche_compressores()
         
 
     def preenche_diametros(self,SI):
@@ -52,3 +52,35 @@ class turbofan:
                 print("Digite uma opção válida!\n")
             return resp
         
+    def altera_diametros(self):
+        SI = self.sistema_de_medidas()
+        medida = "Diâmetro [mm]" if SI else "Diâmetro [in]"
+        if "Diâmetro [mm]" in self.characteristics.keys():
+            del self.characteristics["Diâmetro [mm]"]
+        elif "Diâmetro [in]" in self.characteristics.keys():
+            del self.characteristics["Diâmetro [in]"]
+            
+        self.characteristics['Diâmetro [m]'] = []
+        self.characteristics[medida] = []
+        self.characteristics['Área [m²]'] = []
+        self.preenche_diametros(SI)
+
+    def preenche_compressores(self):
+        self.compressores = {
+            'Pi_c / Estágio': 1.0,
+            'Pi_f': 1.0,
+            'Tau_f': 1.0,
+            'Estágios Compressor LP': 1,
+            'Estágios Compressor HP': 1,
+            'Pi_cL': 1.0,
+            'Pi_cH': 1.0,
+            'Pi_c': 1.0
+        }
+
+        self.compressores['Pi_c / Estágio'] = float(input("\nQual o aumento da pressão total por estágio de compressor (Pi_c / Estágio padrão 1.265)? "))
+        self.compressores['Pi_f'] = float(input("\nQual o aumento de pressão total no fan (Pi_f padrão 1.7)? "))
+        self.compressores['Estágios Compressor LP'] = int(input("\nQuantos estágios o compressor de baixa possui? "))
+        self.compressores['Estágios Compressor HP'] = int(input("\nQuantos estágios o compressor de alta possui? "))
+        self.compressores['Pi_cL'] = self.compressores['Pi_c / Estágio']**self.compressores['Estágios Compressor LP']
+        self.compressores['Pi_cH'] = self.compressores['Pi_c / Estágio']**self.compressores['Estágios Compressor HP']
+        self.compressores['Pi_c'] = self.compressores['Pi_cL']*self.compressores['Pi_cH']

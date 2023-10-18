@@ -1987,6 +1987,7 @@ class AircraftEngines:
         R_t = (gamma_t - 1)/gamma_t*cp_t # J/(kg.K)
         a0 = (gamma_c*R_c*T0)**(1/2) # m/s
         V0 = a0*M0
+
         tau_r = 1 + (gamma_c - 1)/2*M0**2
         pi_r = tau_r**(gamma_c/(gamma_c - 1))
 
@@ -2049,7 +2050,7 @@ class AircraftEngines:
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
-
+        
         return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
 
 
