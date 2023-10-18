@@ -321,7 +321,6 @@ class missile:
 
     def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF:Prop2.AircraftEngines,ideal,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
 
-        T0,P0,_ = atmos_REF.get_param()
         secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
         pis[4] = pi_b ; pis[8] = pi_n
@@ -345,6 +344,8 @@ class missile:
         print("\nCrie agora a nova atmosfera para simulação do off-design:\n")
         atmos_AT = self.cria_atmos()
         print(atmos_AT)
+        
+        T0,P0,_ = atmos_AT.get_param()
 
         while 'escolha' not in locals():
             mudar = input("\nDeseja simular com os parâmetros de referência do ciclo on desing?  Caso não, insira-os manualmente\n")
