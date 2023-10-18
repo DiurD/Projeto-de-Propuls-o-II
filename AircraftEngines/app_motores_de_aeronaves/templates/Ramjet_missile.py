@@ -330,54 +330,71 @@ class missile:
         Tts = [float(1)]*10
         Ps = [float(1)]*10
         Ts = [float(1)]*10
+        output_REF={'Parâmetros inseridos manualmente': ["Cálculo de seções não ocorreu"]}
+        saida_REF={'Parâmetros inseridos manualmente': ["Cálculo de seções não ocorreu"]}
         
         print("\nA atmosfera de referência é a seguinte:\n")
         print(atmos_REF)
         print(f"\n Com velocidade de referência como Mach {self.M0}")
         self.altera_M0()
+
         M0_AT = float(input("\nQual o novo Mach para cálculo do off design? "))
         P0_P9_AT = float(input("\nQual o novo P0/P9 para cálculo do off design? "))
         Tt4_AT = float(input("\nQual o novo Tt4 [K] para cálculo do off design? "))
-
 
         print("\nCrie agora a nova atmosfera para simulação do off-design:\n")
         atmos_AT = self.cria_atmos()
         print(atmos_AT)
 
-        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
-        
-        #while 'Mcomb' not in locals():
-        #    text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão (M = 0.14)? ")
-        #    if re.search('(?i)^sim|^s|^1',text):
-        #        Mcomb = float(0.14)
-        #    elif re.search('(?i)^não|^n|^nao|^2',text):
-        #        Mcomb = float(input("Qual o Mach na câmara de combustão? "))
-        #    else:
-        #        print("Digite uma opção válida!\n")
-
-        Ms = saida_REF['Mach'];  Ms[1] = M0_AT
-        P0_P9_REF = output_REF['P0/P9'][0]
-            
-        A_opt = [float(1)]*10
-        A_Aopt = [float(1)]*10
-
         while 'escolha' not in locals():
             mudar = input("\nDeseja simular com os parâmetros de referência do ciclo on desing?  Caso não, insira-os manualmente\n")
             if re.search('(?i)^sim|^s|^1|^on|design',mudar):
+                print("\nRealizando análise prévia do on design:\n")
+
+                output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
                 output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+                
+                
+                P0_P9_REF = output_REF['P0/P9'][0]
                 escolha = True
             elif re.search('(?i)^nao|^2|^n|^man|^manualmente|manual',mudar):
                 variables = re.split("\s",input("Por fim, insira os parâmetros de referência:\nM0_R, T0_R, P0_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, Pt9_P9_R, m0_R\n"))
                 M0_R = float(variables[0]); T0_R = float(variables[1]); P0_R = float(variables[2]); tau_r_R = float(variables[3]); pi_r_R = float(variables[4]); Tt4_R = float(variables[5]); pi_d_R = float(variables[6]); Pt9_P9_R = float(variables[7]); m0_R = float(variables[8])
                 output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
-                escolha = True
+                escolha = False
             else:
                 print("!!! DIGITE UMA OPÇÃO VÁLIDA !!!")
+        
+        
+        while 'Mcomb' not in locals():
+            text = input("\n Deseja manter o Mach na seção de combustão em seu valor padrão no ciclo off-design (M = 0.14)? ")
+            if re.search('(?i)^sim|^s|^1',text):
+                Mcomb = float(0.14)
+            elif re.search('(?i)^não|^n|^nao|^2',text):
+                Mcomb = float(input("Qual o Mach na câmara de combustão? "))
+            else:
+                print("Digite uma opção válida!\n")
+
+
+        Ms = [float(1)]*10
+        Ms[0] = 0.01
+        Ms[1] = M0_AT
+        Ms[3] = Mcomb
+        Ms[2] = Ms[4] =Ms[5] = Ms[6] = Ms[7] = Mcomb*1.25
+        Ms[8] = 1
+        #Ms[9] = self.M0
+  
+        
+            
+        A_opt = [float(1)]*10
+        A_Aopt = [float(1)]*10
+
+        
             
         
         #
         output['Tau_lambda'] = [tau_lambda]
-        output['P0/P9'] = [P0_P9]
+        output['P0/P9'] = [P0_P9_AT]
         output['Pt9/P9'] = [Pt9_P9]
         output['T9/Tt9'] = [T9_Tt9]
         output['T9/T0'] = [T9_T0]
@@ -429,6 +446,7 @@ class missile:
         'A* [m²]': A_opt,
         'A/A*': A_Aopt,
         }
+
 
         return output,saidas,output_REF,saida_REF
     
