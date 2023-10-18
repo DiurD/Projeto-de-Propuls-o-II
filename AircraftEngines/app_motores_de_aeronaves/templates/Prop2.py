@@ -1886,7 +1886,7 @@ class AircraftEngines:
         tau_n = 1
         
         tau_b = Tt4/(self.T0*tau_d*tau_r)
-        pi_b  = tau_b**(gamma_c/(gamma_c-1))
+        # pi_b  = tau_b**(gamma_c/(gamma_c-1))
         
         Pt9_P9 = P0_P9*pi_r*pi_d*pi_b*pi_n
         P9 = self.P0/P0_P9
@@ -1916,7 +1916,7 @@ class AircraftEngines:
         eta_P = 2*V0*F_m0/( (a0**2)*((1+f)* ((V9/a0)**2) -M0**2)  )
         eta_Total = eta_P*eta_T
 
-        pi_n = (Pt9/self.P0)/(pi_r*pi_d*pi_b)
+        # pi_n = (Pt9/self.P0)/(pi_r*pi_d*pi_b)
 
         output['F_m0'].append(F_m0)
         output['m0_dot'].append(m0_dot)
@@ -1946,7 +1946,6 @@ class AircraftEngines:
         pi_b,
         pi_n,
         eta_b,
-        eta_m,
 
         # Condições de referência
         M0_R,
@@ -1959,7 +1958,7 @@ class AircraftEngines:
         Pt9_P9_R,
 
         #  Inputs extras do SA6 Gainful
-        m0_R = 0.1277 # kg/s (?)
+        m0_R # kg/s (?)
         ):
 
         output = {
