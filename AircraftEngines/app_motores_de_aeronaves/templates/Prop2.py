@@ -780,7 +780,7 @@ class AircraftEngines:
         
         F = F_m0*m0_dot
         
-        FC = F/S
+        FC = F*S
         
         AF = 1/f
 
