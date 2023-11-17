@@ -41,7 +41,7 @@ class AircraftEngines:
 
 #--------------------------- TURBOJET --------------------------------------------------
 
-    def ideal_turbojet(self, M0, gamma, cp, hpr, Tt4, pi_c):
+    def ideal_turbojet(self, M0, A0, gamma, cp, hpr, Tt4, pi_c):
         """
         Description: This method calculates the on design parameters of an ideal turbojet engine.
 
@@ -86,23 +86,31 @@ class AircraftEngines:
         tau_t = 1 - tau_r/tau_lambda * (tau_c - 1)  # eq 5.27
         V9_a0 = (2/(gamma - 1 )* tau_lambda/(tau_r * tau_c) * (tau_r * tau_c * tau_t - 1))**(1/2)  # eq 5.28
 
-        F_m0 = self.a0 * (V9_a0 - M0)  # eq 5.29
+        F_m0 = self.a0 * (V9_a0 - M0)  # eq 5.2
+        m0_dot = A0*self.rho0*V0
+        F = F_m0*m0_dot
         S = f/F_m0  # eq 5.8
         eta_T = 1 - 1/(tau_r * tau_c)  # eq 5.31a
         eta_P = 2 * M0/(V9_a0 + M0)  # eq 5.31b
         eta_Total = eta_P * eta_T # eq 5.31c
+        
+        FC = F*S
+        AF = 1/f
 
-        output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
         output['f'].append(f)
         output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
         return output
     
-    def real_turbojet(self, M0, gamma_c, gamma_t, cp_c, cp_t, hpr, Tt4 , pi_c, pi_d_max, pi_b, pi_n, e_c, e_t, eta_b, eta_m, P0_P9):
+    def real_turbojet(self, M0, A0, gamma_c, gamma_t, cp_c, cp_t, hpr, Tt4 , pi_c, pi_d_max, pi_b, pi_n, e_c, e_t, eta_b, eta_m, P0_P9):
         """
         Description: This method calculates the on design parameters of an non ideal turbojet engine.
 
@@ -151,6 +159,8 @@ class AircraftEngines:
         # Free stream
         a0    = (gamma_c*R_c*self.T0)**0.5
         V0    = a0 * M0
+        
+        m0_dot = A0*self.rho0*V0
 
         # Free flow parameters
         tal_r    = 1 + ((gamma_c - 1)/2 ) * (M0**2)
@@ -187,15 +197,22 @@ class AircraftEngines:
 
         # Results
         F_m0      = a0*((1+f)*V9_a0 - M0 + (1+f)*R_t*T9_T0/(R_c*V9_a0)*(1-P0_P9)/gamma_c)
+        F         = F_m0*m0_dot
         S         = f/F_m0
         eta_T     = ((a0**2)*( (1+f)*V9_a0**2 - M0**2 )/(2*f*(hpr)))
         eta_P     = ( 2*V0*F_m0/( (a0**2)*( (1+f)*V9_a0**2 - M0**2 ) ) )
         eta_Total = eta_T*eta_P
+        
+        FC = F*S
+        AF = 1/f
 
-        output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
         output['f'].append(f)
         output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
@@ -204,6 +221,7 @@ class AircraftEngines:
 
     def offdesign_turbojet(self,
         M0,
+        A0,
         Tt4,
         P0_P9,
 
@@ -294,11 +312,18 @@ class AircraftEngines:
         Pt4 = P0*pi_r*pi_d*pi_c*pi_b # Pa
         Pt9 = P0*pi_r*pi_d*pi_c*pi_b*pi_t # Pa
         T9 = T0*T9_T0 # K
+        m0_dot = A0*self.rho0*V0
+        F  = F_m0*m0_dot
+        FC = F*S
+        AF = 1/f
 
-        output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
         output['f'].append(f)
         output['S'].append(S)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
@@ -663,7 +688,7 @@ class AircraftEngines:
         a0 = (gamma*R*self.T0)**(1/2) #m/s
         V0 = M0*a0
         
-        #m0_dot = A0*self.rho0*V0
+        m0_dot = A0*self.rho0*V0
         
         tau_r = 1 + ((gamma - 1)/2)*(M0**2)
 
@@ -674,23 +699,22 @@ class AircraftEngines:
         f = (cp * self.T0)/hpr * (tau_lambda - tau_r)
         S = f/F_m0
         
-        #F = F_m0*m0_dot
+        F = F_m0*m0_dot
         
-        #FC = F/S
-        
-        Ar_Comb = 1/f
+        FC = F/S
+        AF = 1/f
 
         eta_T = 1 - 1/(tau_r)
         eta_P = 2/((tau_lambda/tau_r)**0.5 + 1)
         eta_Total = eta_P*eta_T
 
         output['F_m0'].append(F_m0)
-        #output['F'].append(F)
-        #output['m0_dot'].append(m0_dot)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
         output['f'].append(f)
         output['S'].append(S)
-        # output['FC'].append(FC)
-        output['Ar_Comb'].append(Ar_Comb)
+        output['FC'].append(FC)
+        output['AF'].append(AF)
         output['eta_T'].append(eta_T)
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
