@@ -163,8 +163,8 @@ class AircraftEngines:
         m0_dot = A0*self.rho0*V0
 
         # Free flow parameters
-        tal_r    = 1 + ((gamma_c - 1)/2 ) * (M0**2)
-        pi_r     = tal_r**(gamma_c/(gamma_c - 1))
+        tau_r    = 1 + ((gamma_c - 1)/2 ) * (M0**2)
+        pi_r     = tau_r**(gamma_c/(gamma_c - 1))
         
         if (M0 <= 1):
             eta_r  = 1
@@ -175,25 +175,33 @@ class AircraftEngines:
 
         # Diffuser
         pi_d   = pi_d_max*eta_r
+        tau_d = pi_d**((gamma_c-1)/gamma_c)
         
         # Compressor
-        tal_c    = (pi_c)**((gamma_c - 1)/(gamma_c*e_c))
-        eta_c    = (pi_c**((gamma_c - 1)/gamma_c) - 1)/(tal_c - 1)
+        tau_c    = (pi_c)**((gamma_c - 1)/(gamma_c*e_c))
+        eta_c    = (pi_c**((gamma_c - 1)/gamma_c) - 1)/(tau_c - 1)
 
         # Burner
-        tal_lambda    = cp_t*Tt4/(cp_c*self.T0)
-        f             = (tal_lambda-tal_r*tal_c)/( (hpr*eta_b/(cp_c*self.T0)) - tal_lambda)
-
+        tau_lambda    = cp_t*Tt4/(cp_c*self.T0)
+        f             = (tau_lambda-tau_r*tau_c)/( (hpr*eta_b/(cp_c*self.T0)) - tau_lambda)
+        tau_b = Tt4/(self.T0*tau_d*tau_r)
+        
         # Turbine
-        tal_t  = 1 - (1/(eta_m*(1+f)))*(tal_r/tal_lambda)*(tal_c-1)
-        pi_t   = tal_t**(gamma_t/((gamma_t-1)*e_t))
-        eta_t  = (1 - tal_t)/(1 - tal_t**(1/e_t))
+        tau_t  = 1 - (1/(eta_m*(1+f)))*(tau_r/tau_lambda)*(tau_c-1)
+        pi_t   = tau_t**(gamma_t/((gamma_t-1)*e_t))
+        eta_t  = (1 - tau_t)/(1 - tau_t**(1/e_t))
+        
+        tau_n = 1
 
         # Auxiliar
         Pt9_P9 = (P0_P9)*pi_r*pi_d*pi_c*pi_b*pi_t*pi_n
+        Tt9_T0 = tau_r*tau_d*tau_c*tau_b*tau_t*tau_n
         M9     = (2/(gamma_t - 1)*(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
-        T9_T0  = (tal_lambda*tal_t)/( ((Pt9_P9)**((gamma_t-1)/gamma_t)))*(cp_c/cp_t)
+        T9_T0  = (tau_lambda*tau_t)/( ((Pt9_P9)**((gamma_t-1)/gamma_t)))*(cp_c/cp_t)
         V9_a0  = M9*( ( gamma_t*R_t*(T9_T0)/(gamma_c*R_c) )**0.5 )
+        
+        T9  = self.T0*T9_T0
+        Tt9 = self.T0*T9_T0
 
         # Results
         F_m0      = a0*((1+f)*V9_a0 - M0 + (1+f)*R_t*T9_T0/(R_c*V9_a0)*(1-P0_P9)/gamma_c)
@@ -217,7 +225,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
         
-        return output
+        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
 
     def offdesign_turbojet(self,
         M0,
@@ -271,12 +279,13 @@ class AircraftEngines:
 
         Tt2_R = T0_R*tau_r_R
 
-
         #  Equations
         R_c = (gamma_c - 1)/gamma_c*cp_c # J/(kg.K)
         R_t = (gamma_t - 1)/gamma_t*cp_t # J/(kg.K)
+        
         a0 = (gamma_c*R_c*T0)**(1/2) # m/s
         V0 = a0*M0
+        
         tau_r = 1 + (gamma_c - 1)/2*M0**2
         pi_r = tau_r**(gamma_c/(gamma_c - 1))
 
@@ -286,22 +295,34 @@ class AircraftEngines:
             eta_r = 1 - 0.075*(M0 - 1)**1.35
 
         pi_d = pi_d_max*eta_r
+        tau_d = pi_d**((gamma_c-1)/gamma_c)
+        
         Tt2 = T0*tau_r
+        
         tau_c = 1 + (tau_c_R - 1)*Tt4/Tt2/(Tt4_R/Tt2_R)
         pi_c = (1 + eta_c*(tau_c - 1))**(gamma_c/(gamma_c - 1))
+        
         tau_lambda = cp_t*Tt4/(cp_c*T0)
+        tau_b = Tt4/(self.T0*tau_d*tau_r)
+
+        
+        tau_n = 1
+        
         f = (tau_lambda - tau_r*tau_c)/(hpr*eta_b/(cp_c*T0) - tau_lambda) # kgFuel/kgAir
         m0 = m0_R*P0*pi_r*pi_d*pi_c/(P0_R*pi_r_R*pi_d_R*pi_c_R)*(Tt4_R/Tt4)**(1/2) # kg/s
         Pt9_P9 = P0_P9*pi_r*pi_d*pi_c*pi_b*pi_t*pi_n
         M9 = (2/(gamma_t - 1)*(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
         T9_T0 = Tt4*tau_t/((Pt9_P9)**((gamma_t - 1)/gamma_t))
+        Tt9_T0 = tau_r*tau_d*tau_c*tau_b*tau_t*tau_n
         V9_a0 = M9*(gamma_t*R_t/(gamma_c*R_c)*T9_T0)**(1/2)
         F_m0 = a0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t*T9_T0/(R_c*V9_a0)*(1 - P0_P9)/gamma_c) # N/(kg/s)
         F = F_m0*m0 # N
         S = f/F_m0 # (kgFuel/s)/N
+        
         eta_T = a0**2*((1 + f)*V9_a0**2 - M0**2)/(2*f*hpr)
         eta_P = 2*V0*F_m0/(a0**2*((1 + f)*V9_a0**2 - M0**2))
         eta_Total = eta_P*eta_T
+        
         N_NR = (T0*tau_r/(T0_R*tau_r_R)*(pi_c**((gamma_c - 1)/gamma_c) - 1)/(pi_c_R**((gamma_c - 1)/gamma_c) - 1))**(1/2)
         A9_A9R = (Pt9_P9/Pt9_P9_R)**((gamma_t + 1)/(2*gamma_t))*((Pt9_P9_R**((gamma_t - 1)/gamma_t) - 1)/(Pt9_P9**((gamma_t - 1)/gamma_t) - 1))**(1/2)
         mc2_mc2_R = pi_c/pi_c_R*((Tt4_R/Tt2_R)/(Tt4/Tt2))**(1/2) # vazão mássica corrigida no compressor
@@ -309,9 +330,13 @@ class AircraftEngines:
         #  Outputs extras
         V9 = V9_a0*a0 # m/s
         AF = 1/f  # kgAir/kgFuel
+        
         Pt4 = P0*pi_r*pi_d*pi_c*pi_b # Pa
         Pt9 = P0*pi_r*pi_d*pi_c*pi_b*pi_t # Pa
+        
         T9 = T0*T9_T0 # K
+        Tt9 = self.T0*T9_T0
+        
         m0_dot = A0*self.rho0*V0
         F  = F_m0*m0_dot
         FC = F*S
@@ -328,7 +353,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output
+        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
 
 #------------------------------- TURBOFAN ------------------------------------------------------------
 
