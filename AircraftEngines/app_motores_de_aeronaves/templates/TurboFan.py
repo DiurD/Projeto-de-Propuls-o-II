@@ -31,7 +31,7 @@ class turbofan:
         medida_original = "Diâmetro [mm]" if SI else "Diâmetro [in]"
 
         for keys in self.characteristics['Partes do motor']:
-            temp = float(input(f"Insira o diâmetro de/do/da {keys.str.lower()} em {medidas}: "))
+            temp = float(input(f"Insira o diâmetro de/do/da {keys.lower()} em {medida_original}: "))
             self.characteristics[medida_original].append(temp)
             temp =temp*fator_conversao
             self.characteristics['Diâmetro [m]'].append(temp)
