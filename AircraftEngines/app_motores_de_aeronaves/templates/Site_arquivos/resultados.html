@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+	<link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+	<nav class="main-header">
+		<div class="container d-flex flex-wrap">
+			<ul class="nav me-auto">
+				<li class="nav-item"><strong class="nav-link link-body-emphasis px-2">AeroCalc</strong></li>
+				<li class="nav-item"><a href="/" class="nav-link link-body-emphasis px-2">Cálculo</a></li>
+				<li class="nav-item"><a href="instrucoes.html" class="nav-link link-body-emphasis px-2">Instruções</a></li>
+				<li class="nav-item"><a href="bibliografia.html" class="nav-link link-body-emphasis px-2">Bibliográfia</a></li>
+				<li class="nav-item"><a href="sobre.html" class="nav-link link-body-emphasis px-2">Sobre</a></li>
+			</ul>
+		</div>
+	</nav>
+	<main class="container">
+		<section>
+			<div>
+				<h1 class="Titulo">Resultados</h1>
+				<p>Em caso de dúvidas sobre os resultados, acesse as seções de <a href="instrucoes.html"><b>Instruções</b></a> e <a href="bibliografia.html"><b>Bibliografia</b></a> para mais informações</p>
+			</div>
+			<hr>
+		</section>
+		<section id="Entradas-usuario">
+			<h2>Entradas da análise</h2>
+
+			<div class="nome-do-motor">
+				<b>Nome do motor: </b>
+			</div>
+
+			<div class="M0">
+				<b>Velocidade do ar no escoamento livre [Mach]: </b>
+			</div>
+
+			<div class="P0/P9">
+				<b>Razão das pressões de entrada e saída do motor: </b>
+			</div>
+
+			<div class="Tt4">
+				<b>Temperatura de saída do combustor [K]: </b>
+			</div>
+		</section>
+
+		<section id="Dados-atmosfericos">
+			<h2>Dados atmosféricos</h2>
+
+			<div class="altitude">
+				<b>Altitude [m]: </b>
+			</div>
+
+			<div class="P0">
+				<b>Pressão no escoamento livre [Pa]: </b>
+			</div>
+
+			<div class="T0">
+				<b>Temperatura no escoamento livre [K]: </b>
+			</div>
+
+			<div class="a0">
+				<b>Velocidade do som no escoamento livre [m/s]: </b>
+			</div>
+		</section>
+
+		<section id="Resultados-geral">
+			<table class="table">
+				<thead class="table-dark">
+				  <tr>
+					<th colspan="4">Parâmetros de saída do motor</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr>
+					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td>
+					<td id="Empuxo-especifico"></td>
+					<td>Eficiência térmica (&#x3B7<sub>T</sub>)</td>
+					<td id="eta_T"></td>
+				  </tr>
+				  <tr>
+					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s]</td>
+					<td id="vazao-massica"></td>
+					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>)</td>
+					<td id="eta_P"></td>
+				  </tr>
+				  <tr>
+					<td>Empuxo (F) [N]</td>
+					<td id="Empuxo"></td>
+					<td>Eficiência Global (&#x3B7<sub>O</sub>)</td>
+					<td id="eta_global"></td>
+				  </tr>
+				  <tr>
+					<td>Razão combustível/ar (f)</td>
+					<td id="razao-combustivel-ar"></td>
+					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>)</td>
+					<td id="tau-lambda"></td>
+				  </tr>
+				  <tr>
+					<td>Consumo específico de combustível (S) [kg/(N.s)]</td>
+					<td id="Consumo-especifico-combustivel"></td>
+					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>) </td>
+					<td id="Pt9/P9"></td>
+				  </tr>
+				  <tr>
+					<td>Consumo de combustível (FC) [kg/s]</td>
+					<td id="consumo-combustivel"></td>
+					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>t9</sub>/P<sub>9</sub>)</td>
+					<td id="Tt9/T9"></td>
+				  </tr>
+				  <tr>
+					<td>Razão ar/combustível (AF)</td>
+					<td id="Razao-ar-combustivel"></td>
+					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td>
+					<td id="T9/T0"></td>
+				  </tr>
+				</tbody>
+			</table>
+		</section> 
+
+		<section>
+			<img src="" alt="">
+		</section>
+
+		<section id="Resultados-secoes">
+
+		</section>
+
+
+
+		
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	</body>
+	
+	</html>
