@@ -52,6 +52,7 @@ class turbofan:
                 print("Digite uma opção válida!\n")
             return resp
         
+        
     def altera_diametros(self):
         SI = self.sistema_de_medidas()
         medida = "Diâmetro [mm]" if SI else "Diâmetro [in]"
