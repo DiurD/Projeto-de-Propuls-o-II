@@ -1,0 +1,89 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+	-moz-appearance: textfield;
+  }
+
+.main-header{
+	background-color: #105ACB;
+	color: #FFFFFF;
+	opacity: 1;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	margin-bottom: 16px;
+}
+
+.nav-link{
+	color: white!important;
+}
+
+.nav-link:hover{
+	color: #f5f5f5!important;
+}
+
+.Titulo{
+	margin-bottom: 10px;
+}
+
+.table thead th{
+	text-align: center;
+}
+
+section{
+	margin-bottom: 16px;
+}
+
+body{
+	overflow-y: scroll;
+}
+
+hr{
+	padding-bottom: 16px;
+}
+
+.imagem-bibliografia{
+	display: flex;
+	justify-content: center;
+}
+
+.linha-bibliografia{
+	padding: 10px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	background-color: #ecf3fd;
+	border-radius: 16px;
+	margin-bottom: 20px;
+}
+
+.subtitulos{
+	font-size: 1.5rem;
+}
+
+.titulo-bibliografia{
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+
+.nome-autor{
+	font-size: 1.2rem;
+}
+
+.descricao-bibliografia{
+	font-weight: 400;
+	font-size: 1.1rem;
+	text-align: justify;
+}
+
+.informacoes{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.entradas{
+	margin-bottom: 16px;
+}
