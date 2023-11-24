@@ -3,6 +3,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const offDesignRadio = document.getElementById("offDesign");
   const onDesignRadio = document.getElementById("onDesign");
   const botaoCalcular = document.getElementById("Botao-resultados")
+  const botaoInserirValores = document.getElementById("botaoInserirValores")
+  const menuSection = document.getElementById("motor-menu-section");
+  const analiseSection = document.getElementById("analise-modelo-section");
+  const tipoAnaliseSection = document.getElementById("tipo-analise-section");
+  const valoresSection = document.getElementById("valores-section");
+  const opcoesSecundarias = document.getElementById("opcoes-secundarias");
+
 
   const RamjetCaracteristicasAbsoluto = document.getElementById(
     "Ramjet-Caracteristicas-absoluto"
@@ -111,8 +118,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const absoluto = event.target.elements["absoluto"].checked;
     const porcentagem = event.target.elements["porcentagem"].checked;
 
+    const hiddenInput_motor = document.createElement("input");
+    hiddenInput_motor.setAttribute("type", "hidden");
+    hiddenInput_motor.setAttribute("name", "motor");
+    hiddenInput_motor.setAttribute("value", motor);
+
+    const hiddenInput_onDesign = document.createElement("input");
+    hiddenInput_onDesign.setAttribute("type", "hidden");
+    hiddenInput_onDesign.setAttribute("name", "onDesign");
+    if (onDesign) {
+      hiddenInput_onDesign.setAttribute("value", onDesign);
+    } else {
+      hiddenInput_onDesign.setAttribute("value", offDesign);
+    }
+
+    const hiddenInput_ideal = document.createElement("input");
+    hiddenInput_ideal.setAttribute("type", "hidden");
+    hiddenInput_ideal.setAttribute("name", "ideal");
+    if (ideal) {
+      hiddenInput_ideal.setAttribute("value", ideal);
+    } else {
+      hiddenInput_ideal.setAttribute("value", naoIdeal);
+    }
+
+    const hiddenInput_absoluto = document.createElement("input");
+    hiddenInput_absoluto.setAttribute("type", "hidden");
+    hiddenInput_absoluto.setAttribute("name", "absoluto");
+    if (absoluto) {
+      hiddenInput_absoluto.setAttribute("value", absoluto);
+    } else {
+      hiddenInput_absoluto.setAttribute("value", porcentagem);
+    }
+
+    opcoesSecundarias.appendChild(hiddenInput_motor);
+    opcoesSecundarias.appendChild(hiddenInput_onDesign);
+    opcoesSecundarias.appendChild(hiddenInput_ideal);
+    opcoesSecundarias.appendChild(hiddenInput_absoluto);
+
     if (motor == "ramjet" && onDesign && ideal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
         RamjetOnDesignIdeal.style.display = "block";
@@ -126,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "ramjet" && onDesign && naoIdeal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
         RamjetOnDesignNaoIdeal.style.display = "block";
@@ -139,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "ramjet" && offDesign) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
         RamjetOffDesign.style.display = "block";
@@ -154,6 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbojet" && onDesign && ideal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
         TurbojetOnDesignIdeal.style.display = "block";
@@ -167,6 +215,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbojet" && onDesign && naoIdeal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
         TurbojetOnDesignNaoIdeal.style.display = "block";
@@ -180,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbojet" && offDesign) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
         TurbojetOffDesign.style.display = "block";
@@ -195,6 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turboprop" && onDesign && ideal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
         TurbopropOnDesignIdeal.style.display = "block";
@@ -208,6 +259,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turboprop" && onDesign && naoIdeal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
         TurbopropOnDesignNaoIdeal.style.display = "block";
@@ -221,6 +273,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turboprop" && offDesign) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
         TurbopropOffDesign.style.display = "block";
@@ -236,6 +289,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbofan" && onDesign && ideal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
         TurbofanOnDesignIdeal.style.display = "block";
@@ -249,6 +303,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbofan" && onDesign && naoIdeal) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
         TurbofanOnDesignNaoIdeal.style.display = "block";
@@ -262,6 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (motor == "turbofan" && offDesign) {
       esconderTudo();
+      esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
         TurbofanOffDesign.style.display = "block";
@@ -279,6 +335,16 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderTudo();
     }
   });
+
+
+  function esconderMenuInicial() {
+    menuSection.style.display = "none";
+    analiseSection.style.display = "none";
+    tipoAnaliseSection.style.display = "none";
+    valoresSection.style.display = "none";
+    botaoInserirValores.style.display = "none";
+
+  }
 
   function esconderTudo() {
     botaoCalcular.style.display = "none";
