@@ -34,9 +34,9 @@
 			<hr>
 		</section>
 		<form id="opcoes-principais">
-			<section>
+			<section id="motor-menu-section">
 				<h2 class="subtitulos">Tipo de motor</h2>
-				<select class="form-select" aria-label="Default select example" id="selecionar-menu">
+				<select name="type_motor" class="form-select" aria-label="Default select example" id="selecionar-menu">
 					<option selected value="">Selecione o motor</option>
 					<option value="turbofan">Turbofan</option>
 					<option value="turbojet">Turbojet</option>
@@ -49,7 +49,7 @@
 					<img src="{% static 'images/imagem-ramjet.png' %}" alt="Imagem do motor ramjet generalizado" style="display: none;">
 				</div>
 			</section>
-			<section>
+			<section id="analise-modelo-section">
 				<h2 class="subtitulos">Modelo de análise</h2>
 				<div class="form-check">
 				<input class="form-check-input" type="radio" name="modelo-analise" id="onDesign">
@@ -64,7 +64,7 @@
 				</label>
 				</div>
 			</section>
-			<section>
+			<section id="tipo-analise-section">
 				<h2 class="subtitulos">Tipo de análise</h2>
 				<div class="form-check">
 				<input class="form-check-input" type="radio" name="tipo-analise" id="ideal">
@@ -79,7 +79,7 @@
 				</label>
 				</div>
 			</section>
-			<section>
+			<section id="valores-section">
 				<h2 class="subtitulos">Valores dos diâmetros das seções</h2>
 			  <div class="form-check">
 				<input class="form-check-input" type="radio" name="diametros" id="absoluto">
@@ -94,21 +94,20 @@
 				</label>
 			  </div>
 			</section>
-			<section>
-				<button type="submit" class="btn btn-primary">Inserir valores</button>
+			<section id="botaoInserirValores">
+				<button class="btn btn-primary">Inserir valores</button>
 			</section>
 		</form>
 
-		<section id="Botao-resultados">
-			<a href="{% url "resultados" %}" class="btn btn-primary">Calcular</a>
-		</section>
-
+		<form id="opcoes-secundarias" method="post" action="{% url 'resultados' %}">
+			{% csrf_token %}
+		
 		<section id="Ramjet-Caracteristicas-absoluto" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Ramjet</h2>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
-				<input type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
+				<input name="teste" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
 			  <div class="comprimento entradas">
@@ -2297,6 +2296,11 @@
 			</div>
 
 		</section>
+		
+		<button  id="Botao-resultados" type="submit" class="btn btn-primary">Calcular</a>
+
+	</form>
+
 
 
 	</main>
