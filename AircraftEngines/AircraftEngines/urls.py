@@ -36,7 +36,7 @@ urlpatterns = [
     path('',views.index,name='index'),
     path('sobre',views.teste,name='sobre'),
     path('instrucoes',views.teste,name='instrucoes'),
-    path('resultados',views.teste,name='resultados'),
+    path('resultados',views.results,name='resultados'),
     path('bibliografia',views.teste,name='bibliografia'),
     
 ]
