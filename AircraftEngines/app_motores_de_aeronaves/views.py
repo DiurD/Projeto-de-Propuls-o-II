@@ -15,7 +15,10 @@ def teste(request):
     return render(request,url)
 
 def results(request):
-    atmosphere = atmos.objects.get_or_create()
+    # Implementar aqui a lógica para criacao de atmosfera e ramjet missile
+    # atmosphere = atmos.objects.get_or_create()
+    context = {}
+    return render(request, 'Site_arquivos/resultados.html', context)
 
 def home(request):
     return render(request,'propulsao2/home.html')
