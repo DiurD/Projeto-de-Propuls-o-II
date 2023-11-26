@@ -2,14 +2,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const opcoesPrincipais = document.getElementById("opcoes-principais");
   const offDesignRadio = document.getElementById("offDesign");
   const onDesignRadio = document.getElementById("onDesign");
-  const botaoCalcular = document.getElementById("Botao-resultados")
-  const botaoInserirValores = document.getElementById("botaoInserirValores")
+  const botaoCalcular = document.getElementById("Botao-resultados");
+  const botaoInserirValores = document.getElementById("botaoInserirValores");
   const menuSection = document.getElementById("motor-menu-section");
   const analiseSection = document.getElementById("analise-modelo-section");
   const tipoAnaliseSection = document.getElementById("tipo-analise-section");
   const valoresSection = document.getElementById("valores-section");
   const opcoesSecundarias = document.getElementById("opcoes-secundarias");
-
+  const botaoVoltar = document.getElementById("botaoVoltar");
 
   const RamjetCaracteristicasAbsoluto = document.getElementById(
     "Ramjet-Caracteristicas-absoluto"
@@ -154,6 +154,8 @@ document.addEventListener("DOMContentLoaded", () => {
     opcoesSecundarias.appendChild(hiddenInput_onDesign);
     opcoesSecundarias.appendChild(hiddenInput_ideal);
     opcoesSecundarias.appendChild(hiddenInput_absoluto);
+
+    botaoVoltar.style.display = "block";
 
     if (motor == "ramjet" && onDesign && ideal) {
       esconderTudo();
@@ -336,14 +338,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-
   function esconderMenuInicial() {
     menuSection.style.display = "none";
     analiseSection.style.display = "none";
     tipoAnaliseSection.style.display = "none";
     valoresSection.style.display = "none";
     botaoInserirValores.style.display = "none";
-
   }
 
   function esconderTudo() {

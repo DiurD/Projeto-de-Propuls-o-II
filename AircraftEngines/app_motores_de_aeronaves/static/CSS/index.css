@@ -72,7 +72,7 @@ hr{
 	font-size: 1.2rem;
 }
 
-.descricao-bibliografia{
+.descricao-bibliografia, .Texto-sobre{
 	font-weight: 400;
 	font-size: 1.1rem;
 	text-align: justify;
@@ -86,4 +86,37 @@ hr{
 
 .entradas{
 	margin-bottom: 16px;
+}
+
+main.container{
+	min-height: calc(100vh - 129px);
+	padding-bottom: 72px;
+}
+
+.Texto-sobre{
+	margin-bottom: 32px;
+}
+
+.container-imagem{
+	display: flex;
+	justify-content: center;
+}
+
+.rodape{
+	color: #FFFFFF;
+	opacity: 1;
+	padding-top: 0.5rem;
+	padding-bottom: 0.5rem;
+	margin-bottom: 16px;
+}
+
+.footer-wrapper{
+	background-color: #105ACB;
+	position: absolute;
+    width: 100%;
+}
+
+.imagem-UFMG{
+	border-radius: 16px;
+	width: 80%;
 }

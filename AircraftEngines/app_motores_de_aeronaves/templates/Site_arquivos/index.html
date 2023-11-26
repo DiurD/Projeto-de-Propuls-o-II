@@ -99,6 +99,10 @@
 			</section>
 		</form>
 
+		<section id="botaoVoltar" style="display: none;">
+			<button class="btn btn-primary" type="button" onclick="window.location.reload()">Voltar para seleção do motor</button>
+		</section>
+
 		<form id="opcoes-secundarias" method="post" action="{% url 'resultados' %}">
 			{% csrf_token %}
 		
@@ -2297,13 +2301,22 @@
 
 		</section>
 		
-		<button  id="Botao-resultados" type="submit" class="btn btn-primary">Calcular</a>
+		<button  id="Botao-resultados" type="submit" class="btn btn-primary" style="display: none;">Calcular</a>
 
 	</form>
 
 
 
 	</main>
+	<div class="footer-wrapper">
+		<div class="container">
+			<footer class="d-flex flex-wrap justify-content-between align-items-center rodape">
+				<div class="col-md-4 d-flex align-items-center">
+				<span>© 2023 AeroCalc </span>
+				</div>
+			</footer>	
+		</div>
+	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
