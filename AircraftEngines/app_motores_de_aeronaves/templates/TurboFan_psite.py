@@ -37,21 +37,21 @@ def calcula_secao(dia_imp, pi_c, pi_0, h_pr, gamma_c, gamma_t, c_pc, c_pt, R_c, 
 # P_0 = 101325;
 # m_0 = 242;
 
-    # Cálculo das Áreas das Seções
-    dia_SI = dia_imp * 0.0254
-    area = (np.pi / 4) * dia_SI[:, 0:2] ** 2
-    area = np.column_stack([area, [0, 0, np.subtract(area[2:7, 0], area[2:7, 1])]])
-    area_fan = area[2, 2] - area[3, 2]
+# Cálculo das Áreas das Seções
+dia_SI = dia_imp * 0.0254
+area = (np.pi / 4) * dia_SI[:, 0:2] ** 2
+area = np.column_stack([area, [0, 0, np.subtract(area[2:7, 0], area[2:7, 1])]])
+area_fan = area[2, 2] - area[3, 2]
 
-    # Cálculo dos pi's Iniciais
-    # Compressor de Alta e de Baixa divididos em 3 e 9 seções, respectivamente
-    pi_fR = pi_0 * 1.7
-    comp_L = [pi_fR * pi_c, pi_fR * pi_c ** 2, pi_fR * pi_c ** 3]
-    comp_H = [pi_fR * pi_c ** 4, pi_fR * pi_c ** 5, pi_fR * pi_c ** 6, pi_fR * pi_c ** 7, pi_fR * pi_c ** 8,
-              pi_fR * pi_c ** 9, pi_fR * pi_c ** 10, pi_fR * pi_c ** 11, pi_fR * pi_c ** 12]
-    pi_cL = pi_c ** 3
-    pi_cH = pi_c ** 9
-    pi_C = pi_cL * pi_cH
+# Cálculo dos pi's Iniciais
+# Compressor de Alta e de Baixa divididos em 3 e 9 seções, respectivamente
+pi_fR = pi_0 * 1.7
+comp_L = [pi_fR * pi_c, pi_fR * pi_c ** 2, pi_fR * pi_c ** 3]
+comp_H = [pi_fR * pi_c ** 4, pi_fR * pi_c ** 5, pi_fR * pi_c ** 6, pi_fR * pi_c ** 7, pi_fR * pi_c ** 8,
+  pi_fR * pi_c ** 9, pi_fR * pi_c ** 10, pi_fR * pi_c ** 11, pi_fR * pi_c ** 12]
+pi_cL = pi_c ** 3
+pi_cH = pi_c ** 9
+pi_C = pi_cL * pi_cH
 
 # Cálculo do Ponto de Projeto
 # Organização das Seções/Parâmetros
@@ -177,190 +177,190 @@ pi_r = tau_r**(gamma_c/(gamma_c-1))
 
 # Geometria
 Geometria = {
-    'areas': area,
-    'area_fan': area_fan,
-    'bypass': alpha
+'areas': area,
+'area_fan': area_fan,
+'bypass': alpha
 }
 
 # Compressão
 Compressao = {
-    'pi_c': pi_c,
-    'pi_0': pi_0,
-    'pi_fR': pi_fR,
-    'pi_cL': pi_cL,
-    'pi_cH': pi_cH,
-    'pi_C': pi_C,
-    'Baixa_Pressao': comp_L.tolist(),
-    'Alta_Pressao': comp_H.tolist()
+'pi_c': pi_c,
+'pi_0': pi_0,
+'pi_fR': pi_fR,
+'pi_cL': pi_cL,
+'pi_cH': pi_cH,
+'pi_C': pi_C,
+'Baixa_Pressao': comp_L.tolist(),
+'Alta_Pressao': comp_H.tolist()
 }
 
 # Ponto Projeto
 PontoProjeto = {
-    'Secoes': [secao, pi, tau, P_t, T_t, P_Pa, T_K, M, P_bar, T_C],
-    'SaidaTurboJato': {
-        'P0_P9': P0_P9,
-        'Pt9_P9': Pt9_P9,
-        'Tt9_T0': Tt9_T0,
-        'T9_T0': T9_T0,
-        'V9_a0': V9_a0
-    },
-    'SaidaFan': {
-        'P0_P19': P0_P19,
-        'Pt19_P19': Pt19_P19,
-        'Tt19_T0': Tt19_T0,
-        'T19_T0': T19_T0,
-        'V19_a0': V19_a0
-    },
-    'Resultados': {
-        'a0': a_0,
-        'F_m0': F_m0,
-        'S': S,
-        'eta_t': eta_t,
-        'eta_p': eta_p,
-        'eta_0': eta_0,
-        'Ff_mdot0': Ff_mdot0,
-        'Fc_mdot0': Fc_mdot0,
-        'F_ratio': F_ratio,
-        'm_0': m_0,
-        'F': F,
-        'F_C': F_C,
-        'AF_ratio': AF_ratio,
-        'm_c': m_c,
-        'm_f': m_f,
-        'alpha': alpha
-    }
+'Secoes': [secao, pi, tau, P_t, T_t, P_Pa, T_K, M, P_bar, T_C],
+'SaidaTurboJato': {
+'P0_P9': P0_P9,
+'Pt9_P9': Pt9_P9,
+'Tt9_T0': Tt9_T0,
+'T9_T0': T9_T0,
+'V9_a0': V9_a0
+},
+'SaidaFan': {
+'P0_P19': P0_P19,
+'Pt19_P19': Pt19_P19,
+'Tt19_T0': Tt19_T0,
+'T19_T0': T19_T0,
+'V19_a0': V19_a0
+},
+'Resultados': {
+'a0': a_0,
+'F_m0': F_m0,
+'S': S,
+'eta_t': eta_t,
+'eta_p': eta_p,
+'eta_0': eta_0,
+'Ff_mdot0': Ff_mdot0,
+'Fc_mdot0': Fc_mdot0,
+'F_ratio': F_ratio,
+'m_0': m_0,
+'F': F,
+'F_C': F_C,
+'AF_ratio': AF_ratio,
+'m_c': m_c,
+'m_f': m_f,
+'alpha': alpha
+}
 }
 
 # Compressor Turbina de Baixa
 CompressorTurbinaL = {
-    'Fan': {
-        'Pi_f': pi_fR,
-        'Tau_f': tau_f,
-        'epson_f': epson_f,
-        'eta_f': eta_f
-    },
-    'CompressorBaixaPressao': {
-        'Pi_cL': pi_cL,
-        'Tau_cL': tau_cL,
-        'epson_cL': epson_cL,
-        'eta_cL': eta_cL
-    },
-    'TurbinaBaixaPressao': {
-        'Pi_tL': pi_tL,
-        'Tau_tL': tau_tL,
-        'epson_tL': epson_tL,
-        'eta_tL': eta_tL
-    },
-    'Dados': {
-        'Tau_cL': tau_cL,
-        'Tau_lambda': tau_lambda,
-        'Tau_r': tau[1],
-        'Tau_d': tau[2],
-        'Tau_f': tau_f,
-        'Tau_tH': tau_tH,
-        'alpha': alpha,
-        'f': f,
-        'eta_mL': eta_mL
-    }
+'Fan': {
+'Pi_f': pi_fR,
+'Tau_f': tau_f,
+'epson_f': epson_f,
+'eta_f': eta_f
+},
+'CompressorBaixaPressao': {
+'Pi_cL': pi_cL,
+'Tau_cL': tau_cL,
+'epson_cL': epson_cL,
+'eta_cL': eta_cL
+},
+'TurbinaBaixaPressao': {
+'Pi_tL': pi_tL,
+'Tau_tL': tau_tL,
+'epson_tL': epson_tL,
+'eta_tL': eta_tL
+},
+'Dados': {
+'Tau_cL': tau_cL,
+'Tau_lambda': tau_lambda,
+'Tau_r': tau[1],
+'Tau_d': tau[2],
+'Tau_f': tau_f,
+'Tau_tH': tau_tH,
+'alpha': alpha,
+'f': f,
+'eta_mL': eta_mL
+}
 }
 
 # Compressor Turbina de Alta
 CompressorTurbinaH = {
-    'CompressorAltaPressao': {
-        'Pi_cH': pi_cH,
-        'Tau_cH': tau_cH,
-        'epson_cH': epson_cH,
-        'eta_cH': eta_cH
-    },
-    'TurbinaAltaPressao': {
-        'Pi_tH': pi_tH,
-        'Tau_tH': tau_tH,
-        'epson_tH': epson_tH,
-        'eta_tH': eta_tH
-    },
-    'Dados': {
-        'Tau_cH': tau_cH,
-        'Tau_lambda': tau_lambda,
-        'Tau_r': tau[1],
-        'Tau_d': tau[2],
-        'Tau_f': tau_f,
-        'Tau_cL': tau_cL,
-        'f': f,
-        'eta_mH': eta_mH
-    }
+'CompressorAltaPressao': {
+'Pi_cH': pi_cH,
+'Tau_cH': tau_cH,
+'epson_cH': epson_cH,
+'eta_cH': eta_cH
+},
+'TurbinaAltaPressao': {
+'Pi_tH': pi_tH,
+'Tau_tH': tau_tH,
+'epson_tH': epson_tH,
+'eta_tH': eta_tH
+},
+'Dados': {
+'Tau_cH': tau_cH,
+'Tau_lambda': tau_lambda,
+'Tau_r': tau[1],
+'Tau_d': tau[2],
+'Tau_f': tau_f,
+'Tau_cL': tau_cL,
+'f': f,
+'eta_mH': eta_mH
+}
 }
 
 # Fora Ponto Projeto
 ForaPontoProjeto = {
-        'Dados' : {
-    'eta_cH': eta_cH,
-    'eta_f': eta_f,
-    'Pi_rT': pi[1],
-    'Pi_dR': pi[2],
-    'Pi_fR': pi_fR,
-    'Pi_cHR': pi_cH,
-    'Pi_tLR': pi_tL,
-    'Tau_rR': tau[2],
-    'Tau_fR': tau[4],
-    'Tau_cHR': tau_cHR,
-    'Tau_tLR': tau_tL,
-    'alpha_R': alpha,
-    'M_9R': M[11],
-    'M_19R': M[14],
-    'Tau_lambdaR': tau_lambda,
-    'Tt_4R': Tt4,
-    'gamma_c': gamma_c,
-    'R_c': R_c,
-    'gamma_t': gamma_t,
-    'R_t': R_t,
-    'a_0': a_0
+'Dados' : {
+'eta_cH': eta_cH,
+'eta_f': eta_f,
+'Pi_rT': pi[1],
+'Pi_dR': pi[2],
+'Pi_fR': pi_fR,
+'Pi_cHR': pi_cH,
+'Pi_tLR': pi_tL,
+'Tau_rR': tau[2],
+'Tau_fR': tau[4],
+'Tau_cHR': tau_cHR,
+'Tau_tLR': tau_tL,
+'alpha_R': alpha,
+'M_9R': M[11],
+'M_19R': M[14],
+'Tau_lambdaR': tau_lambda,
+'Tt_4R': Tt4,
+'gamma_c': gamma_c,
+'R_c': R_c,
+'gamma_t': gamma_t,
+'R_t': R_t,
+'a_0': a_0
 },
 
-        'Resultados' : {
-     'M_0' : M[1],
-     'V_0' : a_0 * M[1],
-     'Tau_r' : tau_r,
-     'Pi_r' : pi_r,
-     'eta_r' : eta_r,
-     'Tt_4' : Tt4 / 2,
-     'Pi_d' : eta_r * 1,
-     'Tau_Lambda' : c_pt * (Tt4 / 2) / c_pc / T_K[0],
-     'Pi_tL' : pi_tL,
-     'Pi_cL' : 0.3,
-     'Pi_fn' : 0.99,
-     'Pt19_P0' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99,
-     'Pt19_P0critico' : ((gamma_c + 1) / 2) ** (gamma_c / (gamma_c)),
-     'Pt19_P19' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99,
-     'Pi_b' : pi[6],
-     'Pi_tH' : pi_tH,
-     'Pi_n' : pi[9],
-     'Pt9_P0' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.3 * ((1 + ((1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1)) - 1) * eta_cH) ** (gamma_c / (gamma_c - 1))) * pi[6] * pi_tL * pi_tL * pi[9],
-     'Pt9_P0critico' : ((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1)),
-     'Pt9_P9' : ((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1)),
-     'mdot_0' : ((pi_dmax) / (pi[2])) * sqrt((Tt4 / 2) / Tt4),
-     'T9_T0' : ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt),
-     'V9_a0' : (sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c)),
-     'T19_T0' : tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)),
-     'V19_a0' : (sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c))),
-     'F_mdot0' : ((1 / (1 + alpha)) * a_0 * ((1 + ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1))) / (h_pr * eta_b / (c_pc * T_0) - (c_pt * (Tt4 / 2) / c_pc / T_K[0]))) * ((sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c))) - M[1] + (1 + (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1))) / (h_pr * eta_b / (c_pc * T_0) - (c_pt * (Tt4 / 2) / c_pc / T_K[0])))) * (R_t / R_c) * ((((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / ((sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c)))) * ((1 - (1 / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.3 * ((1 + ((1 + ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1)) - 1) * eta_cH) ** (gamma_c / (gamma_c - 1))) * pi[6] * pi_tL * pi_tL * pi[9])))))) / gamma_c) + (alpha / (1 + alpha)) * a_0 * (((sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)))) - M[1] + ((tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / ( gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c))) / ((sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)))))) * ((1 - ((1) / (pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99)))) / gamma_c)),
-     'F': F,
-     'm0': m0,
-     'f': f,
-     'S': S,
-     'eta_T': eta_T,
-     'eta_P': eta_P,
-     'eta_Total': eta_Total,
-     'alpha': alpha,
-     'pi_f': pi_f,
-     'pi_cH': pi_cH,
-     'pi_tL': pi_tL,
-     'tau_f': tau_f,
-     'tau_cH': tau_cH,
-     'tau_tL': tau_tL,
-     'M9': M9,
-     'M19': M19,
-     'N_fan': N_NR_fan,
-     'N_hp_spool': N_NR_H
+'Resultados' : {
+ 'M_0' : M[1],
+ 'V_0' : a_0 * M[1],
+ 'Tau_r' : tau_r,
+ 'Pi_r' : pi_r,
+ 'eta_r' : eta_r,
+ 'Tt_4' : Tt4 / 2,
+ 'Pi_d' : eta_r * 1,
+ 'Tau_Lambda' : c_pt * (Tt4 / 2) / c_pc / T_K[0],
+ 'Pi_tL' : pi_tL,
+ 'Pi_cL' : 0.3,
+ 'Pi_fn' : 0.99,
+ 'Pt19_P0' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99,
+ 'Pt19_P0critico' : ((gamma_c + 1) / 2) ** (gamma_c / (gamma_c)),
+ 'Pt19_P19' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99,
+ 'Pi_b' : pi[6],
+ 'Pi_tH' : pi_tH,
+ 'Pi_n' : pi[9],
+ 'Pt9_P0' : pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.3 * ((1 + ((1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1)) - 1) * eta_cH) ** (gamma_c / (gamma_c - 1))) * pi[6] * pi_tL * pi_tL * pi[9],
+ 'Pt9_P0critico' : ((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1)),
+ 'Pt9_P9' : ((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1)),
+ 'mdot_0' : ((pi_dmax) / (pi[2])) * sqrt((Tt4 / 2) / Tt4),
+ 'T9_T0' : ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt),
+ 'V9_a0' : (sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c)),
+ 'T19_T0' : tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)),
+ 'V19_a0' : (sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c))),
+ 'F_mdot0' : ((1 / (1 + alpha)) * a_0 * ((1 + ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1))) / (h_pr * eta_b / (c_pc * T_0) - (c_pt * (Tt4 / 2) / c_pc / T_K[0]))) * ((sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c))) - M[1] + (1 + (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1))) / (h_pr * eta_b / (c_pc * T_0) - (c_pt * (Tt4 / 2) / c_pc / T_K[0])))) * (R_t / R_c) * ((((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / ((sqrt(2 / (gamma_t - 1) * ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t) - 1))) * sqrt(gamma_t * R_t * (((c_pt * (Tt4 / 2) / c_pc / T_K[0]) * tau_tH * tau_tL / ((((gamma_t + 1) / 2) ** (gamma_t / (gamma_t - 1))) ** ((gamma_t - 1) / gamma_t))) * (c_pc / c_pt)) / (gamma_c * R_c)))) * ((1 - (1 / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.3 * ((1 + ((1 + ((c_pt * (Tt4 / 2) / c_pc / T_K[0]) - tau_r * tau_cL * (1 + (c_pt * (Tt4 / 2) / c_pc / T_K[0]) / tau_r / (tau_lambda / tau[1]) * (tau_cHR - 1)) - 1) * eta_cH) ** (gamma_c / (gamma_c - 1))) * pi[6] * pi_tL * pi_tL * pi[9])))))) / gamma_c) + (alpha / (1 + alpha)) * a_0 * (((sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)))) - M[1] + ((tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / ( gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c))) / ((sqrt(2 / (gamma_c - 1) * ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c) - 1))) * (tau_r * tau_f / ((pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99) ** ((gamma_c - 1) / gamma_c)))))) * ((1 - ((1) / (pi_r * eta_r * 1 * ((1 + (tau_f - 1) * eta_f) ** (gamma_c / (gamma_c - 1))) * 0.99)))) / gamma_c)),
+ 'F': F,
+ 'm0': m0,
+ 'f': f,
+ 'S': S,
+ 'eta_T': eta_T,
+ 'eta_P': eta_P,
+ 'eta_Total': eta_Total,
+ 'alpha': alpha,
+ 'pi_f': pi_f,
+ 'pi_cH': pi_cH,
+ 'pi_tL': pi_tL,
+ 'tau_f': tau_f,
+ 'tau_cH': tau_cH,
+ 'tau_tL': tau_tL,
+ 'M9': M9,
+ 'M19': M19,
+ 'N_fan': N_NR_fan,
+ 'N_hp_spool': N_NR_H
 }
 }
 
