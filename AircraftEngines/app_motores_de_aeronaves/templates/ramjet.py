@@ -1,5 +1,4 @@
 import re,math
-from tabulate import tabulate
 from app_motores_de_aeronaves.templates import Prop2
 
 
