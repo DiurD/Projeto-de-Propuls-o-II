@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (onDesign) {
       hiddenInput_onDesign.setAttribute("value", onDesign);
     } else {
-      hiddenInput_onDesign.setAttribute("value", offDesign);
+      hiddenInput_onDesign.setAttribute("value", onDesign);
     }
 
     const hiddenInput_ideal = document.createElement("input");
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (ideal) {
       hiddenInput_ideal.setAttribute("value", ideal);
     } else {
-      hiddenInput_ideal.setAttribute("value", naoIdeal);
+      hiddenInput_ideal.setAttribute("value", ideal);
     }
 
     const hiddenInput_absoluto = document.createElement("input");
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (absoluto) {
       hiddenInput_absoluto.setAttribute("value", absoluto);
     } else {
-      hiddenInput_absoluto.setAttribute("value", porcentagem);
+      hiddenInput_absoluto.setAttribute("value", absoluto);
     }
 
     opcoesSecundarias.appendChild(hiddenInput_motor);
