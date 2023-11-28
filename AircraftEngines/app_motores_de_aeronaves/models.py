@@ -11,7 +11,8 @@ class atmos(models.Model):
         return self.alt
     
 class motor(models.Model):
-    name = models.TextField(max_length=20)
+    name = models.TextField(max_length=20,primary_key=True)
+    motor_type = models.TextField(max_length=20)
     d0 = models.FloatField()
     d1 = models.FloatField()
     d2 = models.FloatField()
@@ -24,4 +25,6 @@ class motor(models.Model):
     d9 = models.FloatField()
     lenght = models.FloatField()
     speed_in_combustion = models.FloatField()
+    on_design = models.BooleanField()
     choked = models.BooleanField()
+    ideal = models.BooleanField()

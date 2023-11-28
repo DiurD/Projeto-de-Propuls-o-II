@@ -16,8 +16,40 @@ def teste(request):
 def results(request):
     # Implementar aqui a lógica para criacao das instãncias e do context
     # Todos os dados são recebidos via POST no objeto request.POST
+    
+    #print("\n \n")
+    #for i in range(len(request.POST.getlist('nome'))):
+    #    if request.POST.getlist('nome')[i]:
+    #        nome = request.POST.getlist('nome')[i]
+    #        tipo = request.POST['motor']
+    #        ideal = request.POST['ideal']
+    #        on_design = request.POST['onDesign']
+
+    # if request.POST['absoluto']:
+    #    diametros = [float(0)]*10
+
+    match request.POST['motor']:
+        case 'ramjet':
+            print(request.POST['ideal'])
+
+
+        case 'turbojet':
+            pass
+
+        case 'turboprop':
+            pass
+
+        case 'turbofan':
+            pass
+
+        case _:
+            pass
+            
     context = {}
+
     print(request.POST) #Caso queira ver as chaves no terminal
+    
+    print("\n \n")
     return render(request, 'Site_arquivos/resultados.html', context)
 
 def home(request):
