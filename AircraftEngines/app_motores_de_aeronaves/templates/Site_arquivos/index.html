@@ -36,7 +36,7 @@
 		<form id="opcoes-principais">
 			<section id="motor-menu-section">
 				<h2 class="subtitulos">Tipo de motor</h2>
-				<select name="type_motor" class="form-select" aria-label="Default select example" id="selecionar-menu">
+				<select name="type_motor" class="form-select" aria-label="Default select example" id="selecionar-menu" required>
 					<option selected value="">Selecione o motor</option>
 					<option value="turbofan">Turbofan</option>
 					<option value="turbojet">Turbojet</option>
@@ -52,13 +52,13 @@
 			<section id="analise-modelo-section">
 				<h2 class="subtitulos">Modelo de análise</h2>
 				<div class="form-check">
-				<input class="form-check-input" type="radio" name="modelo-analise" id="onDesign">
+				<input class="form-check-input" type="radio" name="modelo-analise" id="onDesign" required>
 				<label class="form-check-label" for="onDesign">
 					On Design
 				</label>
 				</div>
 				<div class="form-check">
-				<input class="form-check-input" type="radio" name="modelo-analise" id="offDesign">
+				<input class="form-check-input" type="radio" name="modelo-analise" id="offDesign" required>
 				<label class="form-check-label" for="offDesign">
 					Off Design
 				</label>
@@ -67,13 +67,13 @@
 			<section id="tipo-analise-section">
 				<h2 class="subtitulos">Tipo de análise</h2>
 				<div class="form-check">
-				<input class="form-check-input" type="radio" name="tipo-analise" id="ideal">
+				<input class="form-check-input" type="radio" name="tipo-analise" id="ideal" required>
 				<label class="form-check-label" for="Ideal">
 					Ideal
 				</label>
 				</div>
 				<div class="form-check">
-				<input class="form-check-input" type="radio" name="tipo-analise" id="nao-ideal">
+				<input class="form-check-input" type="radio" name="tipo-analise" id="nao-ideal" required>
 				<label class="form-check-label" for="nao-ideal">
 					Não Ideal
 				</label>
@@ -82,13 +82,13 @@
 			<section id="valores-section">
 				<h2 class="subtitulos">Valores dos diâmetros das seções</h2>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="diametros" id="absoluto">
+				<input class="form-check-input" type="radio" name="diametros" id="absoluto" required>
 				<label class="form-check-label" for="absoluto">
 				  Desejo inserir os valores absolutos de cada seção
 				</label>
 			  </div>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="diametros" id="porcentagem" >
+				<input class="form-check-input" type="radio" name="diametros" id="porcentagem" required>
 				<label class="form-check-label" for="porcentagem">
 				  Desejo inserir um diâmetro nominal e definir as seções em porcentagens dele
 				</label>

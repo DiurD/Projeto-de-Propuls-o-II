@@ -107,6 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  function makeRequired(element) {
+    const inputs = element.getElementsByTagName("input")
+        for (let i = 0; i < inputs.length; i++) {
+          inputs[i].required = true;
+        }
+  }
+
   opcoesPrincipais.addEventListener("submit", (event) => {
     event.preventDefault();
 
@@ -162,11 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(RamjetCaracteristicasAbsoluto);
         RamjetOnDesignIdeal.style.display = "block";
+        makeRequired(RamjetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOnDesignIdeal.style.display = "block";
+        makeRequired(RamjetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -176,11 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(RamjetCaracteristicasAbsoluto);
         RamjetOnDesignNaoIdeal.style.display = "block";
+        makeRequired(RamjetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOnDesignNaoIdeal.style.display = "block";
+        makeRequired(RamjetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -190,13 +205,19 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(RamjetCaracteristicasAbsoluto);
         RamjetOffDesign.style.display = "block";
+        makeRequired(RamjetOffDesign);
         RamjetOffDesignRef.style.display = "block";
+        makeRequired(RamjetOffDesignRef);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOffDesign.style.display = "block";
+        makeRequired(RamjetOffDesign);
         RamjetOffDesignRef.style.display = "block";
+        makeRequired(RamjetOffDesignRef);
         botaoCalcular.style.display = "block";
       }
     }
@@ -206,11 +227,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbojetCaracteristicasAbsoluto);
         TurbojetOnDesignIdeal.style.display = "block";
+        makeRequired(TurbojetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbojetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbojetCaracteristicasPorcentagem);
         TurbojetOnDesignIdeal.style.display = "block";
+        makeRequired(TurbojetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -220,11 +245,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbojetCaracteristicasAbsoluto);
         TurbojetOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbojetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbojetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbojetCaracteristicasPorcentagem);
         TurbojetOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbojetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -234,13 +263,19 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbojetCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbojetCaracteristicasAbsoluto);
         TurbojetOffDesign.style.display = "block";
+        makeRequired(TurbojetOffDesign);
         TurbojetOffDesignRef.style.display = "block";
+        makeRequired(TurbojetOffDesignRef);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbojetCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbojetCaracteristicasPorcentagem);
         TurbojetOffDesign.style.display = "block";
+        makeRequired(TurbojetOffDesign);
         TurbojetOffDesignRef.style.display = "block";
+        makeRequired(TurbojetOffDesignRef);
         botaoCalcular.style.display = "block";
       }
     }
@@ -250,11 +285,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbopropCaracteristicasAbsoluto);
         TurbopropOnDesignIdeal.style.display = "block";
+        makeRequired(TurbopropOnDesignIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbopropCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbopropCaracteristicasPorcentagem);
         TurbopropOnDesignIdeal.style.display = "block";
+        makeRequired(TurbopropOnDesignIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -264,11 +303,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbopropCaracteristicasAbsoluto);
         TurbopropOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbopropOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbopropCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbopropCaracteristicasPorcentagem);
         TurbopropOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbopropOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -278,13 +321,19 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbopropCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbopropCaracteristicasAbsoluto);
         TurbopropOffDesign.style.display = "block";
+        makeRequired(TurbopropOffDesign);
         TurbopropOffDesignRef.style.display = "block";
+        makeRequired(TurbopropOffDesignRef);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbopropCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbopropCaracteristicasPorcentagem);
         TurbopropOffDesign.style.display = "block";
+        makeRequired(TurbopropOffDesign);
         TurbopropOffDesignRef.style.display = "block";
+        makeRequired(TurbopropOffDesignRef);
         botaoCalcular.style.display = "block";
       }
     }
@@ -294,11 +343,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbofanCaracteristicasAbsoluto);
         TurbofanOnDesignIdeal.style.display = "block";
+        makeRequired(TurbofanOnDesignIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbofanCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbofanCaracteristicasPorcentagem);
         TurbofanOnDesignIdeal.style.display = "block";
+        makeRequired(TurbofanOnDesignIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -308,11 +361,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbofanCaracteristicasAbsoluto);
         TurbofanOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbofanOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbofanCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbofanCaracteristicasPorcentagem);
         TurbofanOnDesignNaoIdeal.style.display = "block";
+        makeRequired(TurbofanOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -322,13 +379,19 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         TurbofanCaracteristicasAbsoluto.style.display = "block";
+        makeRequired(TurbofanCaracteristicasAbsoluto);
         TurbofanOffDesign.style.display = "block";
+        makeRequired(TurbofanOffDesign);
         TurbofanOffDesignRef.style.display = "block";
+        makeRequired(TurbofanOffDesignRef);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         TurbofanCaracteristicasPorcentagem.style.display = "block";
+        makeRequired(TurbofanCaracteristicasPorcentagem);
         TurbofanOffDesign.style.display = "block";
+        makeRequired(TurbofanOffDesign);
         TurbofanOffDesignRef.style.display = "block";
+        makeRequired(TurbofanOffDesignRef);
         botaoCalcular.style.display = "block";
       }
     }
