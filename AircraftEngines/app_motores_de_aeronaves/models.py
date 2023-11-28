@@ -28,3 +28,5 @@ class motor(models.Model):
     on_design = models.BooleanField()
     choked = models.BooleanField()
     ideal = models.BooleanField()
+    Tt4 = models.FloatField()
+    M0 = models.FloatField()

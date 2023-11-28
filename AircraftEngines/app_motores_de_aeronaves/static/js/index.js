@@ -169,15 +169,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
-        makeRequired(RamjetCaracteristicasAbsoluto);
+        //makeRequired(RamjetCaracteristicasAbsoluto)
         RamjetOnDesignIdeal.style.display = "block";
-        makeRequired(RamjetOnDesignIdeal);
+        //makeRequired(RamjetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
-        makeRequired(RamjetCaracteristicasPorcentagem);
+        //makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOnDesignIdeal.style.display = "block";
-        makeRequired(RamjetOnDesignIdeal);
+        //makeRequired(RamjetOnDesignIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -187,15 +187,15 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
-        makeRequired(RamjetCaracteristicasAbsoluto);
+        //makeRequired(RamjetCaracteristicasAbsoluto);
         RamjetOnDesignNaoIdeal.style.display = "block";
-        makeRequired(RamjetOnDesignNaoIdeal);
+        //makeRequired(RamjetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
-        makeRequired(RamjetCaracteristicasPorcentagem);
+        //makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOnDesignNaoIdeal.style.display = "block";
-        makeRequired(RamjetOnDesignNaoIdeal);
+        //makeRequired(RamjetOnDesignNaoIdeal);
         botaoCalcular.style.display = "block";
       }
     }
@@ -205,19 +205,19 @@ document.addEventListener("DOMContentLoaded", () => {
       esconderMenuInicial();
       if (absoluto) {
         RamjetCaracteristicasAbsoluto.style.display = "block";
-        makeRequired(RamjetCaracteristicasAbsoluto);
+        //makeRequired(RamjetCaracteristicasAbsoluto);
         RamjetOffDesign.style.display = "block";
-        makeRequired(RamjetOffDesign);
+        //makeRequired(RamjetOffDesign);
         RamjetOffDesignRef.style.display = "block";
-        makeRequired(RamjetOffDesignRef);
+        //makeRequired(RamjetOffDesignRef);
         botaoCalcular.style.display = "block";
       } else if (porcentagem) {
         RamjetCaracteristicasPorcentagem.style.display = "block";
-        makeRequired(RamjetCaracteristicasPorcentagem);
+        //makeRequired(RamjetCaracteristicasPorcentagem);
         RamjetOffDesign.style.display = "block";
-        makeRequired(RamjetOffDesign);
+        //makeRequired(RamjetOffDesign);
         RamjetOffDesignRef.style.display = "block";
-        makeRequired(RamjetOffDesignRef);
+        //makeRequired(RamjetOffDesignRef);
         botaoCalcular.style.display = "block";
       }
     }
