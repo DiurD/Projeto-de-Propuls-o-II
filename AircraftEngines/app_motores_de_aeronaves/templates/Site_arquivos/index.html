@@ -111,66 +111,66 @@
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
-				<input name="ramjet-absoluto-nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
+				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
 			  <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
-				<input name="ramjet-absoluto-comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
+				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
 			  </div>
 
 			  <div class="diametro-cone-ar entradas">
 				<label for="diametro-cone-ar">Diâmetro do cone de entrada de ar [m]</label>
-				<input name="ramjet-absoluto-diametro-cone" type="number" class="form-control" id="diametro-cone-ar" aria-describedby="diametro-cone-ar" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-cone" type="number" class="form-control" id="diametro-cone-ar" aria-describedby="diametro-cone-ar" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-cone-ar" class="form-text text-muted">Diâmetro da seção 1 do motor.</small>
 			  </div> 
 			 
 			  <div class="diametro-bocal-entrada entradas">
 				<label for="diametro-bocal-entrada">Diâmetro do bocal de entrada [m]</label>
-				<input name="ramjet-absoluto-diametro-entrada" type="number" class="form-control" id="diametro-bocal-entrada" aria-describedby="diametro-bocal-entrada" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-entrada" type="number" class="form-control" id="diametro-bocal-entrada" aria-describedby="diametro-bocal-entrada" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-bocal-entrada" class="form-text text-muted">Diâmetro da seção 2 do motor.</small>
 			  </div>
 
 			  <div class="diametro-camara-combustao entradas">
 				<label for="diametro-camara-combustao">Diâmetro da câmara de combustão [m]</label>
-				<input name="ramjet-absoluto-diametro-combustor" type="number" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-combustor" type="number" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-camara-combustao" class="form-text text-muted">Diâmetro da seção 3 do motor.</small>
 			  </div>
 
 			  <div class="diametro-garganta entradas">
 				<label for="diametro-garganta">Diâmetro da garganta [m]</label>
-				<input name="ramjet-absoluto-diametro-garganta" type="number" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-garganta" type="number" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-garganta" class="form-text text-muted">Diâmetro da seção 8 do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida entradas">
 				<label for="diametro-bocal-saida">Diâmetro do bocal de saída [m]</label>
-				<input name="ramjet-absoluto-diametro-saida" type="number" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-saida" type="number" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-bocal-saida" class="form-text text-muted">Diâmetro da seção 9 do motor.</small>
 			  </div>
 
 			  <div class="quantidade-entradas-ar entradas">
 				<label for="quantidade-entradas-ar">Quantidade de entradas de ar</label>
-				<input name="ramjet-absoluto-quantidade-entradas" type="number" class="form-control" id="quantidade-entradas-ar" aria-describedby="quantidade-entradas-ar" placeholder="Digite a quantidade de entradas">
+				<input name="quantidade-entradas" type="number" class="form-control" id="quantidade-entradas-ar" aria-describedby="quantidade-entradas-ar" placeholder="Digite a quantidade de entradas">
 				<small id="quantidade-entradas-ar" class="form-text text-muted">Número de entradas existentes na seção 1 do motor.</small>
 			  </div>
 
 			  <div class="velocidade-camara-combustao entradas">
 				<label for="velocidade-camara-combustao">Velocidade do ar na câmara de combustão [Mach]</label>
-				<input name="ramjet-absoluto-velocidade-combustor" type="number" class="form-control" id="velocidade-camara-combustao" aria-describedby="velocidade-camara-combustao" placeholder="Digite o valor da velocidade">
+				<input name="velocidade-combustor" type="number" class="form-control" id="velocidade-camara-combustao" aria-describedby="velocidade-camara-combustao" placeholder="Digite o valor da velocidade">
 				<small id="velocidade-camara-combustao" class="form-text text-muted">Velocidade do ar na seção 3 do motor.</small>
 			  </div>
 
 			  <label for="choked">Velocidade do ar na garganta do motor</label>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="ramjet-absoluto-fluxo-engasgado" id="ramjet-choked">
+				<input class="form-check-input" type="radio" name="fluxo-engasgado" id="ramjet-choked">
 				<label class="form-check-label" for="choked">
 				  Mach = 1 (Choked)
 				</label>
 			  </div>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="ramjet-absoluto-fluxo-engasgado" id="ramjet-unchoked" >
+				<input class="form-check-input" type="radio" name="fluxo-engasgado" id="ramjet-unchoked" >
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
@@ -182,72 +182,72 @@
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
-				<input name="ramjet-porcentagem-nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
+				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
 			  <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
-				<input name="ramjet-porcentagem-comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
+				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
 			  </div>
 
 			  <div class="diametroNominal entradas">
 				<label for="diametro-nominal">Diâmetro nominal [m]</label>
-				<input name="ramjet-porcentagem-diametro-nominal" type="number" class="form-control" id="diametro-nominal" aria-describedby="diametroNominal" placeholder="Digite o valor do diâmetro">
+				<input name="diametro-nominal" type="number" class="form-control" id="diametro-nominal" aria-describedby="diametroNominal" placeholder="Digite o valor do diâmetro">
 				<small id="diametroNominal" class="form-text text-muted">Este é o maior diâmetro do motor, utilizado como base para definição de outros diâmetros.</small>
 			  </div>
 
 			  <div class="diametro-cone-ar entradas">
 				<label for="diametro-cone-ar">Diâmetro do cone de entrada de ar [%]</label>
-				<input name="ramjet-porcentagem-diametro-cone" type="number" class="form-control" id="diametro-cone-ar" aria-describedby="diametro-cone-ar" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="diametro-cone" type="number" class="form-control" id="diametro-cone-ar" aria-describedby="diametro-cone-ar" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-cone-ar" class="form-text text-muted">Diâmetro da seção 1 do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-entrada entradas">
 				<label for="diametro-bocal-entrada">Diâmetro do bocal de entrada [%]</label>
-				<input name="ramjet-porcentagem-diametro-entrada" type="number" class="form-control" id="diametro-bocal-entrada" aria-describedby="diametro-bocal-entrada" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="diametro-entrada" type="number" class="form-control" id="diametro-bocal-entrada" aria-describedby="diametro-bocal-entrada" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-bocal-entrada" class="form-text text-muted">Diâmetro da seção 2 do motor.</small>
 			  </div>
 
 			  <div class="diametro-camara-combustao entradas">
 				<label for="diametro-camara-combustao">Diâmetro da câmara de combustão [%]</label>
-				<input name="ramjet-porcentagem-diametro-combustor" type="number" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="diametro-combustor" type="number" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-camara-combustao" class="form-text text-muted">Diâmetro da seção 3 do motor.</small>
 			  </div>
 
 			  <div class="diametro-garganta entradas">
 				<label for="diametro-garganta">Diâmetro da garganta [%]</label>
-				<input name="ramjet-porcentagem-diametro-garganta" type="number" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="diametro-garganta" type="number" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-garganta" class="form-text text-muted">Diâmetro da seção 8 do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida entradas">
 				<label for="diametro-bocal-saida">Diâmetro do bocal de saída [%]</label>
-				<input name="ramjet-porcentagem-diametro-saida" type="number" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="diametro-saida" type="number" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-bocal-saida" class="form-text text-muted">Diâmetro da seção 9 do motor.</small>
 			  </div>
 
 			  <div class="quantidade-entradas-ar entradas">
 				<label for="quantidade-entradas-ar">Quantidade de entradas de ar</label>
-				<input name="ramjet-porcentagem-quantidade-entradas" type="number" class="form-control" id="quantidade-entradas-ar" aria-describedby="quantidade-entradas-ar" placeholder="Digite a quantidade de entradas">
+				<input name="quantidade-entradas" type="number" class="form-control" id="quantidade-entradas-ar" aria-describedby="quantidade-entradas-ar" placeholder="Digite a quantidade de entradas">
 				<small id="quantidade-entradas-ar" class="form-text text-muted">Número de entradas existentes na seção 1 do motor.</small>
 			  </div>
 
 			  <div class="velocidade-camara-combustao entradas">
 				<label for="velocidade-camara-combustao">Velocidade do ar na câmara de combustão [Mach]</label>
-				<input name="ramjet-porcentagem-velocidade-combustor" type="number" class="form-control" id="velocidade-camara-combustao" aria-describedby="velocidade-camara-combustao" placeholder="Digite o valor da velocidade">
+				<input name="velocidade-combustor" type="number" class="form-control" id="velocidade-camara-combustao" aria-describedby="velocidade-camara-combustao" placeholder="Digite o valor da velocidade">
 				<small id="velocidade-camara-combustao" class="form-text text-muted">Velocidade do ar na seção 3 do motor.</small>
 			  </div>
 
 			  <label for="choked">Velocidade do ar na garganta do motor</label>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="ramjet-porcentagem-fluxo-engasgado" id="ramjet-choked">
+				<input class="form-check-input" type="radio" name="fluxo-engasgado" id="ramjet-choked">
 				<label class="form-check-label" for="choked">
 				  Mach = 1 (Choked)
 				</label>
 			  </div>
 			  <div class="form-check">
-				<input class="form-check-input" type="radio" name="ramjet-porcentagem-fluxo-engasgado" id="ramjet-unchoked" >
+				<input class="form-check-input" type="radio" name="fluxo-engasgado" id="ramjet-unchoked" >
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
