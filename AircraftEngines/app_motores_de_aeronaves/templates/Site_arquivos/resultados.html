@@ -2,6 +2,7 @@
 <html lang="en">
 
 {% load static%}
+{% load custom %}
 
 <head>
 	<meta charset="UTF-8">
@@ -24,7 +25,7 @@
 			</ul>
 		</div>
 	</nav>
-	<main class="container">
+	<main class="container resultados">
 		<section>
 			<div>
 				<h1 class="Titulo">Resultados</h1>
@@ -128,17 +129,41 @@
 		</section> 
 
 		<section>
-			<img src="" alt="">
+			<div class="imagem-resultados">
+				<img class="Ramjet-esquematico" src="{% static 'images/Ramjet-esquematico.png' %}" alt="">
+			</div>	
 		</section>
 
 		<section id="grafico">
-			<div>
+			<div class="imagem-resultados imagem-grafico">
 				<canvas id="canvas"></canvas>
 			</div>
+			<button id="download-chart" class="btn btn-primary">Salvar gráfico como PNG</button>
 		</section>
 
-		<section id="Resultados-secoes">
-
+		<section id='tabela-dinamica-datum'>
+			<div class="container fluid">
+				<table class="table table-striped">
+					<thead>
+						<h2 class="text-center">Propriedades de Acordo com o Datum</u></h2><br>
+						<tr>
+							{% for key,_ in Datum.items %}
+									<td> {{ key }} </td>
+							{% endfor %}
+						</tr>
+					</thead>
+					<tbody>
+						{% for i in Datum_len %}
+							<tr>
+								{% for _,values in Datum.items %}
+									<td>{{ values|custom:i|floatformat:3}} </td>
+								{% endfor %}	
+							</tr>
+						{% endfor %}
+						
+					</tbody>
+				</table>
+			</div>
 		</section>
 
 
@@ -165,9 +190,18 @@
 
 	<script>
 		window.datum = {
+			Nome: '{{motor.name}}',
 			Pos: JSON.parse('{{Datum.Pos}}'),
 			P: JSON.parse('{{Datum.P}}'),
-			T: JSON.parse('{{Datum.T}}')
+			T: JSON.parse('{{Datum.T}}'),
+			Section: JSON.parse('{{Datum.Section}}'),
+			D: JSON.parse('{{Datum.D}}'),
+			A: JSON.parse('{{Datum.A}}'),
+			Aot: JSON.parse('{{Datum.Aot}}'),
+			A_Aot: JSON.parse('{{Datum.A_Aot}}'),
+			Mach: JSON.parse('{{Datum.Mach}}'),
+			Pt: JSON.parse('{{Datum.Pt}}'),
+			Tt: JSON.parse('{{Datum.Tt}}')
 		};
 	</script>
 
