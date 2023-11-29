@@ -19,7 +19,9 @@ def results(request):
     # Todos os dados são recebidos via POST no objeto request.POST
     
     #print("\n \n")
-    tipo = request.POST['motor']
+    tipo = [elem for elem in request.POST.getlist('motor') if elem != '']
+    tipo = tipo[0]
+
     ideal = True if request.POST['ideal'] == 'true' else False
     on_design = True if request.POST['onDesign'] == 'true' else False
             
@@ -33,7 +35,7 @@ def results(request):
     choked = True if choked == 'on' else False
 
     height = [elem for elem in request.POST.getlist('altitude') if elem != ''] 
-    height = float(height[0])
+    height = float(height[0]) if height else 0
 
     gamma_c = [elem for elem in request.POST.getlist('gamma_c') if elem != ''] 
     gamma_c = float(gamma_c[0])
@@ -180,6 +182,9 @@ def results(request):
 
     context = { "Mattingly": Mattingly, # Mattlingly tem uma chave incompativel com templates "P0/P9", você pode então
                 "P0_P9": Mattingly.pop("P0/P9"), # separar essa chave do dicionário e passá-la individualmente.  
+                "Pt9_P9": Mattingly.pop("Pt9/P9"),
+                "T9_T0": Mattingly.pop("T9/T0"),
+                "T9_Tt9": Mattingly.pop("T9/Tt9"),
                 "Todas_Secoes": Todas_Secoes,
                 "Mattingly_REF": Mattingly_REF,
                 "Todas_Secoes_REF": Todas_Secoes_REF,

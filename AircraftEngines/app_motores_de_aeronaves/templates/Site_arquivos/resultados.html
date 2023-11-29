@@ -57,19 +57,19 @@
 			<h2>Dados atmosféricos</h2> 
 
 			<div class="altitude">
-				<b>Altitude [m]: </b> {{ atmosfera.alt }}
+				<b>Altitude [m]: </b> {{ atmosfera.height|floatformat:2 }}
 			</div>
 
 			<div class="P0">
-				<b>Pressão no escoamento livre [Pa]: </b> {{ atmosfera.P0 }}
+				<b>Pressão no escoamento livre [Pa]: </b> {{ atmosfera.P0|floatformat:2 }}
 			</div>
 
 			<div class="T0">
-				<b>Temperatura no escoamento livre [K]: </b> {{ atmosfera.T0 }}
+				<b>Temperatura no escoamento livre [K]: </b> {{ atmosfera.T0|floatformat:2 }}
 			</div>
 
 			<div class="a0">
-				<b>Velocidade do som no escoamento livre [m/s]: </b> {{ atmosfera.a0 }}
+				<b>Velocidade do som no escoamento livre [m/s]: </b> {{ atmosfera.a0|floatformat:2 }}
 			</div>
 		</section>
 
@@ -82,45 +82,45 @@
 				</thead>
 				<tbody>
 				  <tr>
-					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td>
+					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg] {{Mattingly.F_m0.0|floatformat:2}}</td> 
 					<td id="Empuxo-especifico"></td>
-					<td>Eficiência térmica (&#x3B7<sub>T</sub>)</td>
+					<td>Eficiência térmica (&#x3B7<sub>T</sub>) {{Mattingly.eta_T.0|floatformat:4}}</td> 
 					<td id="eta_T"></td>
 				  </tr>
 				  <tr>
-					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s]</td>
+					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s] {{Mattingly.m0_dot.0|floatformat:2}}</td> 
 					<td id="vazao-massica"></td>
-					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>)</td>
+					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>) {{Mattingly.eta_P.0|floatformat:4}}</td>
 					<td id="eta_P"></td>
 				  </tr>
 				  <tr>
-					<td>Empuxo (F) [N]</td>
+					<td>Empuxo (F) [N] {{Mattingly.F.0|floatformat:2}}</td> 
 					<td id="Empuxo"></td>
-					<td>Eficiência Global (&#x3B7<sub>O</sub>)</td>
+					<td>Eficiência Global (&#x3B7<sub>O</sub>) {{Mattingly.eta_Total.0|floatformat:4}}</td> 
 					<td id="eta_global"></td>
 				  </tr>
 				  <tr>
-					<td>Razão combustível/ar (f)</td>
+					<td>Razão combustível/ar (f) {{Mattingly.f.0|floatformat:4}}</td> 
 					<td id="razao-combustivel-ar"></td>
-					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>)</td>
+					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>) {{Mattingly.Tau_lambda.0|floatformat:2}}</td> 
 					<td id="tau-lambda"></td>
 				  </tr>
 				  <tr>
-					<td>Consumo específico de combustível (S) [kg/(N.s)]</td>
+					<td>Consumo específico de combustível (S) [kg/(N.s)] {{ Mattingly.S.0|floatformat:8 }}</td> 
 					<td id="Consumo-especifico-combustivel"></td>
-					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>) </td>
+					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>) {{ Pt9_P9.0 |floatformat:2}}</td> 
 					<td id="Pt9/P9"></td>
 				  </tr>
 				  <tr>
-					<td>Consumo de combustível (FC) [kg/s]</td>
+					<td>Consumo de combustível (FC) [kg/s] {{Mattingly.FC.0|floatformat:4}}</td> 
 					<td id="consumo-combustivel"></td>
-					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>t9</sub>/P<sub>9</sub>)</td>
+					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>9</sub>/T<sub>t9</sub>) {{ T9_Tt9 |floatformat:4}}</td>
 					<td id="Tt9/T9"></td>
 				  </tr>
 				  <tr>
-					<td>Razão ar/combustível (AF)</td>
+					<td>Razão ar/combustível (AF) {{Mattingly.AF.0|floatformat:2}}</td> 
 					<td id="Razao-ar-combustivel"></td>
-					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td>
+					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>) {{ T9_T0.0|floatformat:3 }} </td> 
 					<td id="T9/T0"></td>
 				  </tr>
 				</tbody>
