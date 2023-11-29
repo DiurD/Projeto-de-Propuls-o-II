@@ -379,7 +379,7 @@ class turboprop:
 
 
 
-        Ms = [float(1)]*
+        Ms = [float(1)]*11
         Ms[0] = M0_AT
         Ms[1] = M0_AT
         Ms[2] = 0.9*M0_AT
