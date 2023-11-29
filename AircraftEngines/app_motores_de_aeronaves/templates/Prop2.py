@@ -1041,7 +1041,7 @@ class AircraftEngines:
     def real_turboprop(self,
         M0,
         Tt4,
-        P0_P9,
+        #P0_P9, #Comentado por Gabriel
 
         # Constantes
         gamma_c,
@@ -1056,13 +1056,14 @@ class AircraftEngines:
         e_c,
         e_tH,
         e_tL,
-        tau_tH,
+        #tau_tH, Comentado por Gabriel
         tau_t,
         eta_b,
         eta_mL,
         eta_mH,
         eta_g,
         eta_prop,
+        A0, #Para calcular m0_dot. Caso queira inserir diretamente m0_dot "a gente" muda depois # Comentado podr Gabriel
 
         ):
         output = {
@@ -1077,7 +1078,8 @@ class AircraftEngines:
         'C_prop': [],
         'C_Total': [],
         'W_m0': [],
-        'S_P': []
+        'S_P': [],
+        'm0_dot': [] #Adicionado por Gabriel
         }
         
         R_c = (gamma_c - 1)/gamma_c*cp_c
@@ -1092,6 +1094,9 @@ class AircraftEngines:
             eta_r = 1-0.0075*(M0-1)**1.35
         
         pi_d = pi_d_max*eta_r
+        tau_d = pi_d**((gamma_c-1)/gamma_c) #adicionado Gabriel
+        tau_b = Tt4/(self.T0*tau_d*tau_r) #adicionado Gabriel
+        tau_n = 1 #adicionado Gabriel
         tau_lambda = cp_t*Tt4/(cp_c*self.T0)
         tau_c = pi_c**((gamma_c - 1)/(gamma_c*e_c))
         eta_c = (pi_c**((gamma_c - 1)/gamma_c) - 1)/(tau_c - 1)
@@ -1121,7 +1126,7 @@ class AircraftEngines:
         V9_a0 = (2*tau_lambda*tau_tH*tau_tL/(gamma_c - 1)*(1 - (Pt9_P9)**(-1*(gamma_t - 1)/gamma_t)))**0.5
         Tt9_T0 = Tt4/self.T0*tau_tH*tau_tL
         T9_T0 = Tt9_T0/(Pt9_P9**((gamma_t-1)/gamma_t))
-        
+        T9_Tt9 = Tt9_T0*T9_T0 #adicionado Gabriel
         
         C_prop = eta_prop*eta_g*eta_mL*(1 + f)*tau_lambda*tau_tH*(1 - tau_tL)
         C_c = (gamma_c - 1)*M0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t/R_c*T9_T0/V9_a0*(1 - P0_P9)/gamma_c)
@@ -1138,6 +1143,7 @@ class AircraftEngines:
         eta_T = C_tot*cp_c*self.T0/(f*hpr)
         eta_Total = eta_P*eta_T
         AF = 1/f
+        m0_dot = self.rho0*V0*self.A[0] #Adicionado por Gabriel
 
         output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
@@ -1151,8 +1157,9 @@ class AircraftEngines:
         output['C_tot'].append(C_tot)
         output['W_m0'].append(W_m0)
         output['S_P'].append(S_P)
+        output['m0_dot'].append(m0_dot) #Adicionado por Gabriel
 
-        return output
+        return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
     
     def offdesign_turboprop(self,
         M0,
@@ -1271,6 +1278,12 @@ class AircraftEngines:
 
         W_m0 = C_tot*cp_c*self.T0
 
+        tau_d = pi_d**((gamma_c-1)/gamma_c) #adicionado Gabriel
+        tau_b = Tt4/(self.T0*tau_d*tau_r) #adicionado Gabriel
+        tau_n = 1 #adicionado Gabriel
+        Tt9_T0 = Tt4/self.T0*tau_tH*tau_tL  #adicionado Gabriel
+        T9_Tt9 = Tt9_T0*T9_T0 #adicionado Gabriel
+
         eta_P = C_tot/(C_prop/eta_prop + ((gamma_c - 1)/2)*((1 + f)*V9_a0**2 - M0**2))
         eta_T = C_tot*cp_c*self.T0/(f*hpr)
         eta_Total = eta_P*eta_T
@@ -1290,4 +1303,4 @@ class AircraftEngines:
         output['S_P'].append(S_P)
 
 
-        return output
+        return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
