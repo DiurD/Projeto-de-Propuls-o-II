@@ -23,7 +23,7 @@ class missile:
                     self.A[i] = self.A[i-1]
                 else:
                     self.A[i] = (math.pi*self.D[i]**2)/4
-        self.A[0] = self.A[1]-self.A[0]
+        # self.A[0] = self.A[1]-self.A[0]
         self.D[2] = self.D[3]
         self.A[2] = self.A[3]
 
@@ -42,7 +42,7 @@ class missile:
     def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,P0_P9,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
         
         
-        T0,P0,_ = atmos.get_param()
+        T0,P0,_,_ = atmos.get_param()
         secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
         pis[4] = pi_b ; pis[8] = pi_n
@@ -139,37 +139,40 @@ class missile:
 
         return output,saidas
     
-    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal, design:bool,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
+    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
 
         secao = [0,1,1.1,2,3,4,7,8,9]
         datum = [0, 0.068,0.086,0.128,0.412,0.744,0.744,0.838,1]
         posicao = [self.length*i for i in datum]
 
-        while 'escolha' not in locals():
-                mudar = input("\n Deseja mudar as posições dos componentes em relação à entrada de ar? ")
-                if re.search('(?i)^sim|^s|^1',mudar):
-                    escolha = input("\nDeseja mudar pelo datum ou posição total?\n1 - Datum\n2 - Posição Absoluta")
-                    if re.search('(?i)^datum|^1',escolha):
-                        for i in range(len(secao)):
-                            datum[i] = float(input(f"Valor do datum da seção {secao[i]}"))
-                            posicao[i] = datum[i]*self.length
-                    elif re.search('(?i)^pos|^2',escolha):
-                        for i in range(len(secao)):
-                            posicao[i] = float(input(f"Posição absoluta da seção {secao[i]}"))
-                            datum[i] = posicao[i]/self.length
-                    else:
-                        print("!!! DIGITE UM VALOR VÁLIDO !!!")
+        #while 'escolha' not in locals():
+        #        mudar = input("\n Deseja mudar as posições dos componentes em relação à entrada de ar? ")
+        #        if re.search('(?i)^sim|^s|^1',mudar):
+        #            escolha = input("\nDeseja mudar pelo datum ou posição total?\n1 - Datum\n2 - Posição Absoluta")
+        #            if re.search('(?i)^datum|^1',escolha):
+        #                for i in range(len(secao)):
+        #                    datum[i] = float(input(f"Valor do datum da seção {secao[i]}"))
+        #                    posicao[i] = datum[i]*self.length
+        #            elif re.search('(?i)^pos|^2',escolha):
+        #                for i in range(len(secao)):
+        #                    posicao[i] = float(input(f"Posição absoluta da seção {secao[i]}"))
+        #                    datum[i] = posicao[i]/self.length
+        #            else:
+        #                print("!!! DIGITE UM VALOR VÁLIDO !!!")
 
-                elif re.search('(?i)^não|^n|^nao|^2',mudar):
-                    escolha = None
-                    pass
-                else:
-                    print("Digite uma opção válida!\n")
+        #        elif re.search('(?i)^não|^n|^nao|^2',mudar):
+        #            escolha = None
+        #            pass
+        #        else:
+        #            print("Digite uma opção válida!\n")
+
+        output_Mattingly_REF= {}
+        saida_REF = {}
 
         if design:
-            _,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
+            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_AT,ideal,pi_b,pi_d_max,pi_n,eta_b)
         else: 
-            _,saida,_,_ = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos,ideal,pi_b,pi_d_max,pi_n,eta_b)
+            output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b)
 
         nova_saida = {
         'Section': secao,
@@ -231,11 +234,11 @@ class missile:
                 nova_saida['Tt [K]'].append(saida['Tt [K]'][i+1])
                 nova_saida['T [K]'].append(saida['T [K]'][i+1])
 
-        return nova_saida
+            return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
     
 
 
-    def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
+    def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0):
 
         secao = [0,1,2,3,4,5,6,7,8,9]
         pis = [float(1)]*10
@@ -261,12 +264,16 @@ class missile:
         # atmos_AT = self.cria_atmos()
         # print(atmos_AT)
         
-        T0,P0,_ = atmos_AT.get_param()
+        T0,P0,_,_ = atmos_AT.get_param()
 
-        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
-        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_REF,ideal,pi_b,pi_d_max,pi_n,eta_b)
         
-        P0_P9_REF = output_REF['P0/P9'][0]
+        if Pt9_P9_R == 1 and m0_R ==1:
+            output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+        else:
+            output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
+        
+        #P0_P9_REF = output_REF['P0/P9'][0]
 
         #while 'escolha' not in locals():
         #    mudar = 'sim' #input("\nDeseja simular com os parâmetros de referência do ciclo on desing?  Caso não, insira-os manualmente\n")
@@ -281,7 +288,7 @@ class missile:
         #    elif re.search('(?i)^nao|^2|^n|^man|^manualmente|manual',mudar):
         #        variables = re.split("\s",input("Por fim, insira os parâmetros de referência:\nM0_R, T0_R, P0_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, Pt9_P9_R, m0_R\n"))
         #        M0_R = float(variables[0]); T0_R = float(variables[1]); P0_R = float(variables[2]); tau_r_R = float(variables[3]); pi_r_R = float(variables[4]); Tt4_R = float(variables[5]); pi_d_R = float(variables[6]); Pt9_P9_R = float(variables[7]); m0_R = float(variables[8])
-        #        output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
+        #        
         #        escolha = False
         #    else:
         #        print("!!! DIGITE UMA OPÇÃO VÁLIDA !!!")
