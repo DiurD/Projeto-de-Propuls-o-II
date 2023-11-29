@@ -186,9 +186,11 @@ def results(request):
                 "T9_T0": Mattingly.pop("T9/T0"),
                 "T9_Tt9": Mattingly.pop("T9/Tt9"),
                 "Todas_Secoes": Todas_Secoes,
+                "Todas_Secoes_len": range(len(Todas_Secoes['Section'])),
                 "Mattingly_REF": Mattingly_REF,
                 "Todas_Secoes_REF": Todas_Secoes_REF,
                 "Datum": Datum,
+                "Datum_len": range(len(Datum['Section'])),
                 "motor": novo_motor,
                 "atmosfera": atmosfera,
                 "atmosfera_ref":atmosfera_ref
