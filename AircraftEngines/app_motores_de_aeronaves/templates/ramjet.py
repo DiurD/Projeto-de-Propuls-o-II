@@ -1,5 +1,5 @@
 import re,math
-import Prop2
+from app_motores_de_aeronaves.templates import Prop2
 
 
 class missile:
@@ -302,17 +302,17 @@ class missile:
 
         nova_saida = {
         'Section': secao,
-        'Pos. [m]':posicao,
+        'Pos':posicao,
         'Datum':datum,
-        'D [m]':[],
-        'A [m²]': [],
-        'A* [m²]': [],
-        'A/A*': [],
+        'D':[],
+        'A': [],
+        'Aot': [],
+        'A_Aot': [],
         'Mach':[],
-        'Pt [Pa]':[],
-        'P [Pa]':[],
-        'Tt [K]':[],
-        'T [K]':[]
+        'Pt':[],
+        'P':[],
+        'Tt':[],
+        'T':[]
         }
 
         for i in range(2):
