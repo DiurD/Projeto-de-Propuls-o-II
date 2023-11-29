@@ -23,7 +23,7 @@ class AircraftEngines:
         return self.T0,self.P0,self.a0,self.rho0
 
     def set_param(self,new_T0:float,new_P0:float,new_a0:float):
-        self.height = "dados inseridos manualmente (sem dados de altitude padronizada)"
+        self.height = -1
         self.T0 = new_T0
         self.P0 = new_P0
         self.a0 = new_a0
