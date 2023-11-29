@@ -326,7 +326,7 @@ class missile:
             nova_saida['Tt'].append(saida['Tt [K]'][i])
             nova_saida['T'].append(saida['T [K]'][i])
         
-        
+
         # Seção 1.1
         nova_saida['A'].append(saida['A [m²]'][1])
         nova_saida['Aot'].append(saida['A [m²]'][1])
@@ -334,9 +334,9 @@ class missile:
         nova_saida['Mach'].append(1.0)
         nova_saida['D'].append((saida['A [m²]'][1]*4/math.pi)**0.5/self.airIntakes)
         nova_saida['Pt'].append(saida['Pt [Pa]'][1])
-        nova_saida['P'].append(  saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
+        nova_saida['P'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
         nova_saida['Tt'].append(saida['Tt [K]'][1])
-        nova_saida['T'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))
+        nova_saida['T'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))   
 
         for i in range(3,len(secao)):
             if i<6:
@@ -360,4 +360,4 @@ class missile:
                 nova_saida['Tt'].append(saida['Tt [K]'][i+1])
                 nova_saida['T'].append(saida['T [K]'][i+1])
 
-            return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
+        return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
