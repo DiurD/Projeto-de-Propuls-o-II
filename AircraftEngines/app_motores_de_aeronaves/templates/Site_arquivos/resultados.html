@@ -82,46 +82,46 @@
 				</thead>
 				<tbody>
 				  <tr>
-					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg] {{Mattingly.F_m0.0|floatformat:2}}</td> 
-					<td id="Empuxo-especifico"></td>
-					<td>Eficiência térmica (&#x3B7<sub>T</sub>) {{Mattingly.eta_T.0|floatformat:4}}</td> 
-					<td id="eta_T"></td>
+					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td> 
+					<td id="Empuxo-especifico">{{Mattingly.F_m0.0|floatformat:2}}</td>
+					<td>Eficiência térmica (&#x3B7<sub>T</sub>)</td> 
+					<td id="eta_T">{{Mattingly.eta_T.0|floatformat:4}}</td>
 				  </tr>
 				  <tr>
-					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s] {{Mattingly.m0_dot.0|floatformat:2}}</td> 
-					<td id="vazao-massica"></td>
-					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>) {{Mattingly.eta_P.0|floatformat:4}}</td>
-					<td id="eta_P"></td>
+					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s]</td> 
+					<td id="vazao-massica">{{Mattingly.m0_dot.0|floatformat:2}}</td>
+					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>)</td>
+					<td id="eta_P">{{Mattingly.eta_P.0|floatformat:4}}</td>
 				  </tr>
 				  <tr>
-					<td>Empuxo (F) [N] {{Mattingly.F.0|floatformat:2}}</td> 
-					<td id="Empuxo"></td>
-					<td>Eficiência Global (&#x3B7<sub>O</sub>) {{Mattingly.eta_Total.0|floatformat:4}}</td> 
-					<td id="eta_global"></td>
+					<td>Empuxo (F) [N]</td> 
+					<td id="Empuxo">{{Mattingly.F.0|floatformat:2}}</td>
+					<td>Eficiência Global (&#x3B7<sub>O</sub>)</td> 
+					<td id="eta_global">{{Mattingly.eta_Total.0|floatformat:4}}</td>
 				  </tr>
 				  <tr>
-					<td>Razão combustível/ar (f) {{Mattingly.f.0|floatformat:4}}</td> 
-					<td id="razao-combustivel-ar"></td>
-					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>) {{Mattingly.Tau_lambda.0|floatformat:2}}</td> 
-					<td id="tau-lambda"></td>
+					<td>Razão combustível/ar (f)</td> 
+					<td id="razao-combustivel-ar">{{Mattingly.f.0|floatformat:4}}</td>
+					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>)</td> 
+					<td id="tau-lambda">{{Mattingly.Tau_lambda.0|floatformat:2}}</td>
 				  </tr>
 				  <tr>
-					<td>Consumo específico de combustível (S) [kg/(N.s)] {{ Mattingly.S.0|floatformat:8 }}</td> 
-					<td id="Consumo-especifico-combustivel"></td>
-					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>) {{ Pt9_P9.0 |floatformat:2}}</td> 
-					<td id="Pt9/P9"></td>
+					<td>Consumo específico de combustível (S) [kg/(N.s)]</td> 
+					<td id="Consumo-especifico-combustivel">{{Mattingly.S.0|floatformat:8}}</td>
+					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>)</td> 
+					<td id="Pt9/P9">{{Pt9_P9.0 |floatformat:2}}</td>
 				  </tr>
 				  <tr>
-					<td>Consumo de combustível (FC) [kg/s] {{Mattingly.FC.0|floatformat:4}}</td> 
-					<td id="consumo-combustivel"></td>
-					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>9</sub>/T<sub>t9</sub>) {{ T9_Tt9 |floatformat:4}}</td>
-					<td id="Tt9/T9"></td>
+					<td>Consumo de combustível (FC) [kg/s]</td> 
+					<td id="consumo-combustivel">{{Mattingly.FC.0|floatformat:4}}</td>
+					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>9</sub>/T<sub>t9</sub>) </td>
+					<td id="Tt9/T9">{{T9_Tt9.0 |floatformat:4}}</td>
 				  </tr>
 				  <tr>
-					<td>Razão ar/combustível (AF) {{Mattingly.AF.0|floatformat:2}}</td> 
-					<td id="Razao-ar-combustivel"></td>
-					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>) {{ T9_T0.0|floatformat:3 }} </td> 
-					<td id="T9/T0"></td>
+					<td>Razão ar/combustível (AF)</td> 
+					<td id="Razao-ar-combustivel">{{Mattingly.AF.0|floatformat:2}}</td>
+					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td> 
+					<td id="T9/T0">{{T9_T0.0|floatformat:3}}</td>
 				  </tr>
 				</tbody>
 			</table>
@@ -129,6 +129,12 @@
 
 		<section>
 			<img src="" alt="">
+		</section>
+
+		<section id="grafico">
+			<div>
+				<canvas id="canvas"></canvas>
+			</div>
 		</section>
 
 		<section id="Resultados-secoes">
@@ -150,9 +156,22 @@
 		</div>
 	</div>
 	
+	<script src="
+		https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
+		"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
+
+	<script>
+		window.datum = {
+			Pos: JSON.parse('{{Datum.Pos}}'),
+			P: JSON.parse('{{Datum.P}}'),
+			T: JSON.parse('{{Datum.T}}')
+		};
+	</script>
+
+	<script type="module" src="{% static 'js/chart.js' %}"></script>
 	</body>
 	
 	</html>
