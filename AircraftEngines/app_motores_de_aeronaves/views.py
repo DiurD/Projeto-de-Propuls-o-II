@@ -178,7 +178,8 @@ def results(request):
     #                    'y': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     #                    'z': [69,420,69,420,69,420,69,420,69,420]}
 
-    context = { "Mattingly": Mattingly,
+    context = { "Mattingly": Mattingly, # Mattlingly tem uma chave incompativel com templates "P0/P9", você pode então
+                "P0_P9": Mattingly.pop("P0/P9"), # separar essa chave do dicionário e passá-la individualmente.  
                 "Todas_Secoes": Todas_Secoes,
                 "Mattingly_REF": Mattingly_REF,
                 "Todas_Secoes_REF": Todas_Secoes_REF,
