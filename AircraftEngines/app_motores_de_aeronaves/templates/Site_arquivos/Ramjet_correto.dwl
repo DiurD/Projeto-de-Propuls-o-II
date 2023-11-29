@@ -1,3 +1,3 @@
-vins_
-VINI 
-quarta-feira, 29 de novembro de 2023  00:02:53
+Lucas
+DESKTOP-7JN0SEL 
+Wednesday, November 29, 2023  3:50:44 PM
