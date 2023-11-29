@@ -36,19 +36,19 @@
 			<h2>Entradas da análise</h2>
 
 			<div class="nome-do-motor">
-				<b>Nome do motor: </b>
+				<b>Nome do motor: </b> {{ motor.name }}
 			</div>
 
 			<div class="M0">
-				<b>Velocidade do ar no escoamento livre [Mach]: </b>
+				<b>Velocidade do ar no escoamento livre [Mach]: </b> {{ motor.M0 }}
 			</div>
 
 			<div class="P0/P9">
-				<b>Razão das pressões de entrada e saída do motor: </b>
+				<b>Razão das pressões de entrada e saída do motor: </b> {{ Mattingly.P0P9 }}
 			</div>
 
 			<div class="Tt4">
-				<b>Temperatura de saída do combustor [K]: </b>
+				<b>Temperatura de saída do combustor [K]: </b> {{ motor.Tt4 }}
 			</div>
 		</section>
 

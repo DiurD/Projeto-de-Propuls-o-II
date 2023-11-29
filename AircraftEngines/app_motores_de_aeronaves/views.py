@@ -174,15 +174,18 @@ def results(request):
             pass
             
 
-    dicionario_teste = {'x':list(range(10)),
-                        'y': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-                        'z': [69,420,69,420,69,420,69,420,69,420]}
+    #dicionario_teste = {'x':list(range(10)),
+    #                    'y': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+    #                    'z': [69,420,69,420,69,420,69,420,69,420]}
+
     context = { "Mattingly": Mattingly,
                 "Todas_Secoes": Todas_Secoes,
                 "Mattingly_REF": Mattingly_REF,
                 "Todas_Secoes_REF": Todas_Secoes_REF,
                 "Datum": Datum,
-                "dicionario":dicionario_teste
+                "motor": novo_motor,
+                "atmosfera": atmosfera,
+                "atmosfera_ref":atmosfera_ref
                 }
 
     print(request.POST) #Caso queira ver as chaves no terminal
@@ -190,7 +193,7 @@ def results(request):
     print("\n \n")
 
     print(context)
-    
+
     return render(request, 'Site_arquivos/resultados.html', context)
 
 def home(request):
