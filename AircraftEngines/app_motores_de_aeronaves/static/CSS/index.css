@@ -120,3 +120,31 @@ main.container{
 	border-radius: 16px;
 	width: 80%;
 }
+
+.imagem-professor{
+	border-radius: 50%;
+	width: 150px;
+}
+
+.texto-equipe{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.nome-sobre{
+	font-weight: 500;
+	font-size: 1.2rem;
+}
+
+.linha-sobre{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-bottom: 20px;
+}
+
+.imagem-motor{
+	width: 60%;
+	margin-top: 32px;
+	margin-bottom: 32px;
+}

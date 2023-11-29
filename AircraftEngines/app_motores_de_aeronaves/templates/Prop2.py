@@ -20,7 +20,7 @@ class AircraftEngines:
         return f"\nDados atmosféricos:\nAltitude = {self.height} m\nT0 = {self.T0} K \nP0 = {self.P0} Pa\na0 = {self.a0} m/s\n"
     
     def get_param(self):
-        return self.T0,self.P0,self.a0
+        return self.T0,self.P0,self.a0,self.rho0
 
     def set_param(self,new_T0:float,new_P0:float,new_a0:float):
         self.height = "dados inseridos manualmente (sem dados de altitude padronizada)"
