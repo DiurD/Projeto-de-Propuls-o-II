@@ -136,3 +136,9 @@ main.container{
 	font-weight: 500;
 	font-size: 1.2rem;
 }
+
+.linha-sobre{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-bottom: 20px;
+}
