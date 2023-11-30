@@ -105,19 +105,19 @@ def results(request):
     M0_ref = float(M0_ref[0]) if M0_ref else M0
 
     T0_ref = [elem for elem in request.POST.getlist('T0_ref') if elem != '']
-    T0_ref = float(T0_ref[0]) if T0_ref else 1
+    T0_ref = float(T0_ref[0]) if T0_ref else T0
 
     P0_ref = [elem for elem in request.POST.getlist('P0_ref') if elem != '']
-    P0_ref = float(P0_ref[0]) if P0_ref else 1
+    P0_ref = float(P0_ref[0]) if P0_ref else P0
 
     atmosfera_ref = Prop2.AircraftEngines(altitude_ref)
     
-    [_,_,a0_ref,_] = atmosfera.get_param()
+    [_,_,a0_ref,_] = atmosfera_ref.get_param()
 
-    if (P0_ref !=1 and T0_ref != 1):
-        atmosfera_ref.set_param(T0_ref,P0_ref,a0_ref)
+    # if (P0_ref == P0 and T0_ref == T0):
+    #    atmosfera_ref.set_param(T0_ref,P0_ref,a0_ref)
 
-    [T0_ref,P0_ref,a0_ref,rho0_ref] = atmosfera_ref.get_param()
+    # [T0_ref,P0_ref,a0_ref,rho0_ref] = atmosfera_ref.get_param()
 
     Tt4_ref = [elem for elem in request.POST.getlist('Tt4_ref') if elem != '']
     Tt4_ref = float(Tt4_ref[0]) if Tt4_ref else Tt4
