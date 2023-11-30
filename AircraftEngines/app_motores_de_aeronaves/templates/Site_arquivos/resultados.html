@@ -156,7 +156,11 @@
 						{% for i in Datum_len %}
 							<tr>
 								{% for _,values in Datum.items %}
+									{%if values is Datum.Section%}
+									<td>{{ values|custom:i|floatformat:1}} </td>
+									{%else%}
 									<td>{{ values|custom:i|floatformat:3}} </td>
+									{%endif%}
 								{% endfor %}	
 							</tr>
 						{% endfor %}
