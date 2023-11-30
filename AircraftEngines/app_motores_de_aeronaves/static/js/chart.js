@@ -70,9 +70,9 @@
         yAxisID: "y8",
       },
       {
-        label: "Pressão total [Pa]",
+        label: "Temperatura total [K]",
         hidden: true,
-        data: datum.Pt,
+        data: datum.Tt,
         borderColor: "yellow",
         backgroundColor: "yellow",
         yAxisID: "y9",
