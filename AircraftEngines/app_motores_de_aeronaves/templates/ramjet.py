@@ -302,62 +302,62 @@ class missile:
 
         nova_saida = {
         'Section': secao,
-        'Pos':posicao,
+        'Pos.':posicao,
         'Datum':datum,
-        'D':[],
-        'A': [],
-        'Aot': [],
-        'A_Aot': [],
+        'D [m]':[],
+        'A [m²]': [],
+        'A* [m²]': [],
+        'A/A*': [],
         'Mach':[],
-        'Pt':[],
-        'P':[],
-        'Tt':[],
-        'T':[]
+        'Pt [Pa]':[],
+        'P [Pa]':[],
+        'Tt [K]':[],
+        'T [K]':[]
         }
 
         for i in range(2):
-            nova_saida['A'].append(saida['A [m²]'][i])
-            nova_saida['Aot'].append(saida['A* [m²]'][i])
-            nova_saida['A_Aot'].append(saida['A/A*'][i])
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
             nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D'].append(self.D[i])
-            nova_saida['Pt'].append(saida['Pt [Pa]'][i])
-            nova_saida['P'].append(saida['P [Pa]'][i])
-            nova_saida['Tt'].append(saida['Tt [K]'][i])
-            nova_saida['T'].append(saida['T [K]'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])
         
 
         # Seção 1.1
-        nova_saida['A'].append(saida['A [m²]'][1])
-        nova_saida['Aot'].append(saida['A [m²]'][1])
-        nova_saida['A_Aot'].append(1.0)
+        nova_saida['A [m²]'].append(saida['A [m²]'][1])
+        nova_saida['A* [m²]'].append(saida['A [m²]'][1])
+        nova_saida['A/A*'].append(1.0)
         nova_saida['Mach'].append(1.0)
-        nova_saida['D'].append((saida['A [m²]'][1]*4/math.pi)**0.5/self.airIntakes)
-        nova_saida['Pt'].append(saida['Pt [Pa]'][1])
-        nova_saida['P'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
-        nova_saida['Tt'].append(saida['Tt [K]'][1])
-        nova_saida['T'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))   
+        nova_saida['D [m]'].append((saida['A [m²]'][1]*4/math.pi)**0.5/self.airIntakes)
+        nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][1])
+        nova_saida['P [Pa]'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
+        nova_saida['Tt [K]'].append(saida['Tt [K]'][1])
+        nova_saida['T [K]'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))   
 
         for i in range(3,len(secao)):
             if i<6:
-                nova_saida['A'].append(saida['A [m²]'][i-1])
-                nova_saida['Aot'].append(saida['A* [m²]'][i-1])
-                nova_saida['A_Aot'].append(saida['A/A*'][i-1])
+                nova_saida['A [m²]'].append(saida['A [m²]'][i-1])
+                nova_saida['A* [m²]'].append(saida['A* [m²]'][i-1])
+                nova_saida['A/A*'].append(saida['A/A*'][i-1])
                 nova_saida['Mach'].append(saida['Mach'][i-1])
-                nova_saida['D'].append(self.D[i-1])
-                nova_saida['Pt'].append(saida['Pt [Pa]'][i-1])
-                nova_saida['P'].append(saida['P [Pa]'][i-1])
-                nova_saida['Tt'].append(saida['Tt [K]'][i-1])
-                nova_saida['T'].append(saida['T [K]'][i-1])
+                nova_saida['D [m]'].append(self.D[i-1])
+                nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i-1])
+                nova_saida['P [Pa]'].append(saida['P [Pa]'][i-1])
+                nova_saida['Tt [K]'].append(saida['Tt [K]'][i-1])
+                nova_saida['T [K]'].append(saida['T [K]'][i-1])
             else:
-                nova_saida['A'].append(saida['A [m²]'][i+1])
-                nova_saida['Aot'].append(saida['A* [m²]'][i+1])
-                nova_saida['A_Aot'].append(saida['A/A*'][i+1])
+                nova_saida['A [m²]'].append(saida['A [m²]'][i+1])
+                nova_saida['A* [m²]'].append(saida['A* [m²]'][i+1])
+                nova_saida['A/A*'].append(saida['A/A*'][i+1])
                 nova_saida['Mach'].append(saida['Mach'][i+1])
-                nova_saida['D'].append(self.D[i+1])
-                nova_saida['Pt'].append(saida['Pt [Pa]'][i+1])
-                nova_saida['P'].append(saida['P [Pa]'][i+1])
-                nova_saida['Tt'].append(saida['Tt [K]'][i+1])
-                nova_saida['T'].append(saida['T [K]'][i+1])
+                nova_saida['D [m]'].append(self.D[i+1])
+                nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i+1])
+                nova_saida['P [Pa]'].append(saida['P [Pa]'][i+1])
+                nova_saida['Tt [K]'].append(saida['Tt [K]'][i+1])
+                nova_saida['T [K]'].append(saida['T [K]'][i+1])
 
         return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
