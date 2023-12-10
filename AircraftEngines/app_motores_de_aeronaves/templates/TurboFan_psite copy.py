@@ -98,6 +98,7 @@ class missile:
         output['Pt19/P19'] = [Pt19_P19]
         output['Tt19/T0'] = [Tt19_T0]
         output['T19/T0'] = [T19_T0]
+        output['T9/T0'] = [T9_T0]
         
         #pis[2] = pis[1]
         #taus[2] = taus[1]
@@ -228,13 +229,19 @@ class missile:
         A_opt = [float(1)]*14
         A_Aopt = [float(1)]*14
 
-        #
+        # 
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9_AT]
         output['Pt9/P9'] = [Pt9_P9]
         output['Pt19/P19'] = [Pt19_P19]
         output['T9/Tt9'] = [T9_Tt9]
         output['T9/T0'] = [T9_T0]
+        output['Pt19/P0'] = [Pt19_P0]
+        output['P19/P0'] = [P19_P0]
+        output['Pt9/P0'] = [Pt9_P0]
+        output['T9/T0'] = [T9_T0]
+        output['T19/T0'] = [T19_T0]
+        output['P9/P0'] = [P9_P0]
         
         #pis[2] = pis[1]
         #taus[2] = taus[1]
