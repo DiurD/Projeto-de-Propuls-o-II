@@ -2,7 +2,7 @@ import Prop2,re,math
 from tabulate import tabulate
 
 
-class turboprop:
+class motor_turboprop:
     def __init__(self):
         print("*** Criando um novo motor do tipo turboprop. Defina seus parâmetros a seguir: ***\n")
         self.name = input("Qual o nome do motor?  ")
