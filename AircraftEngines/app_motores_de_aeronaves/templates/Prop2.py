@@ -1063,7 +1063,7 @@ class AircraftEngines:
         eta_mH,
         eta_g,
         eta_prop,
-        A0, #Para calcular m0_dot. Caso queira inserir diretamente m0_dot "a gente" muda depois # Comentado podr Gabriel
+        m0_dot, #Para calcular m0_dot. Caso queira inserir diretamente m0_dot "a gente" muda depois # Comentado podr Gabriel
 
         ):
         output = {
@@ -1082,8 +1082,8 @@ class AircraftEngines:
         'm0_dot': [] #Adicionado por Gabriel
         }
         
-        R_c = (gamma_c - 1)/gamma_c*cp_c
-        R_t = (gamma_t - 1)/gamma_t*cp_t
+        R_c = 1000*(gamma_c - 1)/gamma_c*cp_c
+        R_t = 1000*(gamma_t - 1)/gamma_t*cp_t
         a0 = (gamma_c*R_c*self.T0)**(1/2)
         V0 = a0*M0
         tau_r = 1 + (gamma_c - 1)/2*M0**2
@@ -1095,10 +1095,10 @@ class AircraftEngines:
         
         pi_d = pi_d_max*eta_r
         tau_d = pi_d**((gamma_c-1)/gamma_c) #adicionado Gabriel
-        tau_b = Tt4/(self.T0*tau_d*tau_r) #adicionado Gabriel
         tau_n = 1 #adicionado Gabriel
         tau_lambda = cp_t*Tt4/(cp_c*self.T0)
         tau_c = pi_c**((gamma_c - 1)/(gamma_c*e_c))
+        tau_b = Tt4/(self.T0*tau_d*tau_r*tau_c) #adicionado Gabriel
         eta_c = (pi_c**((gamma_c - 1)/gamma_c) - 1)/(tau_c - 1)
         
         f = (tau_lambda - tau_r*tau_c)/(hpr*eta_b/(cp_c*self.T0) - tau_lambda)
@@ -1126,7 +1126,7 @@ class AircraftEngines:
         V9_a0 = (2*tau_lambda*tau_tH*tau_tL/(gamma_c - 1)*(1 - (Pt9_P9)**(-1*(gamma_t - 1)/gamma_t)))**0.5
         Tt9_T0 = Tt4/self.T0*tau_tH*tau_tL
         T9_T0 = Tt9_T0/(Pt9_P9**((gamma_t-1)/gamma_t))
-        T9_Tt9 = Tt9_T0*T9_T0 #adicionado Gabriel
+        T9_Tt9 = T9_T0/Tt9_T0 #adicionado Gabriel
         
         C_prop = eta_prop*eta_g*eta_mL*(1 + f)*tau_lambda*tau_tH*(1 - tau_tL)
         C_c = (gamma_c - 1)*M0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t/R_c*T9_T0/V9_a0*(1 - P0_P9)/gamma_c)
@@ -1143,7 +1143,6 @@ class AircraftEngines:
         eta_T = C_tot*cp_c*self.T0/(f*hpr)
         eta_Total = eta_P*eta_T
         AF = 1/f
-        m0_dot = self.rho0*V0*A0 #Adicionado por Gabriel
 
         output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
@@ -1224,8 +1223,8 @@ class AircraftEngines:
             eta_prop = (1-(M0-0.7)/3)*eta_propmax
         
 
-        R_c = (gamma_c - 1)/gamma_c*cp_c
-        R_t = (gamma_t - 1)/gamma_t*cp_t
+        R_c = 1000*(gamma_c - 1)/gamma_c*cp_c
+        R_t = 1000*(gamma_t - 1)/gamma_t*cp_t
         a0 = (gamma_c*R_c*self.T0)**(1/2)
         V0 = a0*M0
         tau_r = 1 + (gamma_c - 1)/2*M0**2
@@ -1244,7 +1243,10 @@ class AircraftEngines:
 
         pi_tL = pi_tL_R
         pi_tL_prev = 0
-        
+        #Por algum motivo, não tá entrando no loop "while" com os dados do exemplo.
+        Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #muda aqui (apaga)
+        Pt9_P9 = Pt9_P0 ##muda aqui (apaga)
+        M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5 #muda aqui (apaga)
         while abs(pi_tL - pi_tL_prev) <= 0.0001:
             tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t))
             Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n
@@ -1261,10 +1263,12 @@ class AircraftEngines:
             MFP_R = M9_R*(gamma_t/R_t)/((1+M9_R**2*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
             pi_tL_prev = pi_tL
             pi_tL = pi_tL_R*(tau_tL/tau_tL_R)**0.5*MFP_R/MFP
-            
-        T9 = self.T0*Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )
+        
+        tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t)) #muda aqui (apaga)
+
+        T9 = Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )  #FORMULA ERRADA NA MERDA DO LIVRO 
         T9_T0 = T9/self.T0
-        V9_a0 = M9(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**0.5
+        V9_a0 = M9*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**0.5
         
         C_c = (gamma_c - 1)*M0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t/R_c*T9_T0/V9_a0*(1 - P0_P9)/gamma_c)
         C_prop = eta_prop*eta_g*eta_mL*(1 + f)*tau_lambda*tau_tH*(1 - tau_tL)
@@ -1279,10 +1283,10 @@ class AircraftEngines:
         W_m0 = C_tot*cp_c*self.T0
 
         tau_d = pi_d**((gamma_c-1)/gamma_c) #adicionado Gabriel
-        tau_b = Tt4/(self.T0*tau_d*tau_r) #adicionado Gabriel
+        tau_b = Tt4/(self.T0*tau_d*tau_r*tau_c) #adicionado Gabriel
         tau_n = 1 #adicionado Gabriel
         Tt9_T0 = Tt4/self.T0*tau_tH*tau_tL  #adicionado Gabriel
-        T9_Tt9 = Tt9_T0*T9_T0 #adicionado Gabriel
+        T9_Tt9 = T9_T0/Tt9_T0 #adicionado Gabriel
 
         eta_P = C_tot/(C_prop/eta_prop + ((gamma_c - 1)/2)*((1 + f)*V9_a0**2 - M0**2))
         eta_T = C_tot*cp_c*self.T0/(f*hpr)
