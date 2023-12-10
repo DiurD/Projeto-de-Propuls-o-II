@@ -4,24 +4,24 @@ from app_motores_de_aeronaves.templates import Prop2
 
 class missile:
     
-    def __init__(self,name,diameters,lenght,M0,intakes):
+    def __init__(self,name,diameters,lenght,M0,M6):
         print("*** Criando um novo motor do tipo turbofan. Defina seus parâmetros a seguir: ***\n")
         self.name = name
         self.length = lenght
         self.M0 = M0
+        self.M6 = M6
         self.D = diameters
         self.A=[float(0)]*21
-        self.airIntakes = intakes
 
         for i in range(len(self.D)):
-            if i == 1:
-                self.A[i] = (math.pi*self.D[i]**2)/4*self.airIntakes
+            # if i == 1:
+            #     self.A[i] = (math.pi*self.D[i]**2)/4*self.airIntakes
+            # else:
+            if self.D[i]==0 and i!=0:
+                self.D[i] = self.D[i-1]
+                self.A[i] = self.A[i-1]
             else:
-                if self.D[i]==0 and i!=0:
-                    self.D[i] = self.D[i-1]
-                    self.A[i] = self.A[i-1]
-                else:
-                    self.A[i] = (math.pi*self.D[i]**2)/4
+                self.A[i] = (math.pi*self.D[i]**2)/4
         self.A[0] = 0
         self.A[2] = 0
         self.A[3] = 0
@@ -50,8 +50,9 @@ class missile:
         
         
         T0,P0,_,_ = atmos.get_param()
-        secao = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+        secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         pis = [float(1)]*14
+        pis[0] = 1
         pis[6] = pi_b ; pis[10] = pi_n
         taus = [float(1)]*14
         Pts = [float(1)]*14
@@ -60,14 +61,12 @@ class missile:
         Ts = [float(1)]*14
         
 
-
         Ms = [float(1)]*14
-        Ms[0] = 0.01
+        Ms[0] = 0
         Ms[1] = self.M0
-        Ms[3] = self.M3
-        Ms[2] = Ms[4] =Ms[5] = Ms[6] = Ms[7] = self.M3*1.25
-        Ms[8] = 1
-        #Ms[9] = self.M0
+        Ms[6] = Ms[7]= Ms[8] = Ms[11] = self.M6
+        Ms[2] = Ms[3] =Ms[4] = Ms[5] = self.M6*0.8
+        Ms[9] = 1
             
         A_opt = [float(1)]*14
         A_Aopt = [float(1)]*14
@@ -85,7 +84,7 @@ class missile:
         #            print("Digite uma opção válida!\n")
             
         
-        output,tau_lambda,taus[1],pis[1],pis[2],taus[2],taus[3],taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0 = atmos.real_turbofan(self,self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size,min_pi_c,max_pi_c)
+        output,self.T0,taus[1],pis[1],pis[2],taus[2],taus[3],tau_lambda,taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0 = atmos.real_turbofan(self,self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size,min_pi_c,max_pi_c)
         # output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.real_ramjet(self.M0, hpr, Tt4, self.A[1], pis[4], pi_d_max, pis[8], P0_P9, gamma_c, gamma_t, cp_c, cp_t, eta_b)
         #f = output.get('f')
         #air_comb = 1/f[0]
@@ -99,11 +98,20 @@ class missile:
         output['Pt19/P19'] = [Pt19_P19]
         output['Tt19/T0'] = [Tt19_T0]
         output['T19/T0'] = [T19_T0]
+        output['T9/T0'] = [T9_T0]
         
         #pis[2] = pis[1]
         #taus[2] = taus[1]
         #pis[7] = pis[6] = pis[5] =pis[4]
         #taus[7] = taus[6] = taus[5] =taus[4]
+        taus[6] = Tt4/Tts[5]
+        taus[11] = taus[3]
+        pi_f = pis[3] = pis[11]
+        pi_cL = pis[4]
+        pi_cH = pis[5]
+        pis[9] = 0.92
+        Ms[10] = (2/(gamma_c-1)*(Pt9_P9**((gamma_c-1)/gamma_c)-1) )**0.5
+        Ms[12] = Ms[13] = (2/(gamma_c-1)*(Pt19_P19^((gamma_c-1)/gamma_c)-1))**0.5
 
 
         for i in range(len(secao)):
@@ -129,10 +137,9 @@ class missile:
 
         Ps[9] = Pts[9]/Pt9_P9
         Ts[9] = Tts[0]*T9_T0
-        Ms[9] = (2/(gamma_t-1)*(Pt9_P9**((gamma_t-1)/gamma_t)-1) )**0.5
         A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
         A_opt[9]=self.A[9]/A_Aopt[9]
-        
+
 
         saidas = {
         'Section': secao,
@@ -153,14 +160,15 @@ class missile:
 
     def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b):
 
-        secao = [0,1,2,3,4,5,6,7,8,9]
-        pis = [float(1)]*10
-        pis[4] = pi_b ; pis[8] = pi_n
-        taus = [float(1)]*10
-        Pts = [float(1)]*10
-        Tts = [float(1)]*10
-        Ps = [float(1)]*10
-        Ts = [float(1)]*10
+        secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
+        pis = [float(1)]*14
+        pis[0] = 1
+        pis[6] = pi_b ; pis[10] = pi_n
+        taus = [float(1)]*14
+        Pts = [float(1)]*14
+        Tts = [float(1)]*14
+        Ps = [float(1)]*14
+        Ts = [float(1)]*14
         output_REF={'Parâmetros inseridos manualmente': ["Cálculo de seções não ocorreu"]}
         saida_REF={'Parâmetros inseridos manualmente': ["Cálculo de seções não ocorreu"]}
         
@@ -182,10 +190,15 @@ class missile:
         output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_REF,ideal,P0_P9_AT,pi_b,pi_d_max,pi_n,eta_b)
         
         if Pt9_P9_R == 1 and m0_R ==1:
-            output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0 = atmos_AT.real_turbofan_off_design(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_c,pi_tH,pi_n,pi_fn,tau_tH,eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R)
         else:
-            output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
+            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0 = atmos_AT.real_turbofan_off_design(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_c,pi_tH,pi_n,pi_fn,tau_tH,eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R)
         
+        #if Pt9_P9_R == 1 and m0_R ==1:
+        #    output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+        #else:
+        #    output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos_AT.offdesign_ramjet(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pis[4],pis[8],eta_b,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R)
+
         #P0_P9_REF = output_REF['P0/P9'][0]
 
         #while 'escolha' not in locals():
@@ -207,29 +220,41 @@ class missile:
         #        print("!!! DIGITE UMA OPÇÃO VÁLIDA !!!")
 
 
-        Ms = [float(1)]*10
-        Ms[0] = 0.01
-        Ms[1] = M0_AT
-        Ms[3] = self.M3
-        Ms[2] = Ms[4] =Ms[5] = Ms[6] = Ms[7] = self.M3*1.10
-        Ms[8] = 1
-        #Ms[9] = self.M0
-  
-        A_opt = [float(1)]*10
-        A_Aopt = [float(1)]*10
+        Ms = [float(1)]*14
+        Ms[0] = 0
+        Ms[1] = self.M0
+        Ms[6] = Ms[7]= Ms[8] = Ms[11] = self.M6
+        Ms[2] = Ms[3] =Ms[4] = Ms[5] = self.M6*0.8
+        Ms[9] = 1
+        A_opt = [float(1)]*14
+        A_Aopt = [float(1)]*14
 
-        #
+        # 
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9_AT]
         output['Pt9/P9'] = [Pt9_P9]
+        output['Pt19/P19'] = [Pt19_P19]
         output['T9/Tt9'] = [T9_Tt9]
         output['T9/T0'] = [T9_T0]
+        output['Pt19/P0'] = [Pt19_P0]
+        output['P19/P0'] = [P19_P0]
+        output['Pt9/P0'] = [Pt9_P0]
+        output['T9/T0'] = [T9_T0]
+        output['T19/T0'] = [T19_T0]
+        output['P9/P0'] = [P9_P0]
         
         #pis[2] = pis[1]
         #taus[2] = taus[1]
         #pis[7] = pis[6] = pis[5] =pis[4]
         #taus[7] = taus[6] = taus[5] =taus[4]
-
+        taus[6] = Tt4_R/Tts[5]
+        tau_tH = taus[7]
+        taus[11] = taus[3]
+        pi_tH = pis[7]
+        pis[9] = 0.92
+        pis[3] = pis[11]
+        Ms[10] = (2/(gamma_c-1)*(Pt9_P9**((gamma_c-1)/gamma_c)-1) )**0.5
+        Ms[12] = Ms[13] = (2/(gamma_c-1)*(Pt19_P19^((gamma_c-1)/gamma_c)-1))**0.5
 
         for i in range(len(secao)):
             if i<4:
@@ -254,10 +279,10 @@ class missile:
 
         Ps[9] = Pts[9]/Pt9_P9
         Ts[9] = Tts[0]*T9_T0
-        Ms[9] = (2/(gamma_t-1)*(Pt9_P9**((gamma_t-1)/gamma_t)-1) )**0.5
         A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
         A_opt[9]=self.A[9]/A_Aopt[9]
-        
+
+
 
         saidas = {
         'Section': secao,
@@ -278,8 +303,9 @@ class missile:
     
     def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b):
 
-        secao = [0,1,1.1,2,3,4,7,8,9]
-        datum = [0, 0.068,0.086,0.128,0.412,0.744,0.744,0.838,1]
+        # secao = [0,1,1.1,2,3,4,7,8,9]
+        secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
+        datum = [0, 0.068,0.086,0.128,0.14,0.18,0.2,0.25,0.3,0.38,0.412,0.744,0.744,0.838,1]
         posicao = [self.length*i for i in datum]
 
         #while 'escolha' not in locals():
@@ -343,7 +369,7 @@ class missile:
         nova_saida['A* [m²]'].append(saida['A [m²]'][1])
         nova_saida['A/A*'].append(1.0)
         nova_saida['Mach'].append(1.0)
-        nova_saida['D [m]'].append((saida['A [m²]'][1]*4/math.pi)**0.5/self.airIntakes)
+        nova_saida['D [m]'].append((saida['A [m²]'][1]*4/math.pi)**0.5)
         nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][1])
         nova_saida['P [Pa]'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
         nova_saida['Tt [K]'].append(saida['Tt [K]'][1])

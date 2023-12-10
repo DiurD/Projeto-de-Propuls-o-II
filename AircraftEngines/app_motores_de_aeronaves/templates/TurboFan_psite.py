@@ -2,7 +2,7 @@ import Prop2,re,math
 from tabulate import tabulate
 import numpy as np
 
-def calcula_secao(dia_imp, pi_c, pi_0, h_pr, gamma_c, gamma_t, c_pc, c_pt, R_c, R_t, Tt4, alpha, eta_b, pi_dmax, eta_r, epson_f, epson_cL, epson_cH, epson_tH, eta_mH, epson_tL, eta_mL, P0_P9, T_0, P0_P19, P_0, m_0):
+def calcula_secao(dia_imp, pi_c, pi_0, h_pr, gamma_c, gamma_t, c_pc, c_pt, R_c, R_t, Tt4, alpha, eta_b, pi_dmax, eta_r, epson_f, epson_cL, epson_cH, epson_tH, eta_mH, epson_tL, eta_mL, P0_P9, T_0, P0_P19, P_0, m_0,pi_b):
 
 # Cálculo dos Parâmetros do Turbofan: Ideal, Não Ideal ou Off Design
 
@@ -10,19 +10,21 @@ def calcula_secao(dia_imp, pi_c, pi_0, h_pr, gamma_c, gamma_t, c_pc, c_pt, R_c, 
 # Ordem dos diâmetros de Entrada (D_int D_ext H_anelar) [mm]
 # [ Motor ; Admissão ; Fan ; Admissão do Turbojato ; Turbina de Alta ; Bocal do Turbojato ; Bocal do Fan ]
 # dia_imp = [0 57 0 ; 0 36.8 0 ; 36.8 14.1 11.3 ; 22.1 17.2 2.5 ; 17.2 14.7 1.23 ; 23.3 19.0 2.1 ; 41.7 35.5 3.1];
+# h_pr = 4.2*1e7;---------------
+# gamma_c = 1.4;---------------
+# gamma_t = 1.3;---------------
+# c_pc = 1004;---------------
+# c_pt = 1100;---------------
+# P0_P9 = 0.46;---------------
+# pi_b = 0.98;---------------
+# Tt4 = 1850;---------------
+# eta_b = 0.7;---------------
+# pi_dmax = 0.97;---------------
+# alpha = 5;
+# R_t = 291;
+# R_c = 287;
 # pi_c = 1.265;
 # pi_0 = 1;
-# h_pr = 4.2*1e7;
-# gamma_c = 1.4;
-# gamma_t = 1.3;
-# c_pc = 1004;
-# c_pt = 1100;
-# R_c = 287;
-# R_t = 291;
-# Tt4 = 1850;
-# alpha = 5;
-# eta_b = 0.7;
-# pi_dmax = 0.97;
 # eta_r = 1;
 # epson_f = 0.98;
 # epson_cL = 0.95;
@@ -31,7 +33,7 @@ def calcula_secao(dia_imp, pi_c, pi_0, h_pr, gamma_c, gamma_t, c_pc, c_pt, R_c, 
 # eta_mH = 0.99;
 # epson_tL = 0.95;
 # eta_mL = 0.98;
-# P0_P9 = 0.46;
+
 # T_0 = 288.15;
 # P0_P19 = 1;
 # P_0 = 101325;
@@ -109,7 +111,7 @@ tau = np.concatenate([tau[:6], Tt4/(T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]), tau
 
 T_t = np.array([T_0, T_0*tau[2], T_0*tau[2]*tau[3], T_0*tau[2]*tau[3]*tau[4], T_0*tau[2]*tau[3]*tau[4]*tau[5], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]*tau[7], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]*tau[7]*tau[8], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]*tau[7]*tau[8]*tau[9], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]*tau[7]*tau[8]*tau[9]*tau[10], T_0*tau[2]*tau[3]*tau[4]*tau[5]*tau[6]*tau[7]*tau[8]*tau[9]*tau[10]*tau[11], T_0*tau[2]*tau[3]*tau[4], T_0*tau[2]*tau[3]*tau[4]*tau[13], T_0*tau[2]*tau[3]*tau[4]*tau[13]*tau[14]])
 
-pi = np.array([pi_0, tau[2]**(gamma_c/(gamma_c-1)), pi_dmax*eta_r, pi_fR, pi_cL, pi_cH, 0.98, tau[8]**(gamma_t/(gamma_t-1)/epson_tH), tau[9]**(gamma_t/(gamma_t-1)/epson_tL), 0.92, 1, pi_fR, 0.99, 1])
+pi = np.array([pi_0, tau[2]**(gamma_c/(gamma_c-1)), pi_dmax*eta_r, pi_fR, pi_cL, pi_cH, pi_b, tau[8]**(gamma_t/(gamma_t-1)/epson_tH), tau[9]**(gamma_t/(gamma_t-1)/epson_tL), 0.92, 1, pi_fR, 0.99, 1])
 
 P_t = np.array([P_0, P_0*pi[2], (P_0*pi[2])*pi[3], ((P_0*pi[2])*pi[3])*pi[4], (((P_0*pi[2])*pi[3])*pi[4])*pi[5], ((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6], (((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6])*pi[7], ((((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6])*pi[7])*pi[8], (((((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6])*pi[7])*pi[8])*pi[9], ((((((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6])*pi[7])*pi[8])*pi[9])*pi[10], (((((((((P_0*pi[2])*pi[3])*pi[4])*pi[5])*pi[6])*pi[7])*pi[8])*pi[9])*pi[10])*pi[11], ((P_0*pi[2])*pi[3])*pi[4], (((P_0*pi[2])*pi[3])*pi[4])*pi[13], ((((P_0*pi[2])*pi[3])*pi[4])*pi[13])*pi[14]])
 
