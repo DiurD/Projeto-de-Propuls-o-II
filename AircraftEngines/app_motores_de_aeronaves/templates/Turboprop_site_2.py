@@ -290,7 +290,7 @@ atmosfera = Prop2.AircraftEngines(7600)
 
 #self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4, pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,A0,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0,eta_mL=1.0,eta_mH=1.0,eta_g=1.0,e_c=1.0,e_tH=1.0,e_tL=1.0):
 gamma_c = 1.4
-gamma_t = 1.
+gamma_t = 1.4
 cp_c = 1.004
 cp_t = 1.004
 hpr = 42800
@@ -301,4 +301,3 @@ pi_c = 20
 tau_t = 0.5
 A0 = 0.7
 print(tutu.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4, pi_c, tau_t, eta_prop,atmosfera,ideal,A0))
-        

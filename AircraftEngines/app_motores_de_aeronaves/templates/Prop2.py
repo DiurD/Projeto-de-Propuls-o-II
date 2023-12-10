@@ -987,7 +987,7 @@ class AircraftEngines:
         'eta_Total': [],
         'C_c': [],
         'C_prop': [],
-        'C_Total': []
+        'C_tot': [] #C_Total -> C_tot
         }
 
         R = (gamma - 1)/gamma*cp
@@ -1076,7 +1076,7 @@ class AircraftEngines:
         'eta_Total': [],
         'C_c': [],
         'C_prop': [],
-        'C_Total': [],
+        'C_tot': [], #C_Total -> C_tot
         'W_m0': [],
         'S_P': [],
         'm0_dot': [] #Adicionado por Gabriel
@@ -1143,7 +1143,7 @@ class AircraftEngines:
         eta_T = C_tot*cp_c*self.T0/(f*hpr)
         eta_Total = eta_P*eta_T
         AF = 1/f
-        m0_dot = self.rho0*V0*self.A[0] #Adicionado por Gabriel
+        m0_dot = self.rho0*V0*A0 #Adicionado por Gabriel
 
         output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
@@ -1211,7 +1211,7 @@ class AircraftEngines:
         'eta_Total': [],
         'C_c': [],
         'C_prop': [],
-        'C_Total': [],
+        'C_tot': [], #C_Total -> C_tot
         'W_m0': [],
         'S_P': []
         }
