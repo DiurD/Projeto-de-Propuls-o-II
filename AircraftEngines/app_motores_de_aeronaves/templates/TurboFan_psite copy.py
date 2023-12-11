@@ -75,10 +75,6 @@ class missile:
             else:
                 taus[i] = pis[i]**((gamma_t - 1)/gamma_t)
 
-
-        taus[10]= pi_n**((gamma_t - 1)/gamma_t) #tau_n
-        taus[13]= pi_fn**((gamma_t - 1)/gamma_t) #tau_fn
-
         Pts = [float(1)]*14
         Tts = [float(1)]*14
         Ps = [float(1)]*14
