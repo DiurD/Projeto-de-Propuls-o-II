@@ -990,8 +990,8 @@ class AircraftEngines:
         'C_tot': [] #C_Total -> C_tot
         }
 
-        R = (gamma - 1)/gamma*cp
-        a0 = (gamma*R*self.T0)**(1/2)
+        R = 1000*(gamma - 1)/gamma*cp
+        a0 = 1000*(gamma*R*self.T0)**(1/2)
         V0 = a0*M0 #m/s
         
         tau_r = 1 + (gamma - 1)/2*M0**2
@@ -1036,7 +1036,7 @@ class AircraftEngines:
         output['C_prop'].append(C_prop)
         output['C_tot'].append(C_tot)
 
-        return output
+        return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
 
     def real_turboprop(self,
         M0,
@@ -1244,12 +1244,18 @@ class AircraftEngines:
         pi_tL = pi_tL_R
         pi_tL_prev = 0
         #Por algum motivo, não tá entrando no loop "while" com os dados do exemplo.
-        Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #muda aqui (apaga)
-        Pt9_P9 = Pt9_P0 ##muda aqui (apaga)
-        M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5 #muda aqui (apaga)
-        while abs(pi_tL - pi_tL_prev) <= 0.0001:
+        #Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #muda aqui (apaga)
+        #Pt9_P9 = Pt9_P0 ##muda aqui (apaga)
+        #M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5 #muda aqui (apaga)
+        print(pi_tL)
+        print('\n')
+        print(pi_tL_prev)
+        print('\n')
+        print(abs(pi_tL - pi_tL_prev))
+        while abs(pi_tL - pi_tL_prev) >= 0.0001:
             tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t))
             Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n
+            print('entrou no loop \n')
             if Pt9_P0 >= ((gamma_t+1)/2)**(gamma_t/(gamma_t-1)):
                 M9 = 1
                 Pt9_P9 = ((gamma_t+1)/2)**(gamma_t/(gamma_t-1))
@@ -1263,8 +1269,10 @@ class AircraftEngines:
             MFP_R = M9_R*(gamma_t/R_t)/((1+M9_R**2*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
             pi_tL_prev = pi_tL
             pi_tL = pi_tL_R*(tau_tL/tau_tL_R)**0.5*MFP_R/MFP
-        
-        tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t)) #muda aqui (apaga)
+        print(pi_tL)
+        print('\n')
+        print(pi_tL_prev)
+        #tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t)) #muda aqui (apaga)
 
         T9 = Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )  #FORMULA ERRADA NA MERDA DO LIVRO 
         T9_T0 = T9/self.T0
