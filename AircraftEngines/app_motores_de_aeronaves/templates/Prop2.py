@@ -975,7 +975,7 @@ class AircraftEngines:
 
 
 #-------------------------------------------- TURBOPROP --------------------------------------------------
-    def ideal_turboprop(self, M0, gamma, cp, hpr, Tt4, pi_c, pi_t, tau_t, eta_prop):
+    def ideal_turboprop(self, M0, gamma, cp, hpr, Tt4, pi_c, tau_t, eta_prop):
 
         output = {
         'pi_c': [],
@@ -991,7 +991,7 @@ class AircraftEngines:
         }
 
         R = 1000*(gamma - 1)/gamma*cp
-        a0 = 1000*(gamma*R*self.T0)**(1/2)
+        a0 = (gamma*R*self.T0)**(1/2)
         V0 = a0*M0 #m/s
         
         tau_r = 1 + (gamma - 1)/2*M0**2
@@ -1019,10 +1019,23 @@ class AircraftEngines:
         S = f/F_m0
         S_P = f/(C_tot*cp*self.T0)
         
-        eta_T = 1 - 1/(tau_lambda*tau_c)
+        eta_T = 1 - 1/(tau_r*tau_c)
         eta_Total = C_tot/(tau_lambda - tau_r*tau_c)
         eta_P = eta_Total/eta_T
         
+        pi_d = 1 #
+        tau_d = 1 #
+        pi_b = 1 #
+        tau_b = Tt4/(self.T0*tau_d*tau_r*tau_c) #
+        pi_tL = tau_tL**(gamma/((gamma-1))) #
+        pi_n = 1 #
+        tau_n = 1 #
+        P0_P9 = 1 #
+        Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #
+        Pt9_P9 = Pt9_P0  #
+
+        Tt9_T0 = tau_lambda*tau_tH*tau_tL #
+        T9_Tt9 = T9_T0/Tt9_T0 #
         AF = 1/f
         
         output['pi_c'].append(pi_c)
@@ -1037,7 +1050,7 @@ class AircraftEngines:
         output['C_tot'].append(C_tot)
 
         return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
-
+              #output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
     def real_turboprop(self,
         M0,
         Tt4,
@@ -1212,7 +1225,9 @@ class AircraftEngines:
         'C_prop': [],
         'C_tot': [], #C_Total -> C_tot
         'W_m0': [],
-        'S_P': []
+        'S_P': [],
+        'F': [],
+        'm0_dot': []
         }
         
         if M0 <= 0.1:
@@ -1234,6 +1249,7 @@ class AircraftEngines:
         else:
             eta_r = 1 - 0.075*(M0 - 1)**1.35
         pi_d = pi_d_max*eta_r
+
         tau_c = 1 + (Tt4/self.T0)/(Tt4_R/T0_R)*(tau_r_R/tau_r)*(tau_c_R-1)
         pi_c = (1+eta_c*(tau_c-1))**(gamma_c/(gamma_c-1))
         tau_lambda = cp_t*Tt4/(cp_c*self.T0)
@@ -1247,38 +1263,36 @@ class AircraftEngines:
         #Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #muda aqui (apaga)
         #Pt9_P9 = Pt9_P0 ##muda aqui (apaga)
         #M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5 #muda aqui (apaga)
-        print(pi_tL)
-        print('\n')
-        print(pi_tL_prev)
-        print('\n')
-        print(abs(pi_tL - pi_tL_prev))
-        while abs(pi_tL - pi_tL_prev) >= 0.0001:
+
+        while abs(pi_tL - pi_tL_prev) > 0.0001:
             tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t))
             Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n
-            print('entrou no loop \n')
             if Pt9_P0 >= ((gamma_t+1)/2)**(gamma_t/(gamma_t-1)):
-                M9 = 1
+                M9 = float(1)
                 Pt9_P9 = ((gamma_t+1)/2)**(gamma_t/(gamma_t-1))
                 P0_P9 = Pt9_P9/Pt9_P0
             else:
                 P0_P9 = 1
                 Pt9_P9 = Pt9_P0
                 M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5
-                
-            MFP = M9*(gamma_t/R_t)/((1+M9**2*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
-            MFP_R = M9_R*(gamma_t/R_t)/((1+M9_R**2*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
+
+            MFP = M9*((gamma_t/R_t)**0.5)/((1+(M9**2)*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
+            MFP_R = M9_R*((gamma_t/R_t)**0.5)/((1+(M9_R**2)*((gamma_t-1)/2))**( (gamma_t+1)/(2*(gamma_t-1)) ))
             pi_tL_prev = pi_tL
-            pi_tL = pi_tL_R*(tau_tL/tau_tL_R)**0.5*MFP_R/MFP
-        print(pi_tL)
-        print('\n')
-        print(pi_tL_prev)
+            pi_tL = pi_tL_R*((tau_tL/tau_tL_R)**0.5)*MFP_R/MFP
+
         #tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t)) #muda aqui (apaga)
+        
 
         T9 = Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )  #FORMULA ERRADA NA MERDA DO LIVRO 
         T9_T0 = T9/self.T0
+
+
         V9_a0 = M9*(gamma_t*R_t*T9/(gamma_c*R_c*self.T0))**0.5
+
         
         C_c = (gamma_c - 1)*M0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t/R_c*T9_T0/V9_a0*(1 - P0_P9)/gamma_c)
+
         C_prop = eta_prop*eta_g*eta_mL*(1 + f)*tau_lambda*tau_tH*(1 - tau_tL)
         C_tot = C_c + C_prop
         
@@ -1303,6 +1317,8 @@ class AircraftEngines:
 
         output['pi_c'].append(pi_c)
         output['F_m0'].append(F_m0)
+        output['F'].append(F)
+        output['m0_dot'].append(m0_dot)
         output['f'].append(f)
         output['S'].append(S)
         output['eta_T'].append(eta_T)
@@ -1313,6 +1329,7 @@ class AircraftEngines:
         output['C_tot'].append(C_tot)
         output['W_m0'].append(W_m0)
         output['S_P'].append(S_P)
+        
 
 
         return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
