@@ -4,34 +4,40 @@ from app_motores_de_aeronaves.templates import Prop2
 
 class missile:
     
-    def __init__(self,name,diameters,lenght,M0,M6):
+    def __init__(self,name,diameters,lenght,M0,M3,bypass_ratio,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,diam_fan):
         print("*** Criando um novo motor do tipo turbofan. Defina seus parâmetros a seguir: ***\n")
         self.name = name
         self.length = lenght
         self.M0 = M0
-        self.M6 = M6
+        self.M3 = M3
         self.D = diameters
-        self.A=[float(0)]*21
+        diametros_fan = [num for num in diam_fan if num]
+        self.D.extend(diametros_fan)
+        self.A= diameters
+        self.alpha = bypass_ratio
+        self.compressores_baixa = estagios_compressor_baixa
+        self.compressores_alta = estagios_compressor_alta
+        self.pi_cL = self.compressores_baixa**aumento_pressao
+        self.pi_cH = self.compressores_alta**aumento_pressao
+        self.pi_c = self.pi_cL*self.pi_cH
 
         for i in range(len(self.D)):
-            # if i == 1:
-            #     self.A[i] = (math.pi*self.D[i]**2)/4*self.airIntakes
-            # else:
             if self.D[i]==0 and i!=0:
                 self.D[i] = self.D[i-1]
                 self.A[i] = self.A[i-1]
             else:
                 self.A[i] = (math.pi*self.D[i]**2)/4
-        self.A[0] = 0
-        self.A[2] = 0
-        self.A[3] = 0
-        self.A[5] = 0
-        self.A[8] = self.A[6]-self.A[7]
-        self.A[11] = self.A[9]-self.A[10]
-        self.A[14] = self.A[12]-self.A[13]
-        self.A[17] = self.A[15]-self.A[16]
-        self.A[20] = self.A[18]-self.A[19]
-        area_fan = self.A[8]-self.A[11]
+        #self.A[0] = 0
+        self.A[2] = self.A[2]-self.A[3]
+        #self.A[3] = 0
+        #self.A[5] = 0
+        self.A[10] = self.A[2]
+        self.A[-1] = self.A[-1]-self.A[3]
+        self.A[-2] = self.A[-1]
+        #self.A[14] = self.A[12]-self.A[13]
+        #self.A[17] = self.A[15]-self.A[16]
+        #self.A[20] = self.A[18]-self.A[19]
+        #area_fan = self.A[8]-self.A[11]
 
 
 
@@ -46,15 +52,33 @@ class missile:
         string += "\n°°°°°°°°°°°°°°°°°°°°"
         return string 
 
-    def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,P0_P9,pi_b,pi_d_max,pi_n,eta_b):
+    def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,P0_P9,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f):
         
         
         T0,P0,_,_ = atmos.get_param()
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         pis = [float(1)]*14
-        pis[0] = 1
-        pis[6] = pi_b ; pis[10] = pi_n
+
+        pis[2] = pi_f
+        pis[4] = self.pi_cL
+        pis[5] = self.pi_cH
+        pis[6] = pi_b  
+        pis[10] = pi_n
+        pis[13] = pi_fn
+        
+
         taus = [float(1)]*14
+
+        for i in range(len(taus)):
+            if i<=6:
+                taus[i] = pis[i]**((gamma_c - 1)/gamma_c)
+            else:
+                taus[i] = pis[i]**((gamma_t - 1)/gamma_t)
+
+
+        taus[10]= pi_n**((gamma_t - 1)/gamma_t) #tau_n
+        taus[13]= pi_fn**((gamma_t - 1)/gamma_t) #tau_fn
+
         Pts = [float(1)]*14
         Tts = [float(1)]*14
         Ps = [float(1)]*14
@@ -62,11 +86,13 @@ class missile:
         
 
         Ms = [float(1)]*14
-        Ms[0] = 0
-        Ms[1] = self.M0
-        Ms[6] = Ms[7]= Ms[8] = Ms[11] = self.M6
-        Ms[2] = Ms[3] =Ms[4] = Ms[5] = self.M6*0.8
+        Ms[0] = self.M0
+        Ms[1] = 0.01
+        Ms[2] = Ms[3]= Ms[4] = Ms[5] = self.M3
+        Ms[6] = self.M3*1.2
+        Ms[7] = Ms[8] =Ms[6]
         Ms[9] = 1
+
             
         A_opt = [float(1)]*14
         A_Aopt = [float(1)]*14
@@ -83,8 +109,10 @@ class missile:
         #        else:
         #            print("Digite uma opção válida!\n")
             
+
         
-        output,self.T0,taus[1],pis[1],pis[2],taus[2],taus[3],tau_lambda,taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0 = atmos.real_turbofan(self,self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size,min_pi_c,max_pi_c)
+        output,self.T0,taus[1],pis[1],pis[2],taus[2],taus[3],tau_lambda,taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0 = atmos.real_turbofan(self,self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,taus[10],taus[13],self.pi_cL,self.pi_cH,pi_f,self.alpha)
+            
         # output,tau_lambda,taus[1],pis[1],taus[4],pis[4],pis[8],Pt9_P9,T9_Tt9,T9_T0,pis[3],taus[3] = atmos.real_ramjet(self.M0, hpr, Tt4, self.A[1], pis[4], pi_d_max, pis[8], P0_P9, gamma_c, gamma_t, cp_c, cp_t, eta_b)
         #f = output.get('f')
         #air_comb = 1/f[0]
@@ -115,7 +143,7 @@ class missile:
 
 
         for i in range(len(secao)):
-            if i<4:
+            if i<4 or i>10:
                 gamma = gamma_c
             else:
                 gamma = gamma_t

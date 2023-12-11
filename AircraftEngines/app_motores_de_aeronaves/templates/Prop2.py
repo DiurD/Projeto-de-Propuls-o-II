@@ -408,12 +408,14 @@ class AircraftEngines:
             R = (gamma - 1)/gamma * cp # eq padrão
             V0 = self.a0 * M0 # eq padrão
             tau_r = 1 + (gamma - 1)/2 * M0**2 # eq 5.18c
+            pi_r = tau_r ** (gamma / (gamma - 1))
             tau_f = pi_f**((gamma - 1)/gamma) # eq 5.58f
             V19_a0 = (2/(gamma - 1) * (tau_r * tau_f - 1))**(1/2) # eq 5.58h
             tau_c = pi_c**((gamma - 1)/gamma)  # assumption ideal cycle # eq 5.58e
             tau_lambda = Tt4/self.T0 # eq 5.58d
             f = cp * self.T0/hpr * (tau_lambda - tau_r * tau_c) # eq 5.58j
             tau_t = 1 - tau_r/tau_lambda * (tau_c - 1 + alpha * (tau_f - 1)) # eq 5.52
+            pi_t = tau_t ** (gamma / (gamma - 1)) 
             V9_a0 = (2/(gamma - 1) * (tau_lambda - tau_r*(tau_c - 1 + alpha * (tau_f - 1)) - tau_lambda/(tau_r * tau_c)))**(1/2)  #eq 5.53
             F_m0 = self.a0 * 1/(1 + alpha) * (V9_a0 - M0 + alpha * (V19_a0 - M0)) # eq. 5.48 (por que não entra o g_c)
             f = cp * self.T0/hpr * (tau_lambda - tau_r * tau_c) # eq 5.51
@@ -437,8 +439,8 @@ class AircraftEngines:
             output['FR'].append(FR)
 
             pi_c += pi_c_increase
-
-        return output,tau_r,tau_f,tau_c,tau_lambda,self.T0,tau_t,pi_c
+        pi_c -= pi_c_increase
+        return output,tau_r,pi_r,tau_f,tau_c,tau_lambda,tau_t,pi_t
 
     def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
