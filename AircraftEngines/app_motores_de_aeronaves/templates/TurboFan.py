@@ -235,9 +235,9 @@ class missile:
     def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R):
 
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
-        datum = [0, 0.068,0.086,0.128,0.14,0.18,0.2,0.25,0.3,0.38,0.412,0.744,0.744,0.838,1]
+        datum = [0.0000,0.1566,0.2202,0.2522,0.3144,0.4158,0.6903,0.7641,0.8275,0.8736,1.0000,0.4488,0.5348,0.6119]
         posicao = [self.length*i for i in datum]
-
+        
         output_Mattingly_REF= {}
         saida_REF = {}
 
