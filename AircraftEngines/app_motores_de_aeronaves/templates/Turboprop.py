@@ -104,7 +104,6 @@ class motor_turboprop:
         'Datum':datum,
         'Pt [Pa]':[],
         'Tt [K]':[],
-        'P_c [Pa]': [] # Aqui entraria a pressão critica que eu to te falando
         }
 
         P_c = saida['Pt [Pa]'][6]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
