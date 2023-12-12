@@ -124,15 +124,53 @@
 					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td> 
 					<td id="T9/T0">{{T9_T0.0|floatformat:3}}</td>
 				  </tr>
+
+				  {%if motor.motor_type is 'turbofan'%}
+				  <tr>
+					<td>Pressão crítica core(P<sub>c,C</sub>)</td> 
+					<td id="Pcc"> {{Mattingly.AF.0|floatformat:2}}</td>
+					<td>Pressão crítica fan(P<sub>c,fan</sub>)</td> 
+					<td id="Pcfan"> {{T9_T0.0|floatformat:3}}</td>
+				  </tr>
+				  {%else %}
+				  <tr>
+					<td>Pressão crítica(P<sub>c,C</sub>)</td> 
+					<td id="Pcc"> {{Mattingly.AF.0|floatformat:2}}</td>
+				  </tr>
+
+				  {%endif%}
+
+				  {%if motor.motor_type is 'turboprop'%}
+				  <tr>
+					<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td> 
+					<td id="Coef-helice">{{Mattingly.AF.0|floatformat:2}}</td>
+					<td>Coeficiente de trabalho do core (C<sub>C</sub>)</td> 
+					<td id="Coef-core">{{T9_T0.0|floatformat:3}}</td>
+				  </tr>
+
+				  <tr>
+					<td>Coeficiente de trabalho total (C<sub>tot</sub>)</td>  
+					<td id="Coef-tot"> {{Mattingly.AF.0|floatformat:2}}</td>
+				  </tr>
+				  {%endif%}
 				</tbody>
 			</table>
 		</section> 
 
 		<section>
 			<div class="imagem-resultados">
+			{%if motor.motor_type is 'ramjet'%}
 				<img class="Ramjet-esquematico" src="{% static 'images/Ramjet-esquematico.png' %}" alt="">
+			{%elif motor.motor_type is 'turbojet'%}
+			
+			{%elif motor.motor_type is 'turboprop'%}
+
+			{%elif motor.motor_type is 'turbofan'%}
+
+			{%endif%}
 			</div>	
 		</section>
+
 
 		<section id="grafico">
 			<div class="imagem-resultados imagem-grafico">
