@@ -95,7 +95,7 @@ class motor_turboprop:
         saida_REF = {}
 
         if design:                                                                                                                                                
-            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R, pi_c_R, tau_t, eta_prop,atmos_AT,ideal,m0_dot_R,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
+            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_AT, pi_c_R, tau_t, eta_prop,atmos_AT,ideal,m0_dot_R,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
         else: 
             output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t ,hpr, tau_t,eta_prop,eta_propmax,pi_tH,tau_tH,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R,eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
 
@@ -139,7 +139,7 @@ class motor_turboprop:
                                                 #(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,  pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,A0,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0,eta_mL=1.0,eta_mH=1.0,eta_g=1.0,e_c=1.0,e_tH=1.0,e_tL=1.0):                                     
         output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,pi_c_R, tau_t, eta_prop,atmos_REF,                  ideal,m0_dot_R,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
         
-        if Pt9_P9_R == 1 and m0_dot_R ==1: #Que isso??????                                                                                                                                                                                                            #pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R
+        if Pt9_P9_R == 1 and m0_dot_R ==1:                                                                                                                                                                                                          #pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R
             output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos_AT.offdesign_turboprop(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax,saida_REF['Mach0'][0],saida_REF['T0 [K]'][0],saida_REF['P0 [Pa]'][0],output_REF['m0_dot'][0],saida_REF['Tau'][0],saida_REF['Pi'][0],saida_REF['Tt [K]'][4],saida_REF['Pi'][2],saida_REF['Pi'][3],saida_REF['Tau'][3],saida_REF['Pi'][5],saida_REF['Tau'][5],saida_REF['Mach9'][0],output_REF['Pt9/P9'][0])
         else:                                                                                                                                                                                                                                                     #pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R                                                                                                                                                                                                                                                
             output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos_AT.offdesign_turboprop(M0_AT, Tt4_AT, P0_P9_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R)
@@ -250,48 +250,48 @@ class motor_turboprop:
 # Teste Offdesign
 
 #print('começa daqui \n')
-gamma_c = 1.4
-gamma_t = 1.3
-cp_c = 1.004
-cp_t = 1.235
-hpr = 42800
-pi_c_R = 30
-tau_t = 0.55
-eta_prop = 0.812
-eta_propmax = 0.812
-pi_tH = 0.2212
-tau_tH = 0.7336
-m0_dot_R = 14.55
-atmos_REF = Prop2.AircraftEngines(0)
-atmos_AT = Prop2.AircraftEngines(6000)
-ideal = False
-M0_AT = 0.6
-P0_P9_AT = 0.8
-Tt4_AT = 1670
-M0_R = 0.1
-T0_R = 288.2
-P0_R = 101300
-tau_r_R = 1.002
-pi_r_R = 1.007
-Tt4_R = 1670
-pi_d_R = 0.98
-tau_c_R = 2.6426
-pi_tL_R = 0.2537
-tau_tL_R = 0.7497
-M9_R = 1 ##
-Pt9_P9_R = 1.89 ##
-eta_c = 0.845
-eta_tL = 0.9224
-pi_b = 0.94
-pi_d_max = 0.98
-pi_n = 0.98
-eta_b = 0.995
-eta_mL = 0.995
-eta_mH = 0.995
-eta_g = 0.99
-e_c = 0.90
-e_tH = 0.89
-e_tL = 0.91
+#gamma_c = 1.4
+#gamma_t = 1.3
+#cp_c = 1.004
+#cp_t = 1.235
+#hpr = 42800
+#pi_c_R = 30
+#tau_t = 0.55
+#eta_prop = 0.812
+#eta_propmax = 0.812
+#pi_tH = 0.2212
+#tau_tH = 0.7336
+#m0_dot_R = 14.55
+#atmos_REF = Prop2.AircraftEngines(0)
+#atmos_AT = Prop2.AircraftEngines(6000)
+#ideal = False
+#M0_AT = 0.6
+#P0_P9_AT = 0.8
+#Tt4_AT = 1670
+#M0_R = 0.1
+#T0_R = 288.2
+#P0_R = 101300
+#tau_r_R = 1.002
+#pi_r_R = 1.007
+#Tt4_R = 1670
+#pi_d_R = 0.98
+#tau_c_R = 2.6426
+#pi_tL_R = 0.2537
+#tau_tL_R = 0.7497
+#M9_R = 1 ##
+#Pt9_P9_R = 1.89 ##
+#eta_c = 0.845
+#eta_tL = 0.9224
+#pi_b = 0.94
+#pi_d_max = 0.98
+#pi_n = 0.98
+#eta_b = 0.995
+#eta_mL = 0.995
+#eta_mH = 0.995
+#eta_g = 0.99
+#e_c = 0.90
+#e_tH = 0.89
+#e_tL = 0.91
 
 
 #print('Offdesign \n')
