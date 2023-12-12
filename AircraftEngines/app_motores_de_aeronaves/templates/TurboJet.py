@@ -1,6 +1,6 @@
 import re,math
-import Prop2
-
+# import Prop2
+from app_motores_de_aeronaves.templates import Prop2
 
 class turbojet:
     
