@@ -216,8 +216,6 @@ class missile:
         A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
         A_opt[9]=self.A[9]/A_Aopt[9]
 
-
-
         saidas = {
         'Section': secao,
         'Pi':pis,
@@ -232,44 +230,21 @@ class missile:
         'A/A*': A_Aopt,
         }
 
-
         return output,saidas,output_REF,saida_REF
     
-    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b):
+    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R):
 
-        # secao = [0,1,1.1,2,3,4,7,8,9]
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         datum = [0, 0.068,0.086,0.128,0.14,0.18,0.2,0.25,0.3,0.38,0.412,0.744,0.744,0.838,1]
         posicao = [self.length*i for i in datum]
-
-        #while 'escolha' not in locals():
-        #        mudar = input("\n Deseja mudar as posições dos componentes em relação à entrada de ar? ")
-        #        if re.search('(?i)^sim|^s|^1',mudar):
-        #            escolha = input("\nDeseja mudar pelo datum ou posição total?\n1 - Datum\n2 - Posição Absoluta")
-        #            if re.search('(?i)^datum|^1',escolha):
-        #                for i in range(len(secao)):
-        #                    datum[i] = float(input(f"Valor do datum da seção {secao[i]}"))
-        #                    posicao[i] = datum[i]*self.length
-        #            elif re.search('(?i)^pos|^2',escolha):
-        #                for i in range(len(secao)):
-        #                    posicao[i] = float(input(f"Posição absoluta da seção {secao[i]}"))
-        #                    datum[i] = posicao[i]/self.length
-        #            else:
-        #                print("!!! DIGITE UM VALOR VÁLIDO !!!")
-
-        #        elif re.search('(?i)^não|^n|^nao|^2',mudar):
-        #            escolha = None
-        #            pass
-        #        else:
-        #            print("Digite uma opção válida!\n")
 
         output_Mattingly_REF= {}
         saida_REF = {}
 
         if design:
-            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_REF,ideal,P0_P9_AT,pi_b,pi_d_max,pi_n,eta_b)
+            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_REF,ideal,P0_P9_AT,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f)
         else: 
-            output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b)
+            output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,self.alpha)
 
         nova_saida = {
         'Section': secao,
