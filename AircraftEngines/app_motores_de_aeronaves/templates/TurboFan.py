@@ -233,7 +233,7 @@ class motor_turbofan:
 
         return output,saidas,output_REF,saida_REF
     
-    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,Tt4):
+    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,eta_nt_CORE,eta_nt_FAN):
 
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         datum = [0.0000,0.1566,0.2202,0.2522,0.3144,0.4158,0.6903,0.7641,0.8275,0.8736,1.0000,0.4488,0.5348,0.6119]
@@ -245,7 +245,7 @@ class motor_turbofan:
         if design:
             output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,atmos_REF,ideal,P0_P9_AT,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f)
         else: 
-            output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,self.alpha,Tt4)
+            output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_R,M19_R,tau_lambda_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,self.alpha,Tt4_AT)
 
         nova_saida = {
         'Section': secao,
@@ -259,52 +259,68 @@ class motor_turbofan:
         'Pt [Pa]':[],
         'P [Pa]':[],
         'Tt [K]':[],
-        'T [K]':[]
+        'T [K]':[],
+        'P_c [Pa]': []
         }
 
-        for i in range(2):
-            nova_saida['A [m²]'].append(saida['A [m²]'][i])
-            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
-            nova_saida['A/A*'].append(saida['A/A*'][i])
-            nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D [m]'].append(self.D[i])
-            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
-            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
-            nova_saida['T [K]'].append(saida['T [K]'][i])
+        P_c_CORE = saida['Pt [Pa]'][10]*(1-1/eta_nt_CORE*((gamma_c-1)/(gamma_c+1)))**((gamma_c)/(gamma_c-1))
+        output_Mattingly['P_c_CORE'] = P_c_CORE
+        P_c_FAN = saida['Pt [Pa]'][13]*(1-1/eta_nt_FAN*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
+        output_Mattingly['P_c_FAN'] = P_c_FAN
+
+        nova_saida['A [m²]'] = saida['A [m²]']
+        nova_saida['A* [m²]'] = saida['A* [m²]']
+        nova_saida['A/A*'] = saida['A/A*']
+        nova_saida['Mach'] = saida['Mach']
+        nova_saida['D [m]'] = self.D
+        nova_saida['Pt [Pa]'] = saida['Pt [Pa]']
+        nova_saida['P [Pa]'] = saida['P [Pa]']
+        nova_saida['Tt [K]'] = saida['Tt [K]']
+        nova_saida['T [K]'] = saida['T [K]']
+
+        # for i in range(2):
+        #     nova_saida['A [m²]'].append(saida['A [m²]'][i])
+        #     nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+        #     nova_saida['A/A*'].append(saida['A/A*'][i])
+        #     nova_saida['Mach'].append(saida['Mach'][i])
+        #     nova_saida['D [m]'].append(self.D[i])
+        #     nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+        #     nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        #     nova_saida['T [K]'].append(saida['T [K]'][i])
         
 
-        # Seção 1.1
-        nova_saida['A [m²]'].append(saida['A [m²]'][1])
-        nova_saida['A* [m²]'].append(saida['A [m²]'][1])
-        nova_saida['A/A*'].append(1.0)
-        nova_saida['Mach'].append(1.0)
-        nova_saida['D [m]'].append((saida['A [m²]'][1]*4/math.pi)**0.5)
-        nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][1])
-        nova_saida['P [Pa]'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
-        nova_saida['Tt [K]'].append(saida['Tt [K]'][1])
-        nova_saida['T [K]'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))   
+        # # Seção 1.1
+        # nova_saida['A [m²]'].append(saida['A [m²]'][1])
+        # nova_saida['A* [m²]'].append(saida['A [m²]'][1])
+        # nova_saida['A/A*'].append(1.0)
+        # nova_saida['Mach'].append(1.0)
+        # nova_saida['D [m]'].append((saida['A [m²]'][1]*4/math.pi)**0.5)
+        # nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][1])
+        # nova_saida['P [Pa]'].append( saida['Pt [Pa]'][1]/(1+(gamma_c-1)/2*1**2)**(gamma_c/(gamma_c-1)))
+        # nova_saida['Tt [K]'].append(saida['Tt [K]'][1])
+        # nova_saida['T [K]'].append(  saida['Tt [K]'][1]/(1+(gamma_c-1)/2*1**2))   
 
-        for i in range(3,len(secao)):
-            if i<6:
-                nova_saida['A [m²]'].append(saida['A [m²]'][i-1])
-                nova_saida['A* [m²]'].append(saida['A* [m²]'][i-1])
-                nova_saida['A/A*'].append(saida['A/A*'][i-1])
-                nova_saida['Mach'].append(saida['Mach'][i-1])
-                nova_saida['D [m]'].append(self.D[i-1])
-                nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i-1])
-                nova_saida['P [Pa]'].append(saida['P [Pa]'][i-1])
-                nova_saida['Tt [K]'].append(saida['Tt [K]'][i-1])
-                nova_saida['T [K]'].append(saida['T [K]'][i-1])
-            else:
-                nova_saida['A [m²]'].append(saida['A [m²]'][i+1])
-                nova_saida['A* [m²]'].append(saida['A* [m²]'][i+1])
-                nova_saida['A/A*'].append(saida['A/A*'][i+1])
-                nova_saida['Mach'].append(saida['Mach'][i+1])
-                nova_saida['D [m]'].append(self.D[i+1])
-                nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i+1])
-                nova_saida['P [Pa]'].append(saida['P [Pa]'][i+1])
-                nova_saida['Tt [K]'].append(saida['Tt [K]'][i+1])
-                nova_saida['T [K]'].append(saida['T [K]'][i+1])
+        # for i in range(3,len(secao)):
+        #     if i<6:
+        #         nova_saida['A [m²]'].append(saida['A [m²]'][i-1])
+        #         nova_saida['A* [m²]'].append(saida['A* [m²]'][i-1])
+        #         nova_saida['A/A*'].append(saida['A/A*'][i-1])
+        #         nova_saida['Mach'].append(saida['Mach'][i-1])
+        #         nova_saida['D [m]'].append(self.D[i-1])
+        #         nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i-1])
+        #         nova_saida['P [Pa]'].append(saida['P [Pa]'][i-1])
+        #         nova_saida['Tt [K]'].append(saida['Tt [K]'][i-1])
+        #         nova_saida['T [K]'].append(saida['T [K]'][i-1])
+        #     else:
+        #         nova_saida['A [m²]'].append(saida['A [m²]'][i+1])
+        #         nova_saida['A* [m²]'].append(saida['A* [m²]'][i+1])
+        #         nova_saida['A/A*'].append(saida['A/A*'][i+1])
+        #         nova_saida['Mach'].append(saida['Mach'][i+1])
+        #         nova_saida['D [m]'].append(self.D[i+1])
+        #         nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i+1])
+        #         nova_saida['P [Pa]'].append(saida['P [Pa]'][i+1])
+        #         nova_saida['Tt [K]'].append(saida['Tt [K]'][i+1])
+        #         nova_saida['T [K]'].append(saida['T [K]'][i+1])
 
         return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
