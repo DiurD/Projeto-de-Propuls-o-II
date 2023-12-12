@@ -2,7 +2,7 @@ import Prop2,re,math
 from tabulate import tabulate
 
 
-class missile:
+class missile_jet:
     
     def __init__(self):
         print("*** Criando um novo míssil com motor do tipo ramjet. Defina seus parâmetros a seguir: ***\n")

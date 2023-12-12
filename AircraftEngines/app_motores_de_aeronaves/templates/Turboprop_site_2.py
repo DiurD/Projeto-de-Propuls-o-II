@@ -65,7 +65,7 @@ class motor_turboprop_2:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
 
-        Ps[10] = Ps[10]/Pt9_P9
+        Ps[10] = Pts[10]/Pt9_P9
         Ts[10] = Ts[0]*T9_T0
         Ms[10] = M9 # Já pego o Mach 9 do resultado do programa, o Mach[10] aqui que é o Mach 9 no caso, pq tem uma seção a mais no motor, a 4,5 relativa a entrada da turbina de baixa. Esse trecho diz que o Mach 5 do Mattingly (Mach[6] do programa), depois de sair da turbina continua o mesmo até o final.
 
@@ -186,7 +186,8 @@ class motor_turboprop_2:
         'Tau':taus,
         'Pt [Pa]': Pts,
         'Tt [K]': Tts,
-        'Mach': Ms,
+        'Mach0': Ms[0],
+        'Mach9': Ms[10],
         }
 
 

@@ -97,6 +97,19 @@ class AircraftEngines:
         FC = F*S
         AF = 1/f
 
+        pi_r = tau_r**(gamma/(gamma-1)) # Gabriel 
+        pi_d = pi_b = pi_n = 1 # Gabriel 
+        tau_d = tau_n = 1 # Gabriel 
+        tau_b = tau_lambda/(tau_r*tau_d*tau_c) # Gabriel 
+        pi_t = tau_t**(gamma/(gamma-1)) # Gabriel 
+        P0_P9 = 1 # Gabriel 
+        Pt9_P9 = pi_r*pi_c*pi_t # Gabriel 
+        Tt9 = self.T0*tau_r*tau_c*tau_b*tau_t # Gabriel 
+        T9_T0 = tau_b # Gabriel 
+        T9_Tt9 = T9_T0*self.T0/Tt9 # Gabriel 
+        M9 = (2/(gamma-1)*(tau_r*tau_c*tau_t))**0.5 # Gabriel 
+
+
         output['F_m0'].append(F_m0)
         output['m0_dot'].append(m0_dot)
         output['F'].append(F)
@@ -108,8 +121,8 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output
-    
+        return output,tau_lambda, pi_r, tau_r, pi_d, tau_d, pi_c, tau_c, pi_b, tau_b, pi_t, tau_t, pi_n, tau_n, P0_P9, Pt9_P9, T9_Tt9, T9_T0, M9
+              
     def real_turbojet(self, M0, A0, gamma_c, gamma_t, cp_c, cp_t, hpr, Tt4 , pi_c, pi_d_max, pi_b, pi_n, e_c, e_t, eta_b, eta_m, P0_P9):
         """
         Description: This method calculates the on design parameters of an non ideal turbojet engine.
@@ -201,7 +214,10 @@ class AircraftEngines:
         V9_a0  = M9*( ( gamma_t*R_t*(T9_T0)/(gamma_c*R_c) )**0.5 )
         
         T9  = self.T0*T9_T0
-        Tt9 = self.T0*T9_T0
+        #Tt9 = self.T0*T9_T0 #? Isso não faz sentido - Gabriel
+        Tt9 = tau_r*tau_d*tau_c*tau_b*tau_t*tau_n*self.T0 # Gabriel
+        T9_Tt9 = T9/Tt9 # Gabriel
+
 
         # Results
         F_m0      = a0*((1+f)*V9_a0 - M0 + (1+f)*R_t*T9_T0/(R_c*V9_a0)*(1-P0_P9)/gamma_c)
@@ -225,7 +241,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
         
-        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
+        return output,tau_lambda, pi_r, tau_r, pi_d, tau_d, pi_c, tau_c, pi_b, tau_b, pi_t, tau_t, pi_n, tau_n, P0_P9, Pt9_P9, T9_Tt9, T9_T0, M9
 
     def offdesign_turbojet(self,
         M0,
@@ -335,8 +351,10 @@ class AircraftEngines:
         Pt9 = P0*pi_r*pi_d*pi_c*pi_b*pi_t # Pa
         
         T9 = T0*T9_T0 # K
-        Tt9 = self.T0*T9_T0
-        
+        #Tt9 = self.T0*T9_T0 #Não faz sentido - Gabriel
+        Tt9 = tau_r*tau_d*tau_c*tau_b*tau_t*tau_n*T0 #Gabriel
+        T9_Tt9 = T9/Tt9 #Gabriel
+
         m0_dot = A0*self.rho0*V0
         F  = F_m0*m0_dot
         FC = F*S
@@ -353,7 +371,7 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
 
-        return output,tau_lambda,tau_r,pi_r,tau_b,pi_b,pi_n,Pt9_P9,T9/Tt9,T9/self.T0,pi_d,tau_d
+        return output,tau_lambda, pi_r, tau_r, pi_d, tau_d, pi_c, tau_c, pi_b, tau_b, pi_t, tau_t, pi_n, tau_n, P0_P9, Pt9_P9, T9_Tt9, T9_T0, M9, N_NR
 
 #------------------------------- TURBOFAN ------------------------------------------------------------
 
@@ -1259,10 +1277,7 @@ class AircraftEngines:
 
         pi_tL = pi_tL_R
         pi_tL_prev = 0
-        #Por algum motivo, não tá entrando no loop "while" com os dados do exemplo.
-        #Pt9_P0 = pi_r*pi_d*pi_c*pi_b*pi_tH*pi_tL*pi_n #muda aqui (apaga)
-        #Pt9_P9 = Pt9_P0 ##muda aqui (apaga)
-        #M9 = (2/(gamma_t-1)*(Pt9_P0**((gamma_t-1)/gamma_t)-1) )**0.5 #muda aqui (apaga)
+        
 
         while abs(pi_tL - pi_tL_prev) > 0.0001:
             tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t))
@@ -1281,10 +1296,9 @@ class AircraftEngines:
             pi_tL_prev = pi_tL
             pi_tL = pi_tL_R*((tau_tL/tau_tL_R)**0.5)*MFP_R/MFP
 
-        #tau_tL = 1 - eta_tL*(1-pi_tL**((gamma_t-1)/gamma_t)) #muda aqui (apaga)
         
 
-        T9 = Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )  #FORMULA ERRADA NA MERDA DO LIVRO 
+        T9 = Tt4*tau_tH*tau_tL/( Pt9_P9**((gamma_t-1)/gamma_t) )  
         T9_T0 = T9/self.T0
 
 
