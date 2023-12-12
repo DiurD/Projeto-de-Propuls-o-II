@@ -2,9 +2,9 @@ import re,math
 from app_motores_de_aeronaves.templates import Prop2
 
 
-class missile:
+class motor_turbofan:
     
-    def __init__(self,name,diameters,lenght,M0,M3,bypass_ratio,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,diam_fan):
+    def __init__(self,name,diameters,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,diam_fan):
         print("*** Criando um novo motor do tipo turbofan. Defina seus parâmetros a seguir: ***\n")
         self.name = name
         self.length = lenght
@@ -14,7 +14,7 @@ class missile:
         diametros_fan = [num for num in diam_fan if num]
         self.D.extend(diametros_fan)
         self.A= diameters
-        self.alpha = bypass_ratio
+        
         self.compressores_baixa = estagios_compressor_baixa
         self.compressores_alta = estagios_compressor_alta
         self.pi_cL = self.compressores_baixa**aumento_pressao
@@ -31,6 +31,7 @@ class missile:
         self.A[10] = self.A[2]
         self.A[-1] = self.A[-1]-self.A[3]
         self.A[-2] = self.A[-1]
+        self.alpha = self.A[2]/self.A[3]
 
     def __str__(self):
         string = "------------\nNome: {}".format(self.name)
