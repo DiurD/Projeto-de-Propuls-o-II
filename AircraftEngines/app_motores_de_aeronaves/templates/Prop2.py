@@ -1023,8 +1023,8 @@ class AircraftEngines:
         'C_tot': [] #C_Total -> C_tot
         }
 
-        R = 1000*(gamma - 1)/gamma*cp
-        a0 = (gamma*R*self.T0)**(1/2)
+        R = (gamma - 1)/gamma*cp
+        a0 = (gamma*R*1000*self.T0)**(1/2)
         V0 = a0*M0 #m/s
         
         tau_r = 1 + (gamma - 1)/2*M0**2
@@ -1209,7 +1209,7 @@ class AircraftEngines:
     def offdesign_turboprop(self,
         M0,
         Tt4,
-        P0_P9,
+        #P0_P9,
 
         # Constantes
         gamma_c,
