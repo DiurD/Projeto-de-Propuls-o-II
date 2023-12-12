@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app_motores_de_aeronaves.templates import Prop2,ramjet,turboprop,turbofan
+from app_motores_de_aeronaves.templates import Prop2,ramjet,turboprop,turbofan,turbojet
 from app_motores_de_aeronaves.models import atmos,motor
 import re
 
@@ -67,6 +67,9 @@ def results(request):
     P0 = [elem for elem in request.POST.getlist('P0') if elem != '']
     P0 = float(P0[0]) if P0 else False
 
+    A0 = [elem for elem in request.POST.getlist('A0') if elem != '']
+    A0 = float(A0[0]) if A0 else float(1)
+
     P0_P9 = [elem for elem in request.POST.getlist('P0_P9') if elem != '']
     P0_P9 = float(P0_P9[0]) if P0_P9 else float(1)
 
@@ -84,6 +87,9 @@ def results(request):
 
     pi_tH = [elem for elem in request.POST.getlist('pi_tH') if elem != '']
     pi_tH = float(pi_tH[0]) if pi_tH else float(1)
+
+    pi_t = [elem for elem in request.POST.getlist('pi_t') if elem != '']
+    pi_t = float(pi_t[0]) if pi_t else float(1)
 
     pi_f = [elem for elem in request.POST.getlist('pi_f') if elem != '']
     pi_f = float(pi_f[0]) if pi_f else float(1)
@@ -118,6 +124,9 @@ def results(request):
     eta_mH = [elem for elem in request.POST.getlist('eta_mH') if elem != '']
     eta_mH = float(eta_mH[0]) if eta_mH else float(1)
 
+    eta_m = [elem for elem in request.POST.getlist('eta_m') if elem != '']
+    eta_m = float(eta_m[0]) if eta_m else float(1)
+
     eta_g = [elem for elem in request.POST.getlist('eta_g') if elem != '']
     eta_g = float(eta_g[0]) if eta_g else float(1)
 
@@ -129,6 +138,9 @@ def results(request):
 
     eta_cH = [elem for elem in request.POST.getlist('eta_cH') if elem != '']
     eta_cH = float(eta_cH[0]) if eta_cH else float(1)
+
+    eta_nt = [elem for elem in request.POST.getlist('eta_nt') if elem != '']
+    eta_nt = float(eta_nt[0]) if eta_nt else float(1)
 
     e_f = [elem for elem in request.POST.getlist('e_f') if elem != '']
     e_f = float(e_f[0]) if e_f else float(1)
@@ -147,6 +159,9 @@ def results(request):
 
     e_tL = [elem for elem in request.POST.getlist('e_tL') if elem != '']
     e_tL = float(e_tL[0]) if e_tL else float(1)
+
+    e_t = [elem for elem in request.POST.getlist('e_t') if elem != '']
+    e_t = float(e_t[0]) if e_t else float(1)
 
 
 
@@ -232,9 +247,11 @@ def results(request):
     tau_f_ref = [elem for elem in request.POST.getlist('tau_f_ref') if elem != '']
     tau_f_ref = float(tau_f_ref[0]) if tau_f_ref else float(1)
 
-
     Pt9_P9_ref = [elem for elem in request.POST.getlist('Pt9_P9_ref') if elem != '']
     Pt9_P9_ref = float(Pt9_P9_ref[0]) if Pt9_P9_ref else float(1)
+
+    P0_P9_ref = [elem for elem in request.POST.getlist('P0_P9_ref') if elem != '']
+    P0_P9_ref = float(P0_P9_ref[0]) if P0_P9_ref else float(1)
 
     m0_ref = [elem for elem in request.POST.getlist('m0_ref') if elem != '']
     m0_ref = float(m0_ref[0]) if m0_ref else float(1)
@@ -263,14 +280,15 @@ def results(request):
             RAMJETAO = ramjet.missile(nome,D,lenght,M0,M3,1)
             print(RAMJETAO)
             #RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b)
-            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b)
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,eta_nt)
                                                                           
         case 'turbojet':
-            pass
+            TURBOJETAO = turbojet.turbojet(nome,M0)
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOJETAO.calcula_datum(A0, gamma_c, gamma_t, cp_c, cp_t, hpr, atmosfera_ref, atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,P0_P9_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,pi_c_ref,tau_c_ref,Pt9_P9_ref,m0_ref,pi_b,pi_dmax,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_t,e_c,eta_nt)
 
         case 'turboprop':
             TURBOPROPAO = turboprop.motor_turboprop(nome,M0) # VER O QUE TÁ DANDO PAU AQUI
-            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,eta_nt)
 
         case 'turbofan':
             TURBOFANES = turbofan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan) # ATRIBUIR ESSAS VARIÁVEIS
