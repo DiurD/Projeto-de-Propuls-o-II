@@ -139,7 +139,7 @@ def results(request):
 
     ###
 
-    D = diametros(request)
+    D,DFan = diametros(request)
 
     # print('\n--- \n')
     # print(D)
@@ -216,11 +216,41 @@ def motores(request):
 def diametros(request):
 
     diametros = [float(0)]*10
+    diametros_fan = [float(0)]*10
 
     for key in request.POST:
         #print(key)
+        if key in ['d13','d17','d18','d19']:
+            num = re.findall("[0-9][0-9]",key)[0]
+            num = int(num[1])
+            #print(num)
+            #print(request.POST.getlist(key))
 
-        if key in ['d0','d1','d2','d3','d4','d5','d6','d7','d8','d9']:
+            value = [elem for elem in request.POST.getlist(key) if elem != '']
+            #print(value)
+            
+            absoluto = True if request.POST['absoluto'] == 'true' else False
+            #print(request.POST['absoluto'])
+            #print(absoluto)
+
+            if absoluto:
+                if request.POST.getlist(key):
+                    diametros_fan[num] = float(value[0])
+                else:
+                    diametros_fan[num] = float(0)
+
+            else:
+                if request.POST.getlist(key):
+                    diam = [elem for elem in request.POST.getlist('diametro-nominal') if elem != '']
+                    if diam:
+                        print(diam)
+                        diametros[num] = float(value[0])*float(diam[0])/100
+                    else:
+                        diametros[num] = 0
+                else:
+                    diametros[num] = float(0)
+
+        elif key in ['d0','d1','d2','d3','d4','d5','d6','d7','d8','d9']:
 
             num = int(re.findall("[0-9]",key)[0])
             #print(num)
@@ -250,7 +280,7 @@ def diametros(request):
                 else:
                     diametros[num] = float(0)
         
-    return diametros
+    return diametros,diametros_fan
 
 
         

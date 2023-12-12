@@ -11,7 +11,7 @@ class missile:
         self.M0 = M0
         self.M3 = M3
         self.D = diameters
-        self.A=[float(0)]*10
+        self.A= self.D
         self.airIntakes = intakes
 
         for i in range(len(self.D)):
