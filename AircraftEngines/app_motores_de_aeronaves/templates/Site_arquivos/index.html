@@ -46,7 +46,9 @@
 			</section>
 			<section> 
 				<div>
-					<img src="{% static 'images/imagem-ramjet.png' %}" alt="Imagem do motor ramjet generalizado" style="display: none;">
+					<figure>
+						<img src="{% static 'images/imagem-ramjet.png' %}" alt="Imagem do motor ramjet generalizado" style="display: none;">
+					</figure>
 				</div>
 			</section>
 			<section id="analise-modelo-section">
@@ -110,9 +112,10 @@
 
 			<h2 class="subtitulos">Características do motor - Ramjet</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-ramjet.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -185,9 +188,10 @@
 		<section id="Ramjet-Caracteristicas-porcentagem" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Ramjet</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-ramjet.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -556,7 +560,6 @@
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
 				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
-				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 		</section>
 
@@ -572,9 +575,10 @@
 		<section id="Turbojet-Caracteristicas-absoluto" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turbojet</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turbojet.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -647,9 +651,10 @@
 		<section id="Turbojet-Caracteristicas-porcentagem" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turbojet</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turbojet.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -783,7 +788,6 @@
 			<div class="A_0 entradas">
 				<label for="A_0">Área de entrada do ar [m<sup>2</sup>]</label>
 				<input name="A_0" type="number" step="0.0001" class="form-control" id="A_0" aria-describedby="A_0" placeholder="Digite o valor da área">
-				<small id="A_0" class="form-text text-muted">?</small>
 			</div>
 
 		</section>
@@ -894,7 +898,6 @@
 			<div class="eta_m entradas">
 				<label for="eta_m">Eficiência mecânica - &#x3B7<sub>m</sub></label>
 				<input name="eta_m" type="number" step="0.0001" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
-				<small id="eta_m" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_t entradas">
@@ -912,7 +915,6 @@
 			<div class="A_0 entradas">
 				<label for="A_0">Área de entrada do ar [m<sup>2</sup>]</label>
 				<input name="A_0" type="number" step="0.0001" class="form-control" id="A_0" aria-describedby="A_0" placeholder="Digite o valor da área">
-				<small id="A_0" class="form-text text-muted">?</small>
 			</div>
 
 		</section>
@@ -1017,7 +1019,6 @@
 			<div class="eta_m entradas">
 				<label for="eta_m">Eficiência mecânica - &#x3B7<sub>m</sub></label>
 				<input name="eta_m" type="number" step="0.0001" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
-				<small id="eta_m" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_t entradas">
@@ -1105,13 +1106,11 @@
 			<div class="P0/P9_ref entradas">
 				<label for="P0/P9_ref">Razão de referência de pressões na entrada pela pressão do bocal de saída - P<sub>0</sub>/P<sub>9</sub></label>
 				<input name="P0_P9_ref" type="number" step="0.0001" class="form-control" id="P0/P9_ref" aria-describedby="P0/P9_ref" placeholder="Digite o valor da razão">
-				<small id="P0/P9_ref" class="form-text text-muted">?</small>
 			</div>
 
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
 				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
-				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 
 		</section>
@@ -1128,9 +1127,10 @@
 		<section id="Turboprop-Caracteristicas-absoluto" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turboprop</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turboprop.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -1203,9 +1203,10 @@
 		<section id="Turboprop-Caracteristicas-porcentagem" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turboprop</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turboprop.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -1351,7 +1352,6 @@
 			<div class="eta_prop entradas">
 				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
 				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
-				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
 		</section>
@@ -1462,25 +1462,21 @@
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do eixo de baixa pressão - &#x3B7<sub>mL</sub></label>
 				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
-				<small id="eta_mL" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_mH entradas">
 				<label for="eta_mH">Eficiência mecânica do eixo de alta pressão - &#x3B7<sub>mH</sub></label>
 				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
-				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_g entradas">
 				<label for="eta_g">Eficiência da caixa de engrenagens - &#x3B7<sub>g</sub></label>
 				<input name="eta_g" type="number" step="0.0001" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
-				<small id="eta_g" class="form-text text-muted"></small>
 			</div>
 
 			<div class="eta_prop entradas">
 				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
 				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
-				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_tL entradas">
@@ -1504,7 +1500,6 @@
 			<div class="m0 entradas">
 				<label for="m0">Vazão mássica [kg/s]</label>
 				<input name="m0" type="number" step="0.0001" step="0.0001" class="form-control" id="m0" aria-describedby="m0" placeholder="Digite o valor da vazão">
-				<small id="m0" class="form-text text-muted">? </small>
 			</div>
 
 		</section>
@@ -1621,13 +1616,11 @@
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do eixo de baixa pressão - &#x3B7<sub>mL</sub></label>
 				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
-				<small id="eta_mL" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_mH entradas">
 				<label for="eta_mH">Eficiência mecânica do eixo de alta pressão - &#x3B7<sub>mH</sub></label>
 				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
-				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_tL entradas">
@@ -1639,19 +1632,16 @@
 			<div class="eta_g entradas">
 				<label for="eta_g">Eficiência da caixa de engrenagens - &#x3B7<sub>g</sub></label>
 				<input name="eta_g" type="number" step="0.0001" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
-				<small id="eta_g" class="form-text text-muted"></small>
 			</div>
 
 			<div class="eta_prop entradas">
 				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
 				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
-				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_prop_max entradas">
 				<label for="eta_prop_max">Eficiência propulsiva máxima - &#x3B7<sub>prop,max</sub></label>
 				<input name="eta_prop_max" type="number" step="0.0001" class="form-control" id="eta_prop_max" aria-describedby="eta_prop_max" placeholder="Digite o valor da eficiência">
-				<small id="eta_prop_max" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_tL entradas">
@@ -1763,7 +1753,6 @@
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
 				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
-				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 
 		</section>
@@ -1779,9 +1768,10 @@
 		<section id="Turbofan-Caracteristicas-absoluto" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turbofan</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turbofan.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -1803,19 +1793,16 @@
 			  <div class="diametro-fan entradas">
 				<label for="diametro-fan">Diâmetro do fan do motor [m]</label>
 				<input name="d2" type="number" step="0.0001" class="form-control" id="diametro-fan" aria-describedby="diametro-fan" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_baixa entradas">
 				<label for="diametro-compressor_baixa">Diâmetro do compressor de baixa pressão do motor [m]</label>
 				<input name="d3" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-compressor_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_alta entradas">
 				<label for="diametro-compressor_alta">Diâmetro do compressor de alta pressão do motor [m]</label>
 				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-compressor_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-camara-combustao entradas">
@@ -1827,13 +1814,11 @@
 			  <div class="diametro-turbina_alta entradas">
 				<label for="diametro-turbina_alta">Diâmetro do turbina de alta pressão do motor [m]</label>
 				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-turbina_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-turbina_baixa entradas">
 				<label for="diametro-turbina_baixa">Diâmetro do turbina de baixa pressão do motor [m]</label>
 				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-turbina_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-garganta entradas">
@@ -1851,13 +1836,11 @@
 			  <div class="diametro-garganta_fan entradas">
 				<label for="diametro-garganta_fan">Diâmetro da garganta do fan [m]</label>
 				<input name="d12" type="number" step="0.0001" class="form-control" id="diametro-garganta_fan" aria-describedby="diametro-garganta_fan" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-garganta_fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida_fan entradas">
 				<label for="diametro-bocal-saida_fan">Diâmetro do bocal de saída do fan [m]</label>
 				<input name="d13" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida_fan" aria-describedby="diametro-bocal-saida_fan" placeholder="Digite o valor do diâmetro">
-				<small id="diametro-bocal-saida_fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div>
 
 			  <div class="velocidade-camara-combustao entradas">
@@ -1908,9 +1891,10 @@
 		<section id="Turbofan-Caracteristicas-porcentagem" style="display: none;">
 			<h2 class="subtitulos">Características do motor - Turbofan</h2>
 
-			<div class="container-imagem">
+			<figure class="container-imagem">
 				<img src="{% static 'images/imagem-turbofan.png' %}" class="imagem-motor" alt="">
-			</div>
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 
 			<div class="nomeMotor entradas">
 				<label for="nome-do-motor">Nome do motor</label>
@@ -1938,19 +1922,16 @@
 			  <div class="diametro-fan entradas">
 				<label for="diametro-fan">Diâmetro do fan do motor [%]</label>
 				<input name="d2" type="number" step="0.0001" class="form-control" id="diametro-fan" aria-describedby="diametro-fan" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_baixa entradas">
 				<label for="diametro-compressor_baixa">Diâmetro do compressor de baixa pressão do motor [%]</label>
 				<input name="d3" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-compressor_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_alta entradas">
 				<label for="diametro-compressor_alta">Diâmetro do compressor de alta pressão do motor [%]</label>
 				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-compressor_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-camara-combustao entradas">
@@ -1962,13 +1943,11 @@
 			  <div class="diametro-turbina_alta entradas">
 				<label for="diametro-turbina_alta">Diâmetro do turbina de alta pressão do motor [%]</label>
 				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-turbina_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-turbina_baixa entradas">
 				<label for="diametro-turbina_baixa">Diâmetro do turbina de baixa pressão do motor [%]</label>
 				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-turbina_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-garganta entradas">
@@ -1986,13 +1965,11 @@
 			  <div class="diametro-garganta_fan entradas">
 				<label for="diametro-garganta_fan">Diâmetro da garganta do fan [%]</label>
 				<input name="d12" type="number" step="0.0001" class="form-control" id="diametro-garganta_fan" aria-describedby="diametro-garganta_fan" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-garganta_fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida_fan entradas">
 				<label for="diametro-bocal-saida_fan">Diâmetro do bocal de saída do fan [%]</label>
 				<input name="d13" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida_fan" aria-describedby="diametro-bocal-saida_fan" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
-				<small id="diametro-bocal-saida_fan" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div>
 
 			  <div class="velocidade-camara-combustao entradas">
@@ -2219,13 +2196,11 @@
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do sistema de baixa pressão - &#x3B7<sub>mL</sub></label>
 				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
-				<small id="eta_mL" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_mH entradas">
 				<label for="eta_mH">Eficiência mecânica do sistema de alta pressão - &#x3B7<sub>mH</sub></label>
 				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
-				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_nt entradas">
@@ -2407,13 +2382,11 @@
 			<div class="eta_mH entradas">
 				<label for="eta_mH">Eficiência mecânica do eixo de alta pressão - &#x3B7<sub>mH</sub></label>
 				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
-				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do eixo de baixa pressão - &#x3B7<sub>mL</sub></label>
 				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
-				<small id="eta_mL" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_tL entradas">
@@ -2555,7 +2528,6 @@
 			<div class="tau_lambda_ref entradas">
 				<label for="tau_lambda_ref">Razão da entalpia do queimador e do ambiente - &#x3C4<sub>&#x3BB,R</sub></label>
 				<input name="tau_lambda_ref" type="number" step="0.0001" class="form-control" id="tau_lambda_ref" aria-describedby="tau_lambda_ref" placeholder="Digite o valor da razão">
-				<small id="tau_lambda_ref" class="form-text text-muted">?</small>
 			</div>
 
 			<div class="alfa_ref entradas">
@@ -2585,7 +2557,6 @@
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
 				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
-				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 
 		</section>

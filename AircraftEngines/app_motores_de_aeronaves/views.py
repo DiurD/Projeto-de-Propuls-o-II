@@ -344,7 +344,16 @@ def results(request):
                 "Datum_len": range(len(Datum['Section'])),
                 "motor": novo_motor,
                 "atmosfera": atmosfera,
-                "atmosfera_ref":atmosfera_ref
+                "atmosfera_ref":atmosfera_ref,
+                "Pressao":Datum['P [Pa]'],
+                "Pressao_total":Datum['Pt [Pa]'],
+				"Temperatura":Datum['T [K]'],
+                "Temperatura_total":Datum['Tt [K]'],
+                "Posicao":Datum['Pos.'],
+                "Diametro":Datum['D [m]'],
+                "Area":Datum['A [m²]'],
+                "Area_otima":Datum['A* [m²]'],
+                "Area_sobre_otima":Datum['A/A*']
                 }
 
     #Caso queira ver as chaves no terminal

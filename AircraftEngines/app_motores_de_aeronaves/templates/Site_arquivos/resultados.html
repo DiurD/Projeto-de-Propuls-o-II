@@ -182,13 +182,25 @@
 		<section>
 			<div class="imagem-resultados">
 			{%if motor.motor_type == 'ramjet'%}
-				<img class="Ramjet-esquematico imagem-motor" src="{% static 'images/imagem-ramjet.png' %}" alt="">
+			<figure class="container-imagem">
+				<img src="{% static 'images/imagem-ramjet.png' %}" class="imagem-motor" alt="">
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 			{%elif motor.motor_type == 'turbojet'%}
-				<img class="Turbojet-esquematico imagem-motor" src="{% static 'images/imagem-turbojet.png' %}" alt="">
+			<figure class="container-imagem">
+				<img src="{% static 'images/imagem-turbojet.png' %}" class="imagem-motor" alt="">
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 			{%elif motor.motor_type == 'turboprop'%}
-				<img class="Turboprop-esquematico imagem-motor" src="{% static 'images/imagem-turboprop.png' %}" alt="">
+			<figure class="container-imagem">
+				<img src="{% static 'images/imagem-turboprop.png' %}" class="imagem-motor" alt="">
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 			{%elif motor.motor_type == 'turbofan'%}
-				<img class="Turbofan-esquematico imagem-motor" src="{% static 'images/imagem-turbofan.png' %}" alt="">
+			<figure class="container-imagem">
+				<img src="{% static 'images/imagem-turbofan.png' %}" class="imagem-motor" alt="">
+				<figcaption>Nomenclatura de seções de acordo com a norma ARP755A</figcaption>
+			</figure>
 			{%endif%}
 			</div>	
 		</section>
@@ -255,17 +267,17 @@
 	<script>
 		window.datum = {
 			Nome: '{{motor.name}}',
-			Pos: JSON.parse('{{Datum.Pos}}'),
-			P: JSON.parse('{{Datum.P}}'),
-			T: JSON.parse('{{Datum.T}}'),
+			Pos: JSON.parse('{{Posicao}}'),
+			P: JSON.parse('{{Pressao}}'),
+			T: JSON.parse('{{Temperatura}}'),
 			Section: JSON.parse('{{Datum.Section}}'),
-			D: JSON.parse('{{Datum.D}}'),
-			A: JSON.parse('{{Datum.A}}'),
-			Aot: JSON.parse('{{Datum.Aot}}'),
-			A_Aot: JSON.parse('{{Datum.A_Aot}}'),
+			D: JSON.parse('{{Diametro}}'),
+			A: JSON.parse('{{Area}}'),
+			Aot: JSON.parse('{{Area_otima}}'),
+			A_Aot: JSON.parse('{{Area_sobre_otima}}'),
 			Mach: JSON.parse('{{Datum.Mach}}'),
-			Pt: JSON.parse('{{Datum.Pt}}'),
-			Tt: JSON.parse('{{Datum.Tt}}')
+			Pt: JSON.parse('{{Pressao_total}}'),
+			Tt: JSON.parse('{{Temperatura_total}}')
 		};
 	</script>
 

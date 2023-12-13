@@ -108,7 +108,10 @@ main.container{
 
 .container-imagem{
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	color: #444444;
+	margin-bottom: 32px;
 }
 
 .rodape{
