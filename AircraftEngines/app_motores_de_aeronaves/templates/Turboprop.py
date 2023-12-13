@@ -85,7 +85,7 @@ class motor_turboprop:
 
         return output,saidas
     
-    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design:bool, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R):
+    def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design:bool, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R,eta_nt):
 
         secao = [0,    2 ,  3  ,  4  , 4.5 ,  5  ,  8   ,9]
         datum = [0, 0.060,0.408,0.616,0.679,0.715,0.9498,1]
@@ -105,6 +105,9 @@ class motor_turboprop:
         'Pt [Pa]':[],
         'Tt [K]':[],
         }
+
+        P_c = saida['Pt [Pa]'][6]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
+        output_Mattingly['P_c'] = P_c
 
         for i in range(1):
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
@@ -197,7 +200,7 @@ class motor_turboprop:
         
         
 
-## tutu = motor_turboprop('tutu',0.8)
+#tutu = motor_turboprop('tutu',0.8)
 
 
 #CALCULO IDEAL ON DESIGN
@@ -256,7 +259,7 @@ class motor_turboprop:
 #cp_t = 1.235
 #hpr = 42800
 #pi_c_R = 30
-#tau_t = 0.55
+#tau_t_R = tau_t = 0.55
 #eta_prop = 0.812
 #eta_propmax = 0.812
 #pi_tH = 0.2212
@@ -291,14 +294,14 @@ class motor_turboprop:
 #e_c = 0.90
 #e_tH = 0.89
 #e_tL = 0.91
-
+#eta_nt = 1
 
 #print('Offdesign \n')
 #print(tutu.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R,T0_R,P0_R,m0_dot_R, tau_r_R,pi_r_R,Tt4_R,pi_d_R,pi_c_R,tau_c_R,pi_tL_R,tau_tL_R,M9_R,Pt9_P9_R,eta_c, eta_tL, pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL))
 
 #print('Datum \n')
 #design = False
-#print(tutu.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL))
+#print(tutu.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R,eta_nt))
 
 
 #print('on design \n')

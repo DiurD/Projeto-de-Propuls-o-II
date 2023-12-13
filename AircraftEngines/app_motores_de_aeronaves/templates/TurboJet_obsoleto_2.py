@@ -163,7 +163,7 @@ class turbojet:
         return output,saidas,output_REF,saida_REF
 
                     
-    def calcula_datum(self,A0,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t):
+    def calcula_datum(self,A0,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt):
 
         secao = [0,    2 ,  3  ,  4  , 5  ,  8   ,9]
         datum = [0, 0.028, 0.38,0.666,0.762,0.958,1]
@@ -183,6 +183,9 @@ class turbojet:
         'Pt [Pa]':[],
         'Tt [K]':[],
         }
+
+        P_c = saida['Pt [Pa]'][5]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
+        output_Mattingly['P_c'] = P_c
 
         for i in range(1):
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
