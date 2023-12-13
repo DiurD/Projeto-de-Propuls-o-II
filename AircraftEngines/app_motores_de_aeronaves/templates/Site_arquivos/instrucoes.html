@@ -27,7 +27,7 @@
 	<main class="container">
 		<section>
 			<div>
-				<h1 class="Titulo">Instruções de uso</h1>
+				<h1 class="Titulo">Instruções sobre o AeroCalc</h1>
 				<p>Nesta seção, você encontra algumas informações sobre a utilização do AeroCalc para diferentes tipos de motores. </p>
 			</div>
 			<hr>
@@ -40,7 +40,14 @@
 					<img src="{% static 'images/imagem-turbofan.png' %}" class="imagem-motor" alt="Imagem do motor ramjet generalizado">
 				</div>
 			</section>
-			<p></p>
+			<p class="Texto-sobre">
+				No núcleo do turbofan, a câmara de combustão é o local onde ocorre a queima do combustível, impulsionando a turbina. Simultaneamente, o ar é
+				 direcionado ao redor do núcleo do motor por meio de grandes ventiladores frontais, conhecidos como "fan". Esses ventiladores desempenham um
+				  papel crucial ao gerar um fluxo adicional de ar que envolve o núcleo quente do motor, resultando em eficiência aprimorada.
+				<br>
+				A configuração singular do turbofan contribui para uma notável eficiência de combustível, redução de emissões sonoras e desempenho otimizado
+				 em altitudes elevadas. Esses motores desempenham um papel indispensável na aviação comercial contemporânea, proporcionando uma combinação de 
+				 potência e eficiência que impulsiona a viabilidade operacional e econômica das aeronaves de passageiros em escala global.</p>
 
 			<h3 class="subsubtitulos">Turbojet</h3>
 			<section> 
@@ -48,7 +55,9 @@
 					<img src="{% static 'images/imagem-turbojet.png' %}" class="imagem-motor" alt="Imagem do motor ramjet generalizado">
 				</div>
 			</section>
-			<p></p>
+			<p class="Texto-sobre">No cerne do turbojet, a câmara de combustão facilita a queima do combustível para impulsionar a turbina.
+				 Diferentemente do turbofan, o turbojet não possui ventiladores frontais, focando na propulsão direta do jato de exaustão. 
+				 Essa configuração singular confere ao turbojet uma eficácia notável em altas velocidades, sendo frequentemente utilizado em aeronaves de combate e em situações que demandam alta performance.</p>
 
 			<h3 class="subsubtitulos">Turboprop</h3>
 			<section> 
@@ -56,38 +65,82 @@
 					<img src="{% static 'images/imagem-turboprop.png' %}" class="imagem-motor" alt="Imagem do motor ramjet generalizado">
 				</div>
 			</section>
-			<p></p>
+			<p class="Texto-sobre">No turboprop, a energia gerada pela queima do combustível impulsiona a turbina, e parte dessa energia é utilizada para acionar uma hélice. Esse design híbrido entre
+				 turbojato e motor a pistão oferece eficiência em baixas velocidades e é frequentemente escolhido para voos de curta e média distância.</p>
 
 			<h3 class="subsubtitulos">Ramjet</h3>
 			<section> 
 				<div class="container-imagem">
 					<img src="{% static 'images/imagem-ramjet.png' %}" class="imagem-motor" aria-describedby="imagem-ramjet" alt="Imagem do motor ramjet generalizado">
-					<figcaption>Teste</figcaption>
 				</div>
 			</section>
-			<p></p>
+			<p class="Texto-sobre">Diferentemente de outros motores, o ramjet não possui partes móveis, como turbinas. Em vez disso, funciona capturando o ar em movimento, comprimindo-o e, em seguida,
+				 queimando combustível para criar um jato de exaustão de alta velocidade. Embora seja altamente eficiente em altas velocidades, o ramjet depende de outros meios para atingir essa velocidade
+				  inicial, tornando-se impraticável para aeronaves de decolagem convencional. Geralmente, é empregado em mísseis e veículos hipersônicos.</p>
 
 			<h2 class="subtitulos-instrucoes">Modelos de análise</h2>
 			<h3 class="subsubtitulos">On design</h3>
-			<p></p>
+			<p class="Texto-sobre">Análise paramétrica de ciclo, também conhecida como design-point ou on-design, concentra-se em determinar o desempenho do motor em diferentes condições de voo e 
+				valores de escolhas de projeto e parâmetros de limite de projeto. Ela fornece uma representação de "motor de borracha", onde cada motor plotado opera em seu ponto 
+				de projeto, permitindo a análise de como várias escolhas de projeto e limitações impactam o desempenho do motor. O principal objetivo é estabelecer relações entre 
+				parâmetros de desempenho do motor (empuxo e consumo específico de combustível) e escolhas de projeto, limitações e ambiente de voo. 
+				<br> A eficácia da análise paramétrica de ciclo depende da caracterização precisa dos componentes do motor. Para conclusões significativas, variações realistas de eficiência
+				 com a razão de pressão total devem ser consideradas, entrando nas análises não ideais. No entanto, nos momentos iniciais de projeto, pode-se considerar uma análise de 
+				 ciclo ideal, desconsiderando eficiências existentes no processo, assim como perdas e alterações nas características dos fluidos de trabalho. </p>
 
 			<h3 class="subsubtitulos">Off design</h3>
-			<p></p>
+			<p class="Texto-sobre">A análise de desempenho do motor, ou off-design, é distinta. Enquanto a análise paramétrica de ciclo envolve a seleção independente de valores para parâmetros 
+				como a razão de pressão do compressor, a temperatura de saída do queimador principal e as condições de voo, a análise de desempenho do motor avalia o desempenho de um motor 
+				específico construído com parâmetros selecionados nas demais condições de voo. A análise considera a razão de pressão do compressor escolhida e sua correspondente razão de temperatura da turbina. 
+				<br> A análise paramétrica de ciclo examina a variação dos ciclos do motor a turbina a gás com base em entradas de projeto especificadas, enquanto a análise de desempenho do motor 
+				considera um motor fisicamente ou matematicamente construído com razões de pressão do compressor específicas e razões de temperatura da turbina correspondentes operando em outros
+				 pontos fora o ponto de projeto. O desempenho do motor varia com as condições de voo e as configurações do acelerador, controladas diretamente pelo piloto durante o voo.</p>
 
 			<h2 class="subtitulos-instrucoes">Tipos de análise</h2>
 			<h3 class="subsubtitulos">Ideal</h3>
-			<p></p>
+			<p class="Texto-sobre">A análise ideal é responsável por simular um ambiente perfeito, no qual todos os componentes e processos são reversíveis, não existindo perdas em nenhum deles. Esse tipo de análise
+				é utilizada como primeira aplicação de uma teoria, na qual não se tem modelos evoluídos a ponto de incluírem comportamentos reais.
+			</p>
 
 			<h3 class="subsubtitulos">Não ideal</h3>
-			<p></p>
+			<p class="Texto-sobre">A análise não ideal é aquela que buscar aproximar-se ao máximo de um ambiente real, no qual são considerados processos irreversíveis, com presença de perdas e eficiências. Esse tipo de análise
+				é utilizada quando existem modelos complexos o suficiente para simular comportamentos reais, que possam ser resolvidos utilizando as ferramentas existentes.
+			</p>
 
 			<h2 class="subtitulos-instrucoes">Variáveis de entrada</h2>
-			<p></p>
+			<p class="Texto-sobre">As variáveis de entrada dos motores podem ser divididas em quatro categorias, cada uma com suas considerações e características.</p>
+
+				<p class="Texto-sobre"><b>1.Condições de voo:</b>
+					<br> A altitude de operação do motor tem relação com a temperatura e pressão ambientes de acordo com o padrão ISA (International Standard Atmosphere). Essa temperatura e pressão,
+					 juntamente com a velocidade de voo, afetam as propriedades do ar de entrada no motor, além de definir a quantidade de energia total que ele carrega. </p>
+				
+				<p class="Texto-sobre"><b>2.Limites de projeto:</b>
+				<br>A temperatura total de saída do combustor é um limite de projeto relacionado ao limite térmico do motor.</p>
+				
+				<p class="Texto-sobre"><b>3.Desempenho de componentes:</b>
+				<br>Variáveis como razão de pressão do difusor, do combustor e do bocal de saída são relacionadas às perdas dos componentes não idealizados e a variação do calor específico do gás ao longo do motor.</p>
+				
+				<p class="Texto-sobre"><b>4.Escolhas de projeto:</b>
+				<br>Variáveis como a razão de pressão no compressor e razão de pressão no fan são parâmetros de escolhidos para o projeto, normalmente otimizados para pontos de operação de interessse.</p>
 
 			<h2 class="subtitulos-instrucoes">Variáveis de saída</h2>
-			<p></p>
+			<p class="Texto-sobre">As variáveis de saída definem o desempenho que o motor apresenta com base nas variáveis de entrada e sua dinâmica.</p>
 
-			<h2 class="subtitulos-instrucoes">Apresentação e análise de resultados</h2>
+				<p class="Texto-sobre"><b>1.Parâmetros de desempenho:</b>
+				<br> Os principais parâmetros a serem otimizados para o ponto de operação de interesse, buscando mais economia de combustível ou maior desempenho propulivo na grande maioria das vezes. Dentre eles temos alguns como:
+				<br>- O consumo específico de combustível, que mede a eficiência de uso de combustível do motor, representando a quantidade de combustível consumida por unidade de empuxo produzido.
+				<br>- A eficiência térmica do motor, que quantifica a capacidade de conversão de energia do combustível em trabalho útil. </p>
+				
+				<p class="Texto-sobre"><b>2.Parâmetros de exaustão:</b>
+				<br>As propriedades do gás expelido pelo motor após passar pelo ciclo são de grande interesse, dentre elas temos algumas como:
+				<br>- A temperatura de exaustão dos gases que saem do motor, que é um parâmetro crucial que afeta o motor, acústica e durabilidade dos materiais.
+				<br>- A velocidade de saída dos gases do motor, que influencia a eficiência de propulsão no geral.</p>
+				
+				<p class="Texto-sobre"><b>3.Parâmetros de análise:</b>
+				<br>Algumas variáveis de saída, especialmente em análises off design, podem ser parâmetros que seriam escolhas de projeto em uma análise on design, como a razão de compressão, que é uma escolha de projeto para o ciclo
+				 paramétrico, porém, ao mudar as condições de operação de um motor já existente, realizando uma análise off design, obtém-se o valor da razão de compressão para aquele ponto de operação.</p>
+
+			<!-- <h2 class="subtitulos-instrucoes">Apresentação e análise de resultados</h2> -->
 		</section>
 	</main>
 
