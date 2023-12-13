@@ -55,13 +55,7 @@ class motor_turboprop:
         Ts = [float(1)]*11
 
         Ms = [float(1)]*11
-        Ms[0] = self.M0
-        Ms[1] = self.M0
-        Ms[2] = 0.9*self.M0 #Pequena redução arbitrária de Mach antes de entrar no compressor.
-        Ms[3] = self.M3
-        Ms[4] = 1 #Página 562 Mattingly
-        Ms[5] = 1 #Página 562 Mattingly
-        # Restante dos Machs abaixo, não colocar aqui.
+
             
         A_opt = [float(1)]*11
         A_Aopt = [float(1)]*11
@@ -78,7 +72,25 @@ class motor_turboprop:
         output['T9/Tt9'] = [T9_Tt9]
         output['T9/T0'] = [T9_T0]
 
-        Ms[10] = Ms[6] = Ms[7] = Ms[8] = Ms[9] = M9 # Já pego o Mach 9 do resultado do programa, o Mach[10] aqui que é o Mach 9 no caso, pq tem uma seção a mais no motor, a 4,5 relativa a entrada da turbina de baixa. Esse trecho diz que o Mach 5 do Mattingly (Mach[6] do programa), depois de sair da turbina continua o mesmo até o final.
+        Ms[0] = self.M0
+        Ms[1] = self.M0
+        Ms[2] = 0.9*self.M0
+        Ms[3] = self.M3
+        if self.M3*3.5 < 1.0 and 3.5*self.M3 <= M9:
+            Ms[4] = 1.2*self.M3
+            Ms[5] = 2*self.M3
+            Ms[6] = Ms[7] = 2.8*self.M3
+            Ms[8] = 3.5*self.M3
+        else:
+            Ms[4] = 1.1*self.M3
+            Ms[5] = 1.1*Ms[4]
+            Ms[6] = Ms[7] = 1.1*Ms[5] 
+            Ms[8] = 1.1*Ms[7]
+        if M9 > 1.0:
+            Ms[9] = 1.0
+        else:
+            Ms[9] = M9
+        Ms[10] = M9 
 
         for i in range(len(secao)):
             if i<4:
@@ -241,10 +253,21 @@ class motor_turboprop:
         Ms[1] = M0_AT
         Ms[2] = 0.9*M0_AT
         Ms[3] = self.M3
-        Ms[4] = 1 #Página 562 Mattingly
-        Ms[5] = 1 #Página 562 Mattingly    
-        Ms[6] = Ms[7] = Ms[8] = Ms[9] = Ms[10] = M9 # Desconsiderando mudança de Mach após sair da turbina, ao longo do bocal de saída
-        Ms[10] = M9
+        if self.M3*3.5 < 1.0 and 3.5*self.M3 <= M9:
+            Ms[4] = 1.2*self.M3
+            Ms[5] = 2*self.M3
+            Ms[6] = Ms[7] = 2.8*self.M3
+            Ms[8] = 3.5*self.M3
+        else:
+            Ms[4] = 1.1*self.M3
+            Ms[5] = 1.1*Ms[4]
+            Ms[6] = Ms[7] = 1.1*Ms[5] 
+            Ms[8] = 1.1*Ms[7]
+        if M9 > 1.0:
+            Ms[9] = 1.0
+        else:
+            Ms[9] = M9
+        Ms[10] = M9 
         
         A_opt = [float(1)]*11
         A_Aopt = [float(1)]*11
