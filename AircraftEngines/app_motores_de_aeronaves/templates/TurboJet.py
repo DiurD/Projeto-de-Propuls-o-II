@@ -1,5 +1,5 @@
 import re,math
-# import Prop2
+#import Prop2
 from app_motores_de_aeronaves.templates import Prop2
 
 class turbojet:
@@ -49,12 +49,7 @@ class turbojet:
         Ts = [float(1)]*10
 
         Ms = [float(1)]*10
-        Ms[0] = self.M0
-        #Ms[1] = self.M0
-        #Ms[2] = 0.9*self.M0 #Pequena redução arbitrária de Mach antes de entrar no compressor.
-        #Ms[3] = self.M3
-        #Ms[4] = 1 #Página 562 Mattingly
-        #Ms[5] = 1 #Página 562 Mattingly
+
             
         A_opt = [float(1)]*10
         A_Aopt = [float(1)]*10
@@ -71,7 +66,19 @@ class turbojet:
         output['T9/Tt9'] = [T9_Tt9]
         output['T9/T0'] = [T9_T0]
 
-
+        Ms[0] = self.M0
+        Ms[1] = self.M0
+        Ms[2] = 0.9*self.M0
+        Ms[3] = self.M3
+        Ms[4] = 0.25*self.M0
+        Ms[5] = 0.48    
+        Ms[6] = 0.53
+        Ms[7] = 0.53
+        if M9 > 1.0:
+            Ms[8] = 1.0
+        else:
+            Ms[8] = M9
+        Ms[9] = M9 
 
         for i in range(len(secao)):
             if i<4:
@@ -89,6 +96,8 @@ class turbojet:
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
 
@@ -146,13 +155,19 @@ class turbojet:
         Ms = [float(1)]*10
         
         Ms[0] = M0_AT
-       # Ms[1] = M0_AT
-       # Ms[2] = 0.9*M0_AT
-       # Ms[3] = self.M3
-       # Ms[4] = 1 #Página 562 Mattingly
-       # Ms[5] = 1 #Página 562 Mattingly    
-       # Ms[6] = Ms[7] = Ms[8] = Ms[9] = Ms[10] = M9 # Desconsiderar mudança de Mach após sair da turbina, ao longo do bocal de saída
-        Ms[9] = M9
+        Ms[1] = M0_AT
+        Ms[2] = 0.9*M0_AT
+        Ms[3] = self.M3
+        Ms[4] = 0.25*M0_AT
+        Ms[5] = 0.47    
+        Ms[6] = 0.53
+        Ms[7] = 0.53
+        if M9 > 1.0:
+            Ms[8] = 1.0
+        else:
+            Ms[8] = M9
+        Ms[9] = M9 
+        
         
         A_opt = [float(1)]*10
         A_Aopt = [float(1)]*10
@@ -182,6 +197,8 @@ class turbojet:
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
         
@@ -206,8 +223,8 @@ class turbojet:
                     
     def calcula_datum(self,A0,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design:bool,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt):
 
-        secao = [0,    2 ,  3  ,  4  , 5  ,  8   ,9]
-        datum = [0, 0.028, 0.38,0.666,0.762,0.958,1]
+        secao = [0,   1  , 2   ,  3  ,  4  , 5   , 6    ,  7    ,  8  ,9]
+        datum = [0, 0.01 ,0.028, 0.38,0.666,0.762,0.793 , 0.861 ,0.958,1]
         posicao = [self.length*i for i in datum]
 
         output_Mattingly_REF= {}
@@ -238,7 +255,7 @@ class turbojet:
         P_c = saida['Pt [Pa]'][5]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
         output_Mattingly['P_c'] = P_c
             
-        for i in range(1):
+        for i in range(0,10):
             #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
             #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             
@@ -254,43 +271,43 @@ class turbojet:
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             nova_saida['T [K]'].append(saida['T [K]'][i])
         
-        for i in range(2,6):
+        # for i in range(2,6):
             #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
             #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
 
-            nova_saida['A [m²]'].append(saida['A [m²]'][i])
-            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
-            nova_saida['A/A*'].append(saida['A/A*'][i])
-            nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D [m]'].append(self.D[i])
+        #     nova_saida['A [m²]'].append(saida['A [m²]'][i])
+        #     nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+        #     nova_saida['A/A*'].append(saida['A/A*'][i])
+        #     nova_saida['Mach'].append(saida['Mach'][i])
+        #     nova_saida['D [m]'].append(self.D[i])
             
-            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+        #     nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
             
-            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
-            nova_saida['T [K]'].append(saida['T [K]'][i])            
+        #     nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        #     nova_saida['T [K]'].append(saida['T [K]'][i])            
 
-        for i in range(8,10):
+        # for i in range(8,10):
             #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
             #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             
-            nova_saida['A [m²]'].append(saida['A [m²]'][i])
-            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
-            nova_saida['A/A*'].append(saida['A/A*'][i])
-            nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D [m]'].append(self.D[i])
+            # nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            # nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            # nova_saida['A/A*'].append(saida['A/A*'][i])
+            # nova_saida['Mach'].append(saida['Mach'][i])
+            # nova_saida['D [m]'].append(self.D[i])
             
-            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            # nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            # nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
             
-            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
-            nova_saida['T [K]'].append(saida['T [K]'][i])   
+            # nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            # nova_saida['T [K]'].append(saida['T [K]'][i])   
 
         return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
         
         
 
-#jet = turbojet('jet',2)
+# jet = turbojet('jet',[1,1,1,1,1,1,1,1,1,1],1,2,0.13,3)
 
 
   #CALCULO IDEAL ON DESIGN
@@ -336,55 +353,56 @@ class turbojet:
 
 
 # Teste Offdesign
-#print('começa daqui offdesign \n')
+# print('começa daqui offdesign \n')
 
-#atmos_REF = Prop2.AircraftEngines(12000)
-#gamma_c = 1.4
-#cp_c = 1.004
-#gamma_t = 1.3
-#cp_t = 1.239
-#Tt4_R = 1800
-#M0_R = 2
-#pi_c_R = 10
-#tau_c_R = 2.0771
-#eta_c = 0.8641
-#tau_t = 0.8155
-#pi_t = 0.3746
-#pi_d_max = 0.95
-#pi_d_R = 0.8788
-#pi_b = 0.94
-#pi_n = 0.96
-#eta_b = 0.98
-#eta_m = 0.99
-#P0_P9_R = 0.5
-#hpr = 42800
-#f = 0.03567
-#Pt9_P9_R = 11.62
-#F_mo = 806.9
-#S = 44.21
-#P0_R = 19400
-#T0_R = 216.7
-#m0_R = 50
-#F = 40345
-#A0 = 0.2717
-#ideal = False
-#tau_r_R = 1.8
-#pi_r_R = 7.824
-#e_t = 0.92
-#e_c = 0.91
+# atmos_REF = Prop2.AircraftEngines(12000)
+# gamma_c = 1.4
+# cp_c = 1.004
+# gamma_t = 1.3
+# cp_t = 1.239
+# Tt4_R = 1800
+# M0_R = 2
+# pi_c_R = 10
+# tau_c_R = 2.0771
+# eta_c = 0.8641
+# tau_t = 0.8155
+# pi_t = 0.3746
+# pi_d_max = 0.95
+# pi_d_R = 0.8788
+# pi_b = 0.94
+# pi_n = 0.96
+# eta_b = 0.98
+# eta_m = 0.99
+# P0_P9_R = 0.5
+# hpr = 42800
+# f = 0.03567
+# Pt9_P9_R = 11.62
+# F_mo = 806.9
+# S = 44.21
+# P0_R = 19400
+# T0_R = 216.7
+# m0_R = 50
+# F = 40345
+# A0 = 0.2717
+# ideal = False
+# tau_r_R = 1.8
+# pi_r_R = 7.824
+# e_t = 0.92
+# e_c = 0.91
 
-#atmos_AT = Prop2.AircraftEngines(9000)
-#M0_AT = 1.5
-#Tt4_AT = 1670
-#P0_P9_AT = 0.955
+# atmos_AT = Prop2.AircraftEngines(9000)
+# M0_AT = 1.5
+# Tt4_AT = 1670
+# P0_P9_AT = 0.955
 
+# eta_nt = 1
 
 #print('\nOffdesign \n')
 #print(jet.calcula_offdesign(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,pi_c_R,tau_c_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_t,e_c))
 
-#print('\nDatum \n')
-#design = False
-#print(jet.calcula_datum(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t))
+# print('\nDatum \n')
+# design = True
+# print(jet.calcula_datum(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt))
 
 
 #print('on design \n')
