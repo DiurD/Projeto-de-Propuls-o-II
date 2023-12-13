@@ -4,15 +4,36 @@ from app_motores_de_aeronaves.templates import Prop2
 
 class turbojet:
     
-    def __init__(self,name,M0):
+    def __init__(self,name,diameters,lenght,M0,M3,intakes):
         print("*** Criando um novo motor Turbo Jato. Defina seus parâmetros a seguir: ***\n")
         self.name = name
-        #self.length = lenght
+        self.length = lenght
         self.M0 = M0
-        #self.M3 = M3
-        #self.D = diameters
+        self.M3 = M3
+        self.D = diameters
         self.A=[float(0)]*10
-        #self.airIntakes = intakes
+        self.airIntakes = intakes
+        
+        for i in range(len(self.D)):
+            if i == 1:
+                self.A[i] = (math.pi*self.D[i]**2)/4*self.airIntakes
+            else:
+                if self.D[i]==0 and i!=0:
+                    self.D[i] = self.D[i-1]
+                    self.A[i] = self.A[i-1]
+                else:
+                    self.A[i] = (math.pi*self.D[i]**2)/4
+                    
+    def __str__(self):
+        string = "------------\nNome: {}".format(self.name)
+        # string = string+ "\nDiâmetro: {}".format(self.diameter)
+        string = string+ "\nComprimento: {}".format(self.length)
+        # string = string+ "\nPeso: {}".format(self.weight)
+        string += "\n°°°°°°°°°°°°°°°°°°°°"
+        for i in range(0,len(self.D)):
+            string = string+ "\nDiâmetro e área da seção {}: {} [m] | {:.4f} [m²]".format(i,self.D[i],self.A[i])
+        string += "\n°°°°°°°°°°°°°°°°°°°°"
+        return string 
 
 
     def calcula_parametrico(self,atmos:Prop2.AircraftEngines,A0,gamma_c,cp_c,gamma_t,cp_t,hpr,Tt4,pi_c,ideal,pi_d_max=1.0,pi_b=1.0,pi_n=1.0,e_c=1.0,e_t=1.0,eta_b=1.0,eta_m=1.0,P0_P9=1.0):
@@ -35,6 +56,8 @@ class turbojet:
         #Ms[4] = 1 #Página 562 Mattingly
         #Ms[5] = 1 #Página 562 Mattingly
             
+        A_opt = [float(1)]*10
+        A_Aopt = [float(1)]*10
         
            #output,tau_lambda,pi_r,  tau_r,  pi_d,  tau_d,  pi_c,  tau_c,  pi_b,  tau_b,  pi_t,  tau_t,  pi_n,  tau_n,  P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
         if ideal:     
@@ -61,13 +84,20 @@ class turbojet:
                 Tts[i] = taus[i]*T0
                 Ps[i] = P0
                 Ts[i] = T0
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
+
 
         Ps[9] = Pts[9]/Pt9_P9
         Ts[9] = Ts[0]*T9_T0
         Ms[9] = M9 # Já pego o Mach 9 do resultado do programa
+        A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
+        A_opt[9]=self.A[9]/A_Aopt[9]
 
         
 
@@ -81,6 +111,9 @@ class turbojet:
         'Mach9': Ms[9],
         'T0 [K]': T0,
         'P0 [Pa]': P0,
+        'A [m²]' : self.A,
+        'A* [m²]': A_opt,
+        'A/A*': A_Aopt,
         }
 
         return output,saidas
@@ -122,6 +155,9 @@ class turbojet:
        # Ms[6] = Ms[7] = Ms[8] = Ms[9] = Ms[10] = M9 # Desconsiderar mudança de Mach após sair da turbina, ao longo do bocal de saída
         Ms[9] = M9
         
+        A_opt = [float(1)]*10
+        A_Aopt = [float(1)]*10
+        
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9_AT]
         output['Pt9/P9'] = [Pt9_P9]
@@ -142,9 +178,13 @@ class turbojet:
                 Tts[i] = taus[i]*T0
                 Ps[i] = P0
                 Ts[i] = T0
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
         
 
         saidas = {
@@ -157,6 +197,9 @@ class turbojet:
         'Mach9': Ms[9],
         'T0 [K]': T0,
         'P0 [Pa]': P0,
+        'A [m²]' : self.A,
+        'A* [m²]': A_opt,
+        'A/A*': A_Aopt,
         }
 
 
@@ -167,7 +210,7 @@ class turbojet:
 
         secao = [0,    2 ,  3  ,  4  , 5  ,  8   ,9]
         datum = [0, 0.028, 0.38,0.666,0.762,0.958,1]
-
+        posicao = [self.length*i for i in datum]
 
         output_Mattingly_REF= {}
         saida_REF = {}
@@ -179,25 +222,69 @@ class turbojet:
 
         nova_saida = {
         'Section': secao,
+        'Pos.':posicao,
         'Datum':datum,
+        'D [m]':[],
+        'A [m²]': [],
+        'A* [m²]': [],
+        'A/A*': [],
+        'Mach':[],
         'Pt [Pa]':[],
+        'P [Pa]':[],
         'Tt [K]':[],
+        'T [K]':[]
         }
 
         P_c = saida['Pt [Pa]'][5]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
         output_Mattingly['P_c'] = P_c
             
         for i in range(1):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])
         
         for i in range(2,6):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])            
 
         for i in range(8,10):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])   
 
             return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
         

@@ -4,15 +4,36 @@ from app_motores_de_aeronaves.templates import Prop2
 
 class motor_turboprop:
     
-    def __init__(self,name,M0):
+    def __init__(self,name,diameters,lenght,M0,M3,intakes):
         print("*** Criando um novo motor turboprop. Defina seus parâmetros a seguir: ***\n")
         self.name = name
-        #self.length = lenght
+        self.length = lenght
         self.M0 = M0
-        #self.M3 = M3
-        #self.D = diameters
+        self.M3 = M3
+        self.D = diameters
         self.A=[float(0)]*11
-        #self.airIntakes = intakes
+        self.airIntakes = intakes
+
+        for i in range(len(self.D)):
+            if i == 1:
+                self.A[i] = (math.pi*self.D[i]**2)/4*self.airIntakes
+            else:
+                if self.D[i]==0 and i!=0:
+                    self.D[i] = self.D[i-1]
+                    self.A[i] = self.A[i-1]
+                else:
+                    self.A[i] = (math.pi*self.D[i]**2)/4
+                    
+    def __str__(self):
+        string = "------------\nNome: {}".format(self.name)
+        # string = string+ "\nDiâmetro: {}".format(self.diameter)
+        string = string+ "\nComprimento: {}".format(self.length)
+        # string = string+ "\nPeso: {}".format(self.weight)
+        string += "\n°°°°°°°°°°°°°°°°°°°°"
+        for i in range(0,len(self.D)):
+            string = string+ "\nDiâmetro e área da seção {}: {} [m] | {:.4f} [m²]".format(i,self.D[i],self.A[i])
+        string += "\n°°°°°°°°°°°°°°°°°°°°"
+        return string 
 
 
     def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4, pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,m0_dot,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL):
@@ -35,6 +56,8 @@ class motor_turboprop:
         #Ms[4] = 1 #Página 562 Mattingly
         #Ms[5] = 1 #Página 562 Mattingly
             
+        A_opt = [float(1)]*11
+        A_Aopt = [float(1)]*11
         
        #output,tau_lambda,pi_r,  tau_r,  pi_d,  tau_d,  pi_c,  tau_c,  pi_b,  tau_b,  pi_tH, tau_tH, pi_tL, tau_tL, pi_n,  tau_n,  P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
         if ideal:     
@@ -61,14 +84,20 @@ class motor_turboprop:
                 Tts[i] = taus[i]*T0
                 Ps[i] = P0
                 Ts[i] = T0
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
+
 
         Ps[10] = Pts[10]/Pt9_P9
         Ts[10] = Ts[0]*T9_T0
         Ms[10] = M9 # Já pego o Mach 9 do resultado do programa, o Mach[10] aqui que é o Mach 9 no caso, pq tem uma seção a mais no motor, a 4,5 relativa a entrada da turbina de baixa. Esse trecho diz que o Mach 5 do Mattingly (Mach[6] do programa), depois de sair da turbina continua o mesmo até o final.
-
+        A_Aopt[10] = (1/(Ms[10]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[10]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
+        A_opt[10]=self.A[10]/A_Aopt[10]
         
 
         saidas = {
@@ -81,6 +110,9 @@ class motor_turboprop:
         'Mach9': Ms[10],
         'T0 [K]': T0,
         'P0 [Pa]': P0,
+        'A [m²]' : self.A,
+        'A* [m²]': A_opt,
+        'A/A*': A_Aopt,
         }
 
         return output,saidas
@@ -89,7 +121,7 @@ class motor_turboprop:
 
         secao = [0,    2 ,  3  ,  4  , 4.5 ,  5  ,  8   ,9]
         datum = [0, 0.060,0.408,0.616,0.679,0.715,0.9498,1]
-
+        posicao = [self.length*i for i in datum]
 
         output_Mattingly_REF= {}
         saida_REF = {}
@@ -101,28 +133,73 @@ class motor_turboprop:
 
         nova_saida = {
         'Section': secao,
+        'Pos.':posicao,
         'Datum':datum,
+        'D [m]':[],
+        'A [m²]': [],
+        'A* [m²]': [],
+        'A/A*': [],
+        'Mach':[],
         'Pt [Pa]':[],
+        'P [Pa]':[],
         'Tt [K]':[],
+        'T [K]':[]
         }
 
         P_c = saida['Pt [Pa]'][6]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
         output_Mattingly['P_c'] = P_c
 
         for i in range(1):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])
         
         for i in range(2,7):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])
 
         for i in range(9,11):
+            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            
+            nova_saida['A [m²]'].append(saida['A [m²]'][i])
+            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+            nova_saida['A/A*'].append(saida['A/A*'][i])
+            nova_saida['Mach'].append(saida['Mach'][i])
+            nova_saida['D [m]'].append(self.D[i])
+            
             nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+            
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+            nova_saida['T [K]'].append(saida['T [K]'][i])
 
             return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
-                                                                                                                                                                                                                   
+                         
+                                                                                                                                                                                          
     def calcula_offdesign(self, gamma_c,gamma_t, cp_c , cp_t , hpr, tau_t_R, eta_prop, eta_propmax, pi_tH, tau_tH, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,Tt4_AT,M0_R,T0_R,P0_R,m0_dot_R, tau_r_R,pi_r_R,Tt4_R,pi_d_R,pi_c_R,tau_c_R,pi_tL_R,tau_tL_R,M9_R,Pt9_P9_R,eta_c, eta_tL, pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL):
                                                                                                                                                                                                                                                                                                                                      
         secao = [0,1,2,3,4,4.5,5,6,7,8,9]
@@ -159,6 +236,9 @@ class motor_turboprop:
        # Ms[6] = Ms[7] = Ms[8] = Ms[9] = Ms[10] = M9 # Desconsiderar mudança de Mach após sair da turbina, ao longo do bocal de saída
         Ms[10] = M9
         
+        A_opt = [float(1)]*11
+        A_Aopt = [float(1)]*11
+        
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9]
         output['Pt9/P9'] = [Pt9_P9]
@@ -178,9 +258,13 @@ class motor_turboprop:
                 Tts[i] = taus[i]*T0
                 Ps[i] = P0
                 Ts[i] = T0
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
+                A_opt[i]=self.A[i]/A_Aopt[i]
         
 
         saidas = {
@@ -191,6 +275,9 @@ class motor_turboprop:
         'Tt [K]': Tts,
         'Mach0': Ms[0],
         'Mach9': Ms[10],
+        'A [m²]' : self.A,
+        'A* [m²]': A_opt,
+        'A/A*': A_Aopt,
         }
 
 
