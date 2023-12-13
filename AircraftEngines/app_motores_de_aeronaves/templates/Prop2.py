@@ -706,7 +706,7 @@ class AircraftEngines:
         tau_b = Tt9_T0/(tau_r*tau_d*tau_cH*tau_cL*tau_tH*tau_tL*tau_n)
 
         output = {
-            'F': [F],
+            'F_m0': [F_m0],
             'm0_dot': [m0],
             'f': [f],
             'S': [S],
