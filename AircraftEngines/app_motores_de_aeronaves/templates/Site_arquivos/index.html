@@ -573,7 +573,7 @@
 				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
-			  <div class="comprimento entradas">
+			  <!-- <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
 				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
@@ -633,7 +633,7 @@
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
-			  </div>
+			  </div> -->
 		</section>
 		
 		<section id="Turbojet-Caracteristicas-porcentagem" style="display: none;">
@@ -644,7 +644,7 @@
 				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
-			  <div class="comprimento entradas">
+			  <!-- <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
 				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
@@ -710,7 +710,7 @@
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
-			  </div>
+			  </div> -->
 		</section>
 
 		<section id="Turbojet-Parametros-on-design-ideal" style="display: none;">
@@ -718,54 +718,60 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001"  class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="gamma entradas">
 				<label for="gamma">Razão de calores específicos - &#x03B3 </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma" aria-describedby="gamma" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma" aria-describedby="gamma" placeholder="Digite o valor da constante">
 				<small id="gamma" class="form-text text-muted">Razão entre os calores específicos do ar a pressão e volume constantes.</small>
 			</div>
 
 			<div class="c_p entradas">
 				<label for="c_p">Calor específico do ar a pressão constante - c<sub>p</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_p" aria-describedby="c_p" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_p" aria-describedby="c_p" placeholder="Digite o valor da constante">
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_c entradas">
 				<label for="pi_c">Razão de pressões no compressor - &#x3C0<sub>c</sub></label>
-				<input name="pi_c" type="number" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
+				<input name="pi_c" type="number" step="0.0001" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
 				<small id="pi_c" class="form-text text-muted">Razão entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
+			</div>
+
+			<div class="A_0 entradas">
+				<label for="A_0">Área de entrada do ar [m<sup>2</sup>]</label>
+				<input name="A_0" type="number" step="0.0001" class="form-control" id="A_0" aria-describedby="A_0" placeholder="Digite o valor da área">
+				<small id="A_0" class="form-text text-muted">?</small>
 			</div>
 
 		</section>
@@ -775,120 +781,126 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0/P9 entradas">
 				<label for="P0/P9">Razão das pressões de entrada e saída do motor</label>
-				<input name="P0_P9" type="number" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
+				<input name="P0_P9" type="number" step="0.0001" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
 			</div>
 
 			<div class="gamma_c entradas">
 				<label for="gamma_c">Razão de calores específicos do fluido, antes do combustor - &#x03B3<sub>c</sub> </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
 				<small id="gamma_c" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="gamma_t entradas">
 				<label for="gamma_t">Razão de calores específicos do fluido, depois do combustor - &#x03B3<sub>t</sub> </label>
-				<input name="gamma_t" type="number" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
+				<input name="gamma_t" type="number" step="0.0001" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
 				<small id="gamma_t" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pc entradas">
 				<label for="c_pc">Calor específico do fluido a pressão constante, antes do combustor - c<sub>pc</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
 				<small id="c_pc" class="form-text text-muted">Valor da constante antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pt entradas">
 				<label for="c_pt">Calor específico do fluido a pressão constante, depois do combustor - c<sub>pt</sub> [kJ/kg]</label>
-				<input name="cp_t" type="number" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
+				<input name="cp_t" type="number" step="0.0001" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
 				<small id="c_pt" class="form-text text-muted">Valor da constante depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 3 do motor.</small>
 			</div>
 
 			<div class="pi_c entradas">
 				<label for="pi_c">Razão de pressões no compressor - &#x3C0<sub>c</sub></label>
-				<input name="pi_c" type="number" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
+				<input name="pi_c" type="number" step="0.0001" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
 				<small id="pi_c" class="form-text text-muted">Razão entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="pi_t entradas">
 				<label for="pi_t">Razão de pressões na turbina - &#x3C0<sub>t</sub></label>
-				<input name="pi_t" type="number" class="form-control" id="pi_t" aria-describedby="pi_t" placeholder="Digite o valor da razão">
+				<input name="pi_t" type="number" step="0.0001" class="form-control" id="pi_t" aria-describedby="pi_t" placeholder="Digite o valor da razão">
 				<small id="pi_t" class="form-text text-muted">Razão entre a pressão que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="pi_b entradas">
 				<label for="pi_b">Razão de pressões no combustor - &#x3C0<sub>b</sub></label>
-				<input name="pi_b" type="number" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
+				<input name="pi_b" type="number" step="0.0001" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
 				<small id="pi_b" class="form-text text-muted">Razão entre a pressão que entra pela seção 3, e a que sai pela seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_n entradas">
 				<label for="pi_n">Razão de pressões no bocal de saída - &#x3C0<sub>n</sub></label>
-				<input name="pi_n" type="number" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
+				<input name="pi_n" type="number" step="0.0001" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
 				<small id="pi_n" class="form-text text-muted">Razão entre a pressão que entra pela seção 7, e a que sai pela seção 9 do motor. </small>
 			</div>
 
 			<div class="pi_d,max entradas">
 				<label for="pi_d,max">Razão máxima de pressões no bocal de entrada - &#x3C0<sub>d,max</sub></label>
-				<input name="pi_dmax" type="number" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
+				<input name="pi_dmax" type="number" step="0.0001" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
 				<small id="pi_d,max" class="form-text text-muted">Razão máxima entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
 			</div>
 
 			<div class="eta_b entradas">
 				<label for="eta_b">Eficiência do combustor - &#x3B7<sub>b</sub></label>
-				<input name="eta_b" type="number" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
+				<input name="eta_b" type="number" step="0.0001" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
 				<small id="eta_b" class="form-text text-muted">Eficiência do combustor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 			<div class="eta_m entradas">
 				<label for="eta_m">Eficiência mecânica - &#x3B7<sub>m</sub></label>
-				<input name="eta_m" type="number" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
+				<input name="eta_m" type="number" step="0.0001" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
 				<small id="eta_m" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_t entradas">
 				<label for="e_t">Eficiência politrópica da turbina - e<sub>t</sub></label>
-				<input name="e_t" type="number" class="form-control" id="e_t" aria-describedby="e_t" placeholder="Digite o valor da eficiência">
+				<input name="e_t" type="number" step="0.0001" class="form-control" id="e_t" aria-describedby="e_t" placeholder="Digite o valor da eficiência">
 				<small id="e_t" class="form-text text-muted">Eficiência da turbina, entre as seções 4 e 5 do motor. </small>
 			</div>
 
 			<div class="e_c entradas">
 				<label for="e_c">Eficiência politrópica do compressor - e<sub>c</sub></label>
-				<input name="e_c" type="number" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
+				<input name="e_c" type="number" step="0.0001" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
 				<small id="e_c" class="form-text text-muted">Eficiência do compressor, entre as seções 3 e 4 do motor. </small>
+			</div>
+
+			<div class="A_0 entradas">
+				<label for="A_0">Área de entrada do ar [m<sup>2</sup>]</label>
+				<input name="A_0" type="number" step="0.0001" class="form-control" id="A_0" aria-describedby="A_0" placeholder="Digite o valor da área">
+				<small id="A_0" class="form-text text-muted">?</small>
 			</div>
 
 		</section>
@@ -898,102 +910,114 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0/P9 entradas">
 				<label for="P0/P9">Razão das pressões de entrada e saída do motor</label>
-				<input name="P0_P9" type="number" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
+				<input name="P0_P9" type="number" step="0.0001" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
 			</div>
 
 			<div class="gamma_c entradas">
 				<label for="gamma_c">Razão de calores específicos do fluido, antes do combustor - &#x03B3<sub>c</sub> </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
 				<small id="gamma_c" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="gamma_t entradas">
 				<label for="gamma_t">Razão de calores específicos do fluido, depois do combustor - &#x03B3<sub>t</sub> </label>
-				<input name="gamma_t" type="number" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
+				<input name="gamma_t" type="number" step="0.0001" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
 				<small id="gamma_t" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pc entradas">
 				<label for="c_pc">Calor específico do fluido a pressão constante, antes do combustor - c<sub>pc</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
 				<small id="c_pc" class="form-text text-muted">Valor da constante antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pt entradas">
 				<label for="c_pt">Calor específico do fluido a pressão constante, depois do combustor - c<sub>pt</sub> [kJ/kg]</label>
-				<input name="cp_t" type="number" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
+				<input name="cp_t" type="number" step="0.0001" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
 				<small id="c_pt" class="form-text text-muted">Valor da constante depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_b entradas">
 				<label for="pi_b">Razão de pressões no combustor - &#x3C0<sub>b</sub></label>
-				<input name="pi_b" type="number" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
+				<input name="pi_b" type="number" step="0.0001" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
 				<small id="pi_b" class="form-text text-muted">Razão entre a pressão que entra pela seção 3, e a que sai pela seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_n entradas">
 				<label for="pi_n">Razão de pressões no bocal de saída - &#x3C0<sub>n</sub></label>
-				<input name="pi_n" type="number" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
+				<input name="pi_n" type="number" step="0.0001" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
 				<small id="pi_n" class="form-text text-muted">Razão entre a pressão que entra pela seção 7, e a que sai pela seção 9 do motor. </small>
 			</div>
 
 			<div class="pi_d,max entradas">
 				<label for="pi_d,max">Razão máxima de pressões no bocal de entrada - &#x3C0<sub>d,max</sub></label>
-				<input name="pi_dmax" type="number" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
+				<input name="pi_dmax" type="number" step="0.0001" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
 				<small id="pi_d,max" class="form-text text-muted">Razão máxima entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
 			</div>
 
 			<div class="eta_b entradas">
 				<label for="eta_b">Eficiência do combustor - &#x3B7<sub>b</sub></label>
-				<input name="eta_b" type="number" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
+				<input name="eta_b" type="number" step="0.0001" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
 				<small id="eta_b" class="form-text text-muted">Eficiência do combustor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 			<div class="eta_c entradas">
 				<label for="eta_c">Eficiência do compressor - &#x3B7<sub>b</sub></label>
-				<input name="eta_c" type="number" class="form-control" id="eta_c" aria-describedby="eta_c" placeholder="Digite o valor da eficiência">
+				<input name="eta_c" type="number" step="0.0001" class="form-control" id="eta_c" aria-describedby="eta_c" placeholder="Digite o valor da eficiência">
 				<small id="eta_c" class="form-text text-muted">Eficiência do compressor, entre as seções 2 e 3 do motor. </small>
 			</div>
 
 			<div class="eta_m entradas">
 				<label for="eta_m">Eficiência mecânica - &#x3B7<sub>m</sub></label>
-				<input name="eta_m" type="number" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
+				<input name="eta_m" type="number" step="0.0001" class="form-control" id="eta_m" aria-describedby="eta_m" placeholder="Digite o valor da eficiência">
 				<small id="eta_m" class="form-text text-muted">? </small>
+			</div>
+
+			<div class="e_t entradas">
+				<label for="e_t">Eficiência politrópica da turbina - e<sub>t</sub></label>
+				<input name="e_t" type="number" step="0.0001" class="form-control" id="e_t" aria-describedby="e_t" placeholder="Digite o valor da eficiência">
+				<small id="e_t" class="form-text text-muted">Eficiência da turbina, entre as seções 4 e 5 do motor. </small>
+			</div>
+
+			<div class="e_c entradas">
+				<label for="e_c">Eficiência politrópica do compressor - e<sub>c</sub></label>
+				<input name="e_c" type="number" step="0.0001" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
+				<small id="e_c" class="form-text text-muted">Eficiência do compressor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 		</section>
@@ -1003,72 +1027,78 @@
 
 			<div class="altitude_ref entradas">
 				<label for="altitude_ref">Altitude de referência de voo do motor [m]</label>
-				<input name="altitude_ref" type="number" class="form-control" id="altitude_ref" placeholder="Digite o valor da altitude">
+				<input name="altitude_ref" type="number" step="0.0001" class="form-control" id="altitude_ref" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0_ref entradas">
 				<label for="M0_ref">Velocidade de referência do ar no escoamento livre [Mach]</label>
-				<input name="M0_ref" type="number" class="form-control" id="M0_ref" aria-describedby="M0_ref" placeholder="Digite o valor da velocidade">
+				<input name="M0_ref" type="number" step="0.0001" class="form-control" id="M0_ref" aria-describedby="M0_ref" placeholder="Digite o valor da velocidade">
 				<small id="M0_ref" class="form-text text-muted">Velocidade de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0_ref entradas">
 				<label for="T0_ref">Temperatura de referência do ar no escoamento livre [K]</label>
-				<input name="T0_ref" type="number" class="form-control" id="T0_ref" aria-describedby="T0_ref" placeholder="Digite o valor da temperatura">
+				<input name="T0_ref" type="number" step="0.0001" class="form-control" id="T0_ref" aria-describedby="T0_ref" placeholder="Digite o valor da temperatura">
 				<small id="T0_ref" class="form-text text-muted">Temperatura de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0_ref entradas">
 				<label for="P0_ref">Pressão de referência do ar no escoamento livre [Pa]</label>
-				<input name="P0_ref" type="number" class="form-control" id="P0_ref" aria-describedby="P0_ref" placeholder="Digite o valor da pressão">
+				<input name="P0_ref" type="number" step="0.0001" class="form-control" id="P0_ref" aria-describedby="P0_ref" placeholder="Digite o valor da pressão">
 				<small id="P0_ref" class="form-text text-muted">Pressão de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T_t4_ref entradas">
 				<label for="T_t4_ref">Temperatura de referência da saída do combustor [K]</label>
-				<input name="Tt4_ref" type="number" class="form-control" id="T_t4_ref" aria-describedby="T_t4_ref" placeholder="Digite o valor da temperatura">
+				<input name="Tt4_ref" type="number" step="0.0001" class="form-control" id="T_t4_ref" aria-describedby="T_t4_ref" placeholder="Digite o valor da temperatura">
 				<small id="T_t4_ref" class="form-text text-muted">Temperatura de referência do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_d_ref entradas">
 				<label for="pi_d_ref">Razão de referência de pressões no bocal de entrada - &#x3C0<sub>d,R</sub></label>
-				<input name="pi_d_ref" type="number" class="form-control" id="pi_d_ref" aria-describedby="pi_d_ref" placeholder="Digite o valor da razão">
+				<input name="pi_d_ref" type="number" step="0.0001" class="form-control" id="pi_d_ref" aria-describedby="pi_d_ref" placeholder="Digite o valor da razão">
 				<small id="pi_d_ref" class="form-text text-muted">Razão de referência entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
 			</div>
 
 			<div class="pi_r_ref entradas">
 				<label for="pi_r_ref">Razão de referência de pressões no escoamento livre - &#x3C0<sub>r,R</sub></label>
-				<input name="pi_r_ref" type="number" class="form-control" id="pi_r_ref" aria-describedby="pi_r_ref" placeholder="Digite o valor da razão">
+				<input name="pi_r_ref" type="number" step="0.0001" class="form-control" id="pi_r_ref" aria-describedby="pi_r_ref" placeholder="Digite o valor da razão">
 				<small id="pi_r_ref" class="form-text text-muted">Razão de referência entre a pressão total e a estática do escoamento livre. </small>
 			</div>
 
 			<div class="pi_c_ref entradas">
 				<label for="pi_c_ref">Razão de referência de pressões no compressor - &#x3C0<sub>c,R</sub></label>
-				<input name="pi_c_ref" type="number" class="form-control" id="pi_c_ref" aria-describedby="pi_c_ref" placeholder="Digite o valor da razão">
+				<input name="pi_c_ref" type="number" step="0.0001" class="form-control" id="pi_c_ref" aria-describedby="pi_c_ref" placeholder="Digite o valor da razão">
 				<small id="pi_c_ref" class="form-text text-muted">Razão de referência entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="tau_r_ref entradas">
 				<label for="tau_r_ref">Razão de referência de temperaturas no escoamento livre - &#x3C4<sub>r,R</sub></label>
-				<input name="tau_r_ref" type="number" class="form-control" id="tau_r_ref" aria-describedby="tau_r_ref" placeholder="Digite o valor da razão">
+				<input name="tau_r_ref" type="number" step="0.0001" class="form-control" id="tau_r_ref" aria-describedby="tau_r_ref" placeholder="Digite o valor da razão">
 				<small id="tau_r_ref" class="form-text text-muted">Razão de referência entre a temperatura total e a estática do escoamento livre. </small>
 			</div>
 
 			<div class="tau_c_ref entradas">
 				<label for="tau_c_ref">Razão de referência de temperaturas no compressor - &#x3C4<sub>c,R</sub></label>
-				<input name="tau_c_ref" type="number" class="form-control" id="tau_c_ref" aria-describedby="tau_c_ref" placeholder="Digite o valor da razão">
+				<input name="tau_c_ref" type="number" step="0.0001" class="form-control" id="tau_c_ref" aria-describedby="tau_c_ref" placeholder="Digite o valor da razão">
 				<small id="tau_c_ref" class="form-text text-muted">Razão de referência entre a temperatura que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="Pt9/P9_ref entradas">
 				<label for="Pt9/P9_ref">Razão de referência de pressões no bocal de saída</label>
-				<input name="Pt9_P9_ref" type="number" class="form-control" id="Pt9/P9_ref" aria-describedby="Pt9/P9_ref" placeholder="Digite o valor da razão">
+				<input name="Pt9_P9_ref" type="number" step="0.0001" class="form-control" id="Pt9/P9_ref" aria-describedby="Pt9/P9_ref" placeholder="Digite o valor da razão">
 				<small id="Pt9/P9_ref" class="form-text text-muted">Razão de referência entre a pressão total e a estática do escoamento livre. </small>
+			</div>
+
+			<div class="P0/P9_ref entradas">
+				<label for="P0/P9_ref">Razão de referência de pressões no bocal de saída</label>
+				<input name="P0_P9_ref" type="number" step="0.0001" class="form-control" id="P0/P9_ref" aria-describedby="P0/P9_ref" placeholder="Digite o valor da razão">
+				<small id="P0/P9_ref" class="form-text text-muted">?</small>
 			</div>
 
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
-				<input name="m0_ref" type="number" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
+				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
 				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 
@@ -1091,7 +1121,7 @@
 				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
-			  <div class="comprimento entradas">
+			  <!-- <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
 				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
@@ -1151,7 +1181,7 @@
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
-			  </div>
+			  </div> -->
 		</section>
 
 		<section id="Turboprop-Caracteristicas-porcentagem" style="display: none;">
@@ -1162,7 +1192,7 @@
 				<input name="nome" type="text" class="form-control" id="nome-do-motor" placeholder="Insira um nome para o motor">
 			  </div>
 
-			  <div class="comprimento entradas">
+			  <!-- <div class="comprimento entradas">
 				<label for="comprimento">Comprimento total [m]</label>
 				<input name="comprimento" type="number" class="form-control" id="comprimento" aria-describedby="comprimento" placeholder="Digite o valor do comprimento">
 				<small id="comprimento" class="form-text text-muted">Tamanho total do motor desde o bocal de entrada, até o bocal de saída.</small>
@@ -1228,7 +1258,7 @@
 				<label class="form-check-label" for="unchoked">
 				  Mach < 1 (Unchoked)
 				</label>
-			  </div>
+			  </div> -->
 		</section>
 
 		<section id="Turboprop-Parametros-on-design-ideal" style="display: none;">
@@ -1236,71 +1266,71 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="gamma entradas">
 				<label for="gamma">Razão de calores específicos - &#x03B3 </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma" aria-describedby="gamma" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma" aria-describedby="gamma" placeholder="Digite o valor da constante">
 				<small id="gamma" class="form-text text-muted">Razão entre os calores específicos do ar a pressão e volume constantes.</small>
 			</div>
 
 			<div class="c_p entradas">
 				<label for="c_p">Calor específico do ar a pressão constante - c<sub>p</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_p" aria-describedby="c_p" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_p" aria-describedby="c_p" placeholder="Digite o valor da constante">
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_c entradas">
 				<label for="pi_c">Razão de pressões no compressor - &#x3C0<sub>c</sub></label>
-				<input name="pi_c" type="number" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
+				<input name="pi_c" type="number" step="0.0001" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
 				<small id="pi_c" class="form-text text-muted">Razão entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
-			<div class="pi_t entradas">
+			<!-- <div class="pi_t entradas">
 				<label for="pi_t">Razão de pressões na turbina - &#x3C0<sub>t</sub></label>
-				<input name="pi_t" type="number" class="form-control" id="pi_t" aria-describedby="pi_t" placeholder="Digite o valor da razão">
+				<input name="pi_t" type="number" step="0.0001" class="form-control" id="pi_t" aria-describedby="pi_t" placeholder="Digite o valor da razão">
 				<small id="pi_t" class="form-text text-muted">Razão entre a pressão que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
-			</div>
+			</div> -->
 
 			<div class="tau_t entradas">
 				<label for="tau_t">Razão de temperaturas na turbina - &#x3C4<sub>t</sub></label>
-				<input name="tau_t" type="number" class="form-control" id="tau_t" aria-describedby="tau_t" placeholder="Digite o valor da razão">
+				<input name="tau_t" type="number" step="0.0001" class="form-control" id="tau_t" aria-describedby="tau_t" placeholder="Digite o valor da razão">
 				<small id="tau_t" class="form-text text-muted">Razão entre a temperatura que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="eta_prop entradas">
 				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
-				<input name="eta_prop" type="number" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
+				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
 				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
@@ -1311,144 +1341,150 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
-			<div class="P0/P9 entradas">
+			<!-- <div class="P0/P9 entradas">
 				<label for="P0/P9">Razão das pressões de entrada e saída do motor</label>
-				<input name="P0_P9" type="number" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
-			</div>
+				<input name="P0_P9" type="number" step="0.0001" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
+			</div> -->
 
 			<div class="gamma_c entradas">
 				<label for="gamma_c">Razão de calores específicos do fluido, antes do combustor - &#x03B3<sub>c</sub> </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
 				<small id="gamma_c" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="gamma_t entradas">
 				<label for="gamma_t">Razão de calores específicos do fluido, depois do combustor - &#x03B3<sub>t</sub> </label>
-				<input name="gamma_t" type="number" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
+				<input name="gamma_t" type="number" step="0.0001" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
 				<small id="gamma_t" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pc entradas">
 				<label for="c_pc">Calor específico do fluido a pressão constante, antes do combustor - c<sub>pc</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
 				<small id="c_pc" class="form-text text-muted">Valor da constante antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pt entradas">
 				<label for="c_pt">Calor específico do fluido a pressão constante, depois do combustor - c<sub>pt</sub> [kJ/kg]</label>
-				<input name="cp_t" type="number" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
+				<input name="cp_t" type="number" step="0.0001" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
 				<small id="c_pt" class="form-text text-muted">Valor da constante depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 3 do motor.</small>
 			</div>
 
 			<div class="pi_c entradas">
 				<label for="pi_c">Razão de pressões no compressor - &#x3C0<sub>c</sub></label>
-				<input name="pi_c" type="number" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
+				<input name="pi_c" type="number" step="0.0001" class="form-control" id="pi_c" aria-describedby="pi_c" placeholder="Digite o valor da razão">
 				<small id="pi_c" class="form-text text-muted">Razão entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="pi_b entradas">
 				<label for="pi_b">Razão de pressões no combustor - &#x3C0<sub>b</sub></label>
-				<input name="pi_b" type="number" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
+				<input name="pi_b" type="number" step="0.0001" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
 				<small id="pi_b" class="form-text text-muted">Razão entre a pressão que entra pela seção 3, e a que sai pela seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_n entradas">
 				<label for="pi_n">Razão de pressões no bocal de saída - &#x3C0<sub>n</sub></label>
-				<input name="pi_n" type="number" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
+				<input name="pi_n" type="number" step="0.0001" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
 				<small id="pi_n" class="form-text text-muted">Razão entre a pressão que entra pela seção 7, e a que sai pela seção 9 do motor. </small>
 			</div>
 
 			<div class="pi_d,max entradas">
 				<label for="pi_d,max">Razão máxima de pressões no bocal de entrada - &#x3C0<sub>d,max</sub></label>
-				<input name="pi_dmax" type="number" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
+				<input name="pi_dmax" type="number" step="0.0001" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
 				<small id="pi_d,max" class="form-text text-muted">Razão máxima entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
 			</div>
 
 			<div class="tau_t entradas">
 				<label for="tau_t">Razão de temperaturas na turbina - &#x3C4<sub>t</sub></label>
-				<input name="tau_t" type="number" class="form-control" id="tau_t" aria-describedby="tau_t" placeholder="Digite o valor da razão">
+				<input name="tau_t" type="number" step="0.0001" class="form-control" id="tau_t" aria-describedby="tau_t" placeholder="Digite o valor da razão">
 				<small id="tau_t" class="form-text text-muted">Razão entre a temperatura que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="eta_b entradas">
 				<label for="eta_b">Eficiência do combustor - &#x3B7<sub>b</sub></label>
-				<input name="eta_b" type="number" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
+				<input name="eta_b" type="number" step="0.0001" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
 				<small id="eta_b" class="form-text text-muted">Eficiência do combustor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do eixo de baixa pressão - &#x3B7<sub>mL</sub></label>
-				<input name="eta_mL" type="number" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
+				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
 				<small id="eta_mL" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_mH entradas">
 				<label for="eta_mH">Eficiência mecânica do eixo de alta pressão - &#x3B7<sub>mH</sub></label>
-				<input name="eta_mH" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
+				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
 				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_g entradas">
 				<label for="eta_g">Eficiência ???? - &#x3B7<sub>g</sub></label>
-				<input name="eta_g" type="number" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
+				<input name="eta_g" type="number" step="0.0001" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
 				<small id="eta_g" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_prop entradas">
 				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
-				<input name="eta_prop" type="number" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
+				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
 				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="e_tL entradas">
 				<label for="e_tL">Eficiência politrópica da turbina de baixa pressão - e<sub>tL</sub></label>
-				<input name="e_tL" type="number" class="form-control" id="e_tL" aria-describedby="e_tL" placeholder="Digite o valor da eficiência">
+				<input name="e_tL" type="number" step="0.0001" class="form-control" id="e_tL" aria-describedby="e_tL" placeholder="Digite o valor da eficiência">
 				<small id="e_tL" class="form-text text-muted">Eficiência da turbina de baixa pressão, entre as seções 4 e 5 do motor. </small>
 			</div>
 
 			<div class="e_tH entradas">
 				<label for="e_tH">Eficiência politrópica da turbina de alta pressão - e<sub>tL</sub></label>
-				<input name="e_tH" type="number" class="form-control" id="e_tH" aria-describedby="e_tH" placeholder="Digite o valor da eficiência">
+				<input name="e_tH" type="number" step="0.0001" class="form-control" id="e_tH" aria-describedby="e_tH" placeholder="Digite o valor da eficiência">
 				<small id="e_tH" class="form-text text-muted">Eficiência politrópica da turbina de alta pressão, entre as seções 4 e 5 do motor. </small>
 			</div>
 
 			<div class="e_c entradas">
 				<label for="e_c">Eficiência politrópica do compressor - e<sub>c</sub></label>
-				<input name="e_c" type="number" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
+				<input name="e_c" type="number" step="0.0001" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
 				<small id="e_c" class="form-text text-muted">Eficiência politrópica do compressor, entre as seções 3 e 4 do motor. </small>
+			</div>
+
+			<div class="m0 entradas">
+				<label for="m0">Vazão mássica [kg/s]</label>
+				<input name="m0" type="number" step="0.0001" step="0.0001" class="form-control" id="m0" aria-describedby="m0" placeholder="Digite o valor da vazão">
+				<small id="m0" class="form-text text-muted">? </small>
 			</div>
 
 		</section>
@@ -1458,126 +1494,162 @@
 
 			<div class="altitude entradas">
 				<label for="altitude">Altitude de voo do motor [m]</label>
-				<input name="altitude" type="number" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
+				<input name="altitude" type="number" step="0.0001" class="form-control" id="altitude" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0 entradas">
 				<label for="M0">Velocidade do ar no escoamento livre [Mach]</label>
-				<input name="M0" type="number" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
+				<input name="M0" type="number" step="0.0001" class="form-control" id="M0" aria-describedby="M0" placeholder="Digite o valor da velocidade">
 				<small id="M0" class="form-text text-muted">Velocidade do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0 entradas">
 				<label for="T0">Temperatura do ar no escoamento livre [K]</label>
-				<input name="T0" type="number" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
+				<input name="T0" type="number" step="0.0001" class="form-control" id="T0" aria-describedby="T0" placeholder="Digite o valor da temperatura">
 				<small id="T0" class="form-text text-muted">Temperatura do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0 entradas">
 				<label for="P0">Pressão do ar no escoamento livre [Pa]</label>
-				<input name="P0" type="number" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
+				<input name="P0" type="number" step="0.0001" class="form-control" id="P0" aria-describedby="P0" placeholder="Digite o valor da pressão">
 				<small id="P0" class="form-text text-muted">Pressão do ar na seção 0 do motor.</small>
 			</div>
 
-			<div class="P0/P9 entradas">
+			<!-- <div class="P0/P9 entradas">
 				<label for="P0/P9">Razão das pressões de entrada e saída do motor</label>
-				<input name="P0_P9" type="number" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
-			</div>
+				<input name="P0_P9" type="number" step="0.0001" class="form-control" id="P0/P9" placeholder="Digite o valor da razão">
+			</div> -->
 
 			<div class="gamma_c entradas">
 				<label for="gamma_c">Razão de calores específicos do fluido, antes do combustor - &#x03B3<sub>c</sub> </label>
-				<input name="gamma_c" type="number" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
+				<input name="gamma_c" type="number" step="0.0001" class="form-control" id="gamma_c" aria-describedby="gamma_c" placeholder="Digite o valor da constante">
 				<small id="gamma_c" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="gamma_t entradas">
 				<label for="gamma_t">Razão de calores específicos do fluido, depois do combustor - &#x03B3<sub>t</sub> </label>
-				<input name="gamma_t" type="number" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
+				<input name="gamma_t" type="number" step="0.0001" class="form-control" id="gamma_t" aria-describedby="gamma_t" placeholder="Digite o valor da constante">
 				<small id="gamma_t" class="form-text text-muted">Razão entre os calores específicos do fluido a pressão e volume constantes, depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pc entradas">
 				<label for="c_pc">Calor específico do fluido a pressão constante, antes do combustor - c<sub>pc</sub> [kJ/kg]</label>
-				<input name="cp_c" type="number" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
+				<input name="cp_c" type="number" step="0.0001" class="form-control" id="c_pc" aria-describedby="c_pc" placeholder="Digite o valor da constante">
 				<small id="c_pc" class="form-text text-muted">Valor da constante antes da seção 4 do motor.</small>
 			</div>
 
 			<div class="c_pt entradas">
 				<label for="c_pt">Calor específico do fluido a pressão constante, depois do combustor - c<sub>pt</sub> [kJ/kg]</label>
-				<input name="cp_t" type="number" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
+				<input name="cp_t" type="number" step="0.0001" class="form-control" id="c_pt" aria-describedby="c_pt" placeholder="Digite o valor da constante">
 				<small id="c_pt" class="form-text text-muted">Valor da constante depois da seção 4 do motor.</small>
 			</div>
 
 			<div class="h_pr entradas">
 				<label for="h_pr">Entalpia do refinado de petróleo [kJ/kg]</label>
-				<input name="hpr" type="number" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
+				<input name="hpr" type="number" step="0.0001" class="form-control" id="h_pr" aria-describedby="h_pr" placeholder="Digite o valor da entalpia">
 				<small id="h_pr" class="form-text text-muted">Entalpia do combustível utilizado no motor.</small>
 			</div>
 
 			<div class="T_t4 entradas">
 				<label for="T_t4">Temperatura de saída do combustor [K]</label>
-				<input name="Tt4" type="number" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
+				<input name="Tt4" type="number" step="0.0001" class="form-control" id="T_t4" aria-describedby="T_t4" placeholder="Digite o valor da temperatura">
 				<small id="T_t4" class="form-text text-muted">Temperatura do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_b entradas">
 				<label for="pi_b">Razão de pressões no combustor - &#x3C0<sub>b</sub></label>
-				<input name="pi_b" type="number" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
+				<input name="pi_b" type="number" step="0.0001" class="form-control" id="pi_b" aria-describedby="pi_b" placeholder="Digite o valor da razão">
 				<small id="pi_b" class="form-text text-muted">Razão entre a pressão que entra pela seção 3, e a que sai pela seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_n entradas">
 				<label for="pi_n">Razão de pressões no bocal de saída - &#x3C0<sub>n</sub></label>
-				<input name="pi_n" type="number" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
+				<input name="pi_n" type="number" step="0.0001" class="form-control" id="pi_n" aria-describedby="pi_n" placeholder="Digite o valor da razão">
 				<small id="pi_n" class="form-text text-muted">Razão entre a pressão que entra pela seção 7, e a que sai pela seção 9 do motor. </small>
 			</div>
 
 			<div class="pi_d,max entradas">
 				<label for="pi_d,max">Razão máxima de pressões no bocal de entrada - &#x3C0<sub>d,max</sub></label>
-				<input name="pi_dmax" type="number" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
+				<input name="pi_dmax" type="number" step="0.0001" class="form-control" id="pi_d,max" aria-describedby="pi_d,max" placeholder="Digite o valor da razão">
 				<small id="pi_d,max" class="form-text text-muted">Razão máxima entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
+			</div>
+
+			<div class="pi_tH entradas">
+				<label for="pi_tH">Razão de pressões na turbina de alta pressão - &#x3C0<sub>tH</sub></label>
+				<input name="pi_tH" type="number" step="0.0001" class="form-control" id="pi_tH" aria-describedby="pi_tH" placeholder="Digite o valor da razão">
+				<small id="pi_tH" class="form-text text-muted">Razão entre a pressão que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="tau_tH entradas">
 				<label for="tau_tH">Razão de temperaturas na turbina de alta pressão - &#x3C4<sub>tH</sub></label>
-				<input name="tau_tH" type="number" class="form-control" id="tau_tH" aria-describedby="tau_tH" placeholder="Digite o valor da razão">
+				<input name="tau_tH" type="number" step="0.0001" class="form-control" id="tau_tH" aria-describedby="tau_tH" placeholder="Digite o valor da razão">
 				<small id="tau_tH" class="form-text text-muted">Razão entre a temperatura que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="eta_b entradas">
 				<label for="eta_b">Eficiência do combustor - &#x3B7<sub>b</sub></label>
-				<input name="eta_b" type="number" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
+				<input name="eta_b" type="number" step="0.0001" class="form-control" id="eta_b" aria-describedby="eta_b" placeholder="Digite o valor da eficiência">
 				<small id="eta_b" class="form-text text-muted">Eficiência do combustor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 			<div class="eta_c entradas">
 				<label for="eta_c">Eficiência do compressor - &#x3B7<sub>c</sub></label>
-				<input name="eta_c" type="number" class="form-control" id="eta_c" aria-describedby="eta_c" placeholder="Digite o valor da eficiência">
+				<input name="eta_c" type="number" step="0.0001" class="form-control" id="eta_c" aria-describedby="eta_c" placeholder="Digite o valor da eficiência">
 				<small id="eta_c" class="form-text text-muted">Eficiência do compressor, entre as seções 2 e 3 do motor. </small>
 			</div>
 
 			<div class="eta_mL entradas">
 				<label for="eta_mL">Eficiência mecânica do eixo de baixa pressão - &#x3B7<sub>mL</sub></label>
-				<input name="eta_mL" type="number" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
+				<input name="eta_mL" type="number" step="0.0001" class="form-control" id="eta_mL" aria-describedby="eta_mL" placeholder="Digite o valor da eficiência">
 				<small id="eta_mL" class="form-text text-muted">? </small>
+			</div>
+
+			<div class="eta_mH entradas">
+				<label for="eta_mH">Eficiência mecânica do eixo de alta pressão - &#x3B7<sub>mH</sub></label>
+				<input name="eta_mH" type="number" step="0.0001" class="form-control" id="eta_mH" aria-describedby="eta_mH" placeholder="Digite o valor da eficiência">
+				<small id="eta_mH" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_tL entradas">
 				<label for="eta_tL">Eficiência da turbina de baixa pressão - &#x3B7<sub>tL</sub></label>
-				<input name="eta_tL" type="number" class="form-control" id="eta_tL" aria-describedby="eta_tL" placeholder="Digite o valor da eficiência">
+				<input name="eta_tL" type="number" step="0.0001" class="form-control" id="eta_tL" aria-describedby="eta_tL" placeholder="Digite o valor da eficiência">
 				<small id="eta_tL" class="form-text text-muted">Eficiência da turbina de baixa pressão, entre as seções 4 e 5 do motor. </small>
 			</div>
 
 			<div class="eta_g entradas">
 				<label for="eta_g">Eficiência ???? - &#x3B7<sub>g</sub></label>
-				<input name="eta_g" type="number" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
+				<input name="eta_g" type="number" step="0.0001" class="form-control" id="eta_g" aria-describedby="eta_g" placeholder="Digite o valor da eficiência">
 				<small id="eta_g" class="form-text text-muted">? </small>
+			</div>
+
+			<div class="eta_prop entradas">
+				<label for="eta_prop">Eficiência propulsiva - &#x3B7<sub>prop</sub></label>
+				<input name="eta_prop" type="number" step="0.0001" class="form-control" id="eta_prop" aria-describedby="eta_prop" placeholder="Digite o valor da eficiência">
+				<small id="eta_prop" class="form-text text-muted">? </small>
 			</div>
 
 			<div class="eta_prop_max entradas">
 				<label for="eta_prop_max">Eficiência propulsiva máxima - &#x3B7<sub>prop,max</sub></label>
-				<input name="eta_prop_max" type="number" class="form-control" id="eta_prop_max" aria-describedby="eta_prop_max" placeholder="Digite o valor da eficiência">
+				<input name="eta_prop_max" type="number" step="0.0001" class="form-control" id="eta_prop_max" aria-describedby="eta_prop_max" placeholder="Digite o valor da eficiência">
 				<small id="eta_prop_max" class="form-text text-muted">? </small>
+			</div>
+
+			<div class="e_tL entradas">
+				<label for="e_tL">Eficiência politrópica da turbina de baixa pressão - e<sub>tL</sub></label>
+				<input name="e_tL" type="number" step="0.0001" class="form-control" id="e_tL" aria-describedby="e_tL" placeholder="Digite o valor da eficiência">
+				<small id="e_tL" class="form-text text-muted">Eficiência da turbina de baixa pressão, entre as seções 4 e 5 do motor. </small>
+			</div>
+
+			<div class="e_tH entradas">
+				<label for="e_tH">Eficiência politrópica da turbina de alta pressão - e<sub>tL</sub></label>
+				<input name="e_tH" type="number" step="0.0001" class="form-control" id="e_tH" aria-describedby="e_tH" placeholder="Digite o valor da eficiência">
+				<small id="e_tH" class="form-text text-muted">Eficiência politrópica da turbina de alta pressão, entre as seções 4 e 5 do motor. </small>
+			</div>
+
+			<div class="e_c entradas">
+				<label for="e_c">Eficiência politrópica do compressor - e<sub>c</sub></label>
+				<input name="e_c" type="number" step="0.0001" class="form-control" id="e_c" aria-describedby="e_c" placeholder="Digite o valor da eficiência">
+				<small id="e_c" class="form-text text-muted">Eficiência politrópica do compressor, entre as seções 3 e 4 do motor. </small>
 			</div>
 
 		</section>
@@ -1587,90 +1659,90 @@
 
 			<div class="altitude_ref entradas">
 				<label for="altitude_ref">Altitude de referência de voo do motor [m]</label>
-				<input name="altitude_ref" type="number" class="form-control" id="altitude_ref" placeholder="Digite o valor da altitude">
+				<input name="altitude_ref" type="number" step="0.0001" class="form-control" id="altitude_ref" placeholder="Digite o valor da altitude">
 			</div>
 
 			<div class="M0_ref entradas">
 				<label for="M0_ref">Velocidade de referência do ar no escoamento livre [Mach]</label>
-				<input name="M0_ref" type="number" class="form-control" id="M0_ref" aria-describedby="M0_ref" placeholder="Digite o valor da velocidade">
+				<input name="M0_ref" type="number" step="0.0001" class="form-control" id="M0_ref" aria-describedby="M0_ref" placeholder="Digite o valor da velocidade">
 				<small id="M0_ref" class="form-text text-muted">Velocidade de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T0_ref entradas">
 				<label for="T0_ref">Temperatura de referência do ar no escoamento livre [K]</label>
-				<input name="T0_ref" type="number" class="form-control" id="T0_ref" aria-describedby="T0_ref" placeholder="Digite o valor da temperatura">
+				<input name="T0_ref" type="number" step="0.0001" class="form-control" id="T0_ref" aria-describedby="T0_ref" placeholder="Digite o valor da temperatura">
 				<small id="T0_ref" class="form-text text-muted">Temperatura de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="P0_ref entradas">
 				<label for="P0_ref">Pressão de referência do ar no escoamento livre [Pa]</label>
-				<input name="P0_ref" type="number" class="form-control" id="P0_ref" aria-describedby="P0_ref" placeholder="Digite o valor da pressão">
+				<input name="P0_ref" type="number" step="0.0001" class="form-control" id="P0_ref" aria-describedby="P0_ref" placeholder="Digite o valor da pressão">
 				<small id="P0_ref" class="form-text text-muted">Pressão de referência do ar na seção 0 do motor.</small>
 			</div>
 
 			<div class="T_t4_ref entradas">
 				<label for="T_t4_ref">Temperatura de referência da saída do combustor [K]</label>
-				<input name="Tt4_ref" type="number" class="form-control" id="T_t4_ref" aria-describedby="T_t4_ref" placeholder="Digite o valor da temperatura">
+				<input name="Tt4_ref" type="number" step="0.0001" class="form-control" id="T_t4_ref" aria-describedby="T_t4_ref" placeholder="Digite o valor da temperatura">
 				<small id="T_t4_ref" class="form-text text-muted">Temperatura de referência do ar na seção 4 do motor.</small>
 			</div>
 
 			<div class="pi_d_ref entradas">
 				<label for="pi_d_ref">Razão de referência de pressões no bocal de entrada - &#x3C0<sub>d,R</sub></label>
-				<input name="pi_d_ref" type="number" class="form-control" id="pi_d_ref" aria-describedby="pi_d_ref" placeholder="Digite o valor da razão">
+				<input name="pi_d_ref" type="number" step="0.0001" class="form-control" id="pi_d_ref" aria-describedby="pi_d_ref" placeholder="Digite o valor da razão">
 				<small id="pi_d_ref" class="form-text text-muted">Razão de referência entre a pressão que entra pela seção 2 do motor, e a do escoamento livre. </small>
 			</div>
 
 			<div class="pi_r_ref entradas">
 				<label for="pi_r_ref">Razão de referência de pressões no escoamento livre - &#x3C0<sub>r,R</sub></label>
-				<input name="pi_r_ref" type="number" class="form-control" id="pi_r_ref" aria-describedby="pi_r_ref" placeholder="Digite o valor da razão">
+				<input name="pi_r_ref" type="number" step="0.0001" class="form-control" id="pi_r_ref" aria-describedby="pi_r_ref" placeholder="Digite o valor da razão">
 				<small id="pi_r_ref" class="form-text text-muted">Razão de referência entre a pressão total e a estática do escoamento livre. </small>
 			</div>
 
 			<div class="pi_c_ref entradas">
 				<label for="pi_c_ref">Razão de referência de pressões no compressor - &#x3C0<sub>c,R</sub></label>
-				<input name="pi_c_ref" type="number" class="form-control" id="pi_c_ref" aria-describedby="pi_c_ref" placeholder="Digite o valor da razão">
+				<input name="pi_c_ref" type="number" step="0.0001" class="form-control" id="pi_c_ref" aria-describedby="pi_c_ref" placeholder="Digite o valor da razão">
 				<small id="pi_c_ref" class="form-text text-muted">Razão de referência entre a pressão que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="pi_tL_ref entradas">
 				<label for="pi_tL_ref">Razão de referência de pressões na turbina de baixa pressão - &#x3C0<sub>tL,R</sub></label>
-				<input name="pi_tL_ref" type="number" class="form-control" id="pi_tL_ref" aria-describedby="pi_tL_ref" placeholder="Digite o valor da razão">
+				<input name="pi_tL_ref" type="number" step="0.0001" class="form-control" id="pi_tL_ref" aria-describedby="pi_tL_ref" placeholder="Digite o valor da razão">
 				<small id="pi_tL_ref" class="form-text text-muted">Razão de referência entre a pressão que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="tau_r_ref entradas">
 				<label for="tau_r_ref">Razão de referência de temperaturas no escoamento livre - &#x3C4<sub>r,R</sub></label>
-				<input name="tau_r_ref" type="number" class="form-control" id="tau_r_ref" aria-describedby="tau_r_ref" placeholder="Digite o valor da razão">
+				<input name="tau_r_ref" type="number" step="0.0001" class="form-control" id="tau_r_ref" aria-describedby="tau_r_ref" placeholder="Digite o valor da razão">
 				<small id="tau_r_ref" class="form-text text-muted">Razão de referência entre a temperatura total e a estática do escoamento livre. </small>
 			</div>
 
 			<div class="tau_c_ref entradas">
 				<label for="tau_c_ref">Razão de referência de temperaturas no compressor - &#x3C4<sub>c,R</sub></label>
-				<input name="tau_c_ref" type="number" class="form-control" id="tau_c_ref" aria-describedby="tau_c_ref" placeholder="Digite o valor da razão">
+				<input name="tau_c_ref" type="number" step="0.0001" class="form-control" id="tau_c_ref" aria-describedby="tau_c_ref" placeholder="Digite o valor da razão">
 				<small id="tau_c_ref" class="form-text text-muted">Razão de referência entre a temperatura que entra pela seção 2, e a que sai pela seção 3 do motor.</small>
 			</div>
 
 			<div class="tau_tL_ref entradas">
 				<label for="tau_tL_ref">Razão de referência de temperaturas na turbina de baixa pressão - &#x3C4<sub>tL,R</sub></label>
-				<input name="tau_tL_ref" type="number" class="form-control" id="tau_tL_ref" aria-describedby="tau_tL_ref" placeholder="Digite o valor da razão">
+				<input name="tau_tL_ref" type="number" step="0.0001" class="form-control" id="tau_tL_ref" aria-describedby="tau_tL_ref" placeholder="Digite o valor da razão">
 				<small id="tau_tL_ref" class="form-text text-muted">Razão de referência entre a temperatura que entra pela seção 4, e a que sai pela seção 5 do motor.</small>
 			</div>
 
 			<div class="M9_ref entradas">
 				<label for="M9_ref">Velocidade de referência do ar no bocal de saída [Mach]</label>
-				<input name="M9_ref" type="number" class="form-control" id="M9_ref" aria-describedby="M9_ref" placeholder="Digite o valor da velocidade">
+				<input name="M9_ref" type="number" step="0.0001" class="form-control" id="M9_ref" aria-describedby="M9_ref" placeholder="Digite o valor da velocidade">
 				<small id="M9_ref" class="form-text text-muted">Velocidade de referência do ar na seção 9 do motor.</small>
 			</div>
 
 			<div class="Pt9/P9_ref entradas">
 				<label for="Pt9/P9_ref">Razão de referência de pressões no bocal de saída</label>
-				<input name="Pt9_P9_ref" type="number" class="form-control" id="Pt9/P9_ref" aria-describedby="Pt9/P9_ref" placeholder="Digite o valor da razão">
+				<input name="Pt9_P9_ref" type="number" step="0.0001" class="form-control" id="Pt9/P9_ref" aria-describedby="Pt9/P9_ref" placeholder="Digite o valor da razão">
 				<small id="Pt9/P9_ref" class="form-text text-muted">Razão de referência entre a pressão total e a estática do escoamento livre. </small>
 			</div>
 
 			<div class="m0_ref entradas">
 				<label for="m0_ref">Vazão mássica de referência [kg/s]</label>
-				<input name="m0_ref" type="number" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
+				<input name="m0_ref" type="number" step="0.0001" class="form-control" id="m0_ref" aria-describedby="m0_ref" placeholder="Digite o valor da vazão">
 				<small id="m0_ref" class="form-text text-muted">? </small>
 			</div>
 
@@ -1712,43 +1784,43 @@
 
 			  <div class="diametro-compressor_baixa entradas">
 				<label for="diametro-compressor_baixa">Diâmetro do compressor de baixa pressão do motor [m]</label>
-				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro">
+				<input name="d3" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-compressor_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_alta entradas">
 				<label for="diametro-compressor_alta">Diâmetro do compressor de alta pressão do motor [m]</label>
-				<input name="d5" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro">
+				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-compressor_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-camara-combustao entradas">
 				<label for="diametro-camara-combustao">Diâmetro da câmara de combustão [m]</label>
-				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro">
+				<input name="d5" type="number" step="0.0001" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-camara-combustao" class="form-text text-muted">Diâmetro da seção 3 do motor.</small>
 			  </div>
 
 			  <div class="diametro-turbina_alta entradas">
 				<label for="diametro-turbina_alta">Diâmetro do turbina de alta pressão do motor [m]</label>
-				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro">
+				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-turbina_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-turbina_baixa entradas">
 				<label for="diametro-turbina_baixa">Diâmetro do turbina de baixa pressão do motor [m]</label>
-				<input name="d8" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro">
+				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-turbina_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-garganta entradas">
 				<label for="diametro-garganta">Diâmetro da garganta [m]</label>
-				<input name="d9" type="number" step="0.0001" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro">
+				<input name="d8" type="number" step="0.0001" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-garganta" class="form-text text-muted">Diâmetro da seção 8 do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida entradas">
 				<label for="diametro-bocal-saida">Diâmetro do bocal de saída [m]</label>
-				<input name="d10" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro">
+				<input name="d9" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro">
 				<small id="diametro-bocal-saida" class="form-text text-muted">Diâmetro da seção 9 do motor.</small>
 			  </div>
 
@@ -1843,43 +1915,43 @@
 
 			  <div class="diametro-compressor_baixa entradas">
 				<label for="diametro-compressor_baixa">Diâmetro do compressor de baixa pressão do motor [%]</label>
-				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d3" type="number" step="0.0001" class="form-control" id="diametro-compressor_baixa" aria-describedby="diametro-compressor_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-compressor_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-compressor_alta entradas">
 				<label for="diametro-compressor_alta">Diâmetro do compressor de alta pressão do motor [%]</label>
-				<input name="d5" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d4" type="number" step="0.0001" class="form-control" id="diametro-compressor_alta" aria-describedby="diametro-compressor_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-compressor_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-camara-combustao entradas">
 				<label for="diametro-camara-combustao">Diâmetro da câmara de combustão [%]</label>
-				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d5" type="number" step="0.0001" class="form-control" id="diametro-camara-combustao" aria-describedby="diametro-camara-combustao" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-camara-combustao" class="form-text text-muted">Diâmetro da seção 3 do motor.</small>
 			  </div>
 
 			  <div class="diametro-turbina_alta entradas">
 				<label for="diametro-turbina_alta">Diâmetro do turbina de alta pressão do motor [%]</label>
-				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d6" type="number" step="0.0001" class="form-control" id="diametro-turbina_alta" aria-describedby="diametro-turbina_alta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-turbina_alta" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-turbina_baixa entradas">
 				<label for="diametro-turbina_baixa">Diâmetro do turbina de baixa pressão do motor [%]</label>
-				<input name="d8" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d7" type="number" step="0.0001" class="form-control" id="diametro-turbina_baixa" aria-describedby="diametro-turbina_baixa" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-turbina_baixa" class="form-text text-muted">Diâmetro da seção ?? do motor.</small>
 			  </div> 
 
 			  <div class="diametro-garganta entradas">
 				<label for="diametro-garganta">Diâmetro da garganta [%]</label>
-				<input name="d9" type="number" step="0.0001" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d8" type="number" step="0.0001" class="form-control" id="diametro-garganta" aria-describedby="diametro-garganta" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-garganta" class="form-text text-muted">Diâmetro da seção 8 do motor.</small>
 			  </div>
 
 			  <div class="diametro-bocal-saida entradas">
 				<label for="diametro-bocal-saida">Diâmetro do bocal de saída [%]</label>
-				<input name="d10" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
+				<input name="d9" type="number" step="0.0001" class="form-control" id="diametro-bocal-saida" aria-describedby="diametro-bocal-saida" placeholder="Digite o valor do diâmetro em porcentagem do nominal">
 				<small id="diametro-bocal-saida" class="form-text text-muted">Diâmetro da seção 9 do motor.</small>
 			  </div>
 
