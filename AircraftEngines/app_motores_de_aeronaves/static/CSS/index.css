@@ -60,7 +60,16 @@ hr{
 }
 
 .subtitulos{
-	font-size: 1.5rem;
+	font-size: 1.6rem;
+}
+
+.subtitulos-instrucoes{
+	font-size: 1.6rem;
+	font-weight: bold;
+}
+
+.subsubtitulos{
+	font-size: 1.4rem;
 }
 
 .titulo-bibliografia{
