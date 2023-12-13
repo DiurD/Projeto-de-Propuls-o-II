@@ -144,14 +144,16 @@ class motor_turboprop:
         'Pos.':posicao,
         'Datum':datum,
         'D [m]':[],
+        'Mach':[],
+        'Pi':saida['Pi'],
+        'Pt [Pa]':[],
+        'P [Pa]':[],
+        'Tau': saida['Tau'],
+        'Tt [K]':[],
+        'T [K]':[],
         'A [m²]': [],
         'A* [m²]': [],
         'A/A*': [],
-        'Mach':[],
-        'Pt [Pa]':[],
-        'P [Pa]':[],
-        'Tt [K]':[],
-        'T [K]':[]
         }
 
         P_c = saida['Pt [Pa]'][6]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))

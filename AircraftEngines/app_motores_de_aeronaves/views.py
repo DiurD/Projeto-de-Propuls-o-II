@@ -29,7 +29,7 @@ def results(request):
     nome = nome[0]
 
     lenght = [elem for elem in request.POST.getlist('comprimento') if elem != ''] 
-    lenght = float(lenght[0]) if lenght else ''
+    lenght = float(lenght[0]) if lenght else float(1)
 
     choked = [elem for elem in request.POST.getlist('fluxo-engasgado') if elem != ''] 
     choked = True if choked == 'on' else False
@@ -94,6 +94,9 @@ def results(request):
     pi_f = [elem for elem in request.POST.getlist('pi_f') if elem != '']
     pi_f = float(pi_f[0]) if pi_f else float(1)
 
+    pi_c = [elem for elem in request.POST.getlist('pi_c') if elem != '']
+    pi_c = float(pi_c[0]) if pi_c else float(1)
+
     pi_fn = [elem for elem in request.POST.getlist('pi_fn') if elem != '']
     pi_fn = float(pi_fn[0]) if pi_fn else float(1)
 
@@ -134,7 +137,7 @@ def results(request):
     eta_f = float(eta_f[0]) if eta_f else float(1)
 
     eta_cL = [elem for elem in request.POST.getlist('eta_cL') if elem != '']
-    eta_cL = float(eta_cL) if eta_cL else float(1)
+    eta_cL = float(eta_cL[0]) if eta_cL else float(1)
 
     eta_cH = [elem for elem in request.POST.getlist('eta_cH') if elem != '']
     eta_cH = float(eta_cH[0]) if eta_cH else float(1)
@@ -177,6 +180,12 @@ def results(request):
 
     alfa = [elem for elem in request.POST.getlist('alfa') if elem != '']
     alfa = float(alfa[0]) if alfa else float(0)
+
+    quantidade_entradas = [elem for elem in request.POST.getlist('quantidade-entradas') if elem != '']
+    quantidade_entradas = float(quantidade_entradas[0]) if quantidade_entradas else float(1)
+
+    m0_dot = [elem for elem in request.POST.getlist('m0') if elem != '']
+    m0_dot = float(m0_dot[0]) if m0_dot else float(1)
 
 
     ## CRIAÇÃO DO BANCO DE DADOS ATMOSFÉRICOS
@@ -241,7 +250,7 @@ def results(request):
     pi_r_ref = float(pi_r_ref[0]) if pi_r_ref else float(1)
 
     pi_c_ref = [elem for elem in request.POST.getlist('pi_c_ref') if elem != '']
-    pi_c_ref = float(pi_c_ref[0]) if pi_c_ref else float(1)
+    pi_c_ref = float(pi_c_ref[0]) if pi_c_ref else pi_c
 
     pi_tL_ref = [elem for elem in request.POST.getlist('pi_tL_ref') if elem != '']
     pi_tL_ref = float(pi_tL_ref[0]) if pi_tL_ref else float(1)
@@ -261,6 +270,10 @@ def results(request):
     tau_f_ref = [elem for elem in request.POST.getlist('tau_f_ref') if elem != '']
     tau_f_ref = float(tau_f_ref[0]) if tau_f_ref else float(1)
 
+    tau_t_ref = [elem for elem in request.POST.getlist('tau_t_ref') if elem != '']
+    tau_t_ref = float(tau_t_ref[0]) if tau_t_ref else float(1)
+
+
     Pt9_P9_ref = [elem for elem in request.POST.getlist('Pt9_P9_ref') if elem != '']
     Pt9_P9_ref = float(Pt9_P9_ref[0]) if Pt9_P9_ref else float(1)
 
@@ -268,7 +281,7 @@ def results(request):
     P0_P9_ref = float(P0_P9_ref[0]) if P0_P9_ref else float(1)
 
     m0_ref = [elem for elem in request.POST.getlist('m0_ref') if elem != '']
-    m0_ref = float(m0_ref[0]) if m0_ref else float(1)
+    m0_ref = float(m0_ref[0]) if m0_ref else m0_dot
 
     ###
 
@@ -292,19 +305,19 @@ def results(request):
 
     match tipo:
         case 'ramjet':
-            RAMJETAO = ramjet.missile(nome,D,lenght,M0,M3,1)
+            RAMJETAO = ramjet.missile(nome,D,lenght,M0,M3,quantidade_entradas)
             print(RAMJETAO)
             #RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b)
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,eta_nt)
                                                                           
         case 'turbojet':
-            TURBOJETAO = turbojet.turbojet(nome,M0)
-            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOJETAO.calcula_datum(A0, gamma_c, gamma_t, cp_c, cp_t, hpr, atmosfera_ref, atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,P0_P9_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,pi_c_ref,tau_c_ref,Pt9_P9_ref,m0_ref,pi_b,pi_dmax,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_t,e_c,eta_nt)
-
+            TURBOJETAO = turbojet.turbojet(nome,D,lenght,M0,M3,quantidade_entradas)
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOJETAO.calcula_datum(A0,gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,P0_P9_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_c_ref,tau_c_ref,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt)
+                                                                                                    
         case 'turboprop':
-            TURBOPROPAO = turboprop.motor_turboprop(nome,M0) # VER O QUE TÁ DANDO PAU AQUI
-            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,eta_nt)
-
+            TURBOPROPAO = turboprop.motor_turboprop(nome,D,lenght,M0,M3,quantidade_entradas) # VER O QUE TÁ DANDO PAU AQUI
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_ref,eta_nt)
+                                                                                                    
         case 'turbofan':
             TURBOFANES = turbofan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan,alfa) # ATRIBUIR ESSAS VARIÁVEIS
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOFANES.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_ref,M19_ref,tau_lambda_ref,pi_f_ref,pi_cH_ref,pi_cL_ref,pi_tL_ref,tau_f_ref,tau_tL_ref,eta_nt,eta_nf,pi_tH)

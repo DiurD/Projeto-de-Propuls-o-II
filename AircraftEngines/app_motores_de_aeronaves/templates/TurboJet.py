@@ -106,11 +106,10 @@ class turbojet:
         'Pi':pis,
         'Tau':taus,
         'Pt [Pa]': Pts,
+        'P [Pa]': Ps,
         'Tt [K]': Tts,
-        'Mach0': Ms[0],
-        'Mach9': Ms[9],
-        'T0 [K]': T0,
-        'P0 [Pa]': P0,
+        'T [K]': Ts,
+        'Mach': Ms,
         'A [m²]' : self.A,
         'A* [m²]': A_opt,
         'A/A*': A_Aopt,
@@ -139,7 +138,7 @@ class turbojet:
         output_REF,saida_REF = self.calcula_parametrico(atmos_REF,A0,gamma_c,cp_c,gamma_t,cp_t,hpr,Tt4_R,pi_c_R,ideal,pi_d_max,pi_b,pi_n,e_c,e_t,eta_b,eta_m,P0_P9_R)
         
         if Pt9_P9_R == 1 and m0_R ==1:                                                                                                                                                                                                          
-            output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9,N_NR = atmos_AT.offdesign_turbojet(M0_AT, A0, Tt4_AT, P0_P9_AT, gamma_c, cp_c, gamma_t, cp_t, hpr, pi_d_max, pi_b, pi_t, pi_n, tau_t, eta_c, eta_b, eta_m,saida_REF['Mach0'][0],saida_REF['T0 [K]'][0],saida_REF['P0 [Pa]'][0],saida_REF['Tau'][0],saida_REF['Pi'][0],saida_REF['Tt [K]'][4],saida_REF['Pi'][2],saida_REF['Pi'][3],saida_REF['Tau'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
+            output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9,N_NR = atmos_AT.offdesign_turbojet(M0_AT, A0, Tt4_AT, P0_P9_AT, gamma_c, cp_c, gamma_t, cp_t, hpr, pi_d_max, pi_b, pi_t, pi_n, tau_t, eta_c, eta_b, eta_m,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][0],saida_REF['Pi'][0],saida_REF['Tt [K]'][4],saida_REF['Pi'][2],saida_REF['Pi'][3],saida_REF['Tau'][3],output_REF['Pt9/P9'][0],output_REF['m0_dot'][0])
         else:                                                                                                                                                                                                                                                                                                                                                                                               
             output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9,N_NR = atmos_AT.offdesign_turbojet(M0_AT, A0, Tt4_AT, P0_P9_AT, gamma_c, cp_c, gamma_t, cp_t, hpr, pi_d_max, pi_b, pi_t, pi_n, tau_t, eta_c, eta_b, eta_m,           M0_R,                 T0_R,                  P0_R,                   tau_r_R,            pi_r_R,            Tt4_R,                 pi_d_R,            pi_c_R,            tau_c_R,             Pt9_P9_R,               m0_R)
 
@@ -192,11 +191,10 @@ class turbojet:
         'Pi':pis,
         'Tau':taus,
         'Pt [Pa]': Pts,
+        'P [Pa]': Ps,
         'Tt [K]': Tts,
-        'Mach0': Ms[0],
-        'Mach9': Ms[9],
-        'T0 [K]': T0,
-        'P0 [Pa]': P0,
+        'T [K]': Ts,
+        'Mach': Ms,
         'A [m²]' : self.A,
         'A* [m²]': A_opt,
         'A/A*': A_Aopt,
@@ -225,14 +223,16 @@ class turbojet:
         'Pos.':posicao,
         'Datum':datum,
         'D [m]':[],
+        'Mach':[],
+        'Pi':saida['Pi'],
+        'Pt [Pa]':[],
+        'P [Pa]':[],
+        'Tau': saida['Tau'],
+        'Tt [K]':[],
+        'T [K]':[],
         'A [m²]': [],
         'A* [m²]': [],
         'A/A*': [],
-        'Mach':[],
-        'Pt [Pa]':[],
-        'P [Pa]':[],
-        'Tt [K]':[],
-        'T [K]':[]
         }
 
         P_c = saida['Pt [Pa]'][5]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
@@ -286,7 +286,7 @@ class turbojet:
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             nova_saida['T [K]'].append(saida['T [K]'][i])   
 
-            return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
+        return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
         
         
 

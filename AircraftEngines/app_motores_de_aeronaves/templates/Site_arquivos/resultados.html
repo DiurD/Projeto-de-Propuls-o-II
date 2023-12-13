@@ -76,6 +76,24 @@
 			<div class="a0">
 				<b>Velocidade do som no escoamento livre [m/s]: </b> {{ atmosfera.a0|floatformat:2 }}
 			</div>
+			{%if not motor.on_design%}
+				<p> </p>
+				<div class="altitude_ref">
+					<b>Altitude de referência [m]: </b> {{ atmosfera_ref.height|floatformat:2 }}
+				</div>
+
+				<div class="P0_ref">
+					<b>Pressão no escoamento livre de referência [Pa]: </b> {{ atmosfera_ref.P0|floatformat:2 }}
+				</div>
+
+				<div class="T0_ref">
+					<b>Temperatura no escoamento livre de referência [K]: </b> {{ atmosfera_ref.T0|floatformat:2 }}
+				</div>
+
+				<div class="a0_ref">
+					<b>Velocidade do som no escoamento livre de referência [m/s]: </b> {{ atmosfera_ref.a0|floatformat:2 }}
+				</div>
+			{%endif%}
 		</section>
 
 		<section id="Resultados-geral">
