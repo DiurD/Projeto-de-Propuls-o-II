@@ -147,14 +147,14 @@
 				  {%if motor.motor_type == 'turboprop'%}
 				  <tr>
 					<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td> 
-					<td id="Coef-helice">{{Mattingly.AF.0|floatformat:2}}</td>
+					<td id="Coef-helice">{{Mattingly.C_prop.0|floatformat:2}}</td>
 					<td>Coeficiente de trabalho do core (C<sub>C</sub>)</td> 
-					<td id="Coef-core">{{T9_T0.0|floatformat:3}}</td>
+					<td id="Coef-core">{{Mattingly.C_c.0|floatformat:3}}</td>
 				  </tr>
 
 				  <tr>
 					<td>Coeficiente de trabalho total (C<sub>tot</sub>)</td>  
-					<td id="Coef-tot"> {{Mattingly.AF.0|floatformat:2}}</td>
+					<td id="Coef-tot"> {{Mattingly.C_tot.0|floatformat:2}}</td>
 				  </tr>
 				  {%endif%}
 				</tbody>
