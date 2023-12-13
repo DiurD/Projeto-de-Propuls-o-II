@@ -80,15 +80,17 @@ class motor_turboprop:
                 gamma = gamma_t
 
             if i == 0:
-                Pts[i] = pis[i]*P0
-                Tts[i] = taus[i]*T0
-                Ps[i] = P0
-                Ts[i] = T0
+                Pts[i] = P0
+                Tts[i] = T0
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
 
@@ -105,11 +107,10 @@ class motor_turboprop:
         'Pi':pis,
         'Tau':taus,
         'Pt [Pa]': Pts,
+        'P [Pa]': Ps,
         'Tt [K]': Tts,
-        'Mach0': Ms[0],
-        'Mach9': Ms[10],
-        'T0 [K]': T0,
-        'P0 [Pa]': P0,
+        'T [K]': Ts,
+        'Mach': Ms,
         'A [m²]' : self.A,
         'A* [m²]': A_opt,
         'A/A*': A_Aopt,
@@ -204,7 +205,7 @@ class motor_turboprop:
                                                                                                                                                                                                                                                                                                                                      
         secao = [0,1,2,3,4,4.5,5,6,7,8,9]
         pis = [float(1)]*11
-       # pis[4] = pi_b ; pis[9] = pi_n
+        # pis[4] = pi_b ; pis[9] = pi_n
         taus = [float(1)]*11
         Pts = [float(1)]*11
         Tts = [float(1)]*11
@@ -254,15 +255,17 @@ class motor_turboprop:
                 gamma = gamma_t
 
             if i == 0:
-                Pts[i] = pis[i]*P0
-                Tts[i] = taus[i]*T0
-                Ps[i] = P0
-                Ts[i] = T0
+                Pts[i] = P0
+                Tts[i] = T0
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
                 Pts[i] = pis[i]*Pts[i-1]
                 Tts[i] = taus[i]*Tts[i-1]
+                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
+                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
         
@@ -272,9 +275,10 @@ class motor_turboprop:
         'Pi':pis,
         'Tau':taus,
         'Pt [Pa]': Pts,
+        'P [Pa]': Ps,
         'Tt [K]': Tts,
-        'Mach0': Ms[0],
-        'Mach9': Ms[10],
+        'T [K]': Ts,
+        'Mach': Ms,
         'A [m²]' : self.A,
         'A* [m²]': A_opt,
         'A/A*': A_Aopt,
