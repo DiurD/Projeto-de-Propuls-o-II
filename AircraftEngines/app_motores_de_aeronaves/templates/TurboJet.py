@@ -1,6 +1,6 @@
 import re,math
-import Prop2
-#from app_motores_de_aeronaves.templates import Prop2
+#import Prop2
+from app_motores_de_aeronaves.templates import Prop2
 
 class turbojet:
     
@@ -307,7 +307,7 @@ class turbojet:
         
         
 
-jet = turbojet('jet',[1,1,1,1,1,1,1,1,1,1],1,2,0.13,3)
+# jet = turbojet('jet',[1,1,1,1,1,1,1,1,1,1],1,2,0.13,3)
 
 
   #CALCULO IDEAL ON DESIGN
@@ -353,55 +353,56 @@ jet = turbojet('jet',[1,1,1,1,1,1,1,1,1,1],1,2,0.13,3)
 
 
 # Teste Offdesign
-print('começa daqui offdesign \n')
+# print('começa daqui offdesign \n')
 
-atmos_REF = Prop2.AircraftEngines(12000)
-gamma_c = 1.4
-cp_c = 1.004
-gamma_t = 1.3
-cp_t = 1.239
-Tt4_R = 1800
-M0_R = 2
-pi_c_R = 10
-tau_c_R = 2.0771
-eta_c = 0.8641
-tau_t = 0.8155
-pi_t = 0.3746
-pi_d_max = 0.95
-pi_d_R = 0.8788
-pi_b = 0.94
-pi_n = 0.96
-eta_b = 0.98
-eta_m = 0.99
-P0_P9_R = 0.5
-hpr = 42800
-f = 0.03567
-Pt9_P9_R = 11.62
-F_mo = 806.9
-S = 44.21
-P0_R = 19400
-T0_R = 216.7
-m0_R = 50
-F = 40345
-A0 = 0.2717
-ideal = False
-tau_r_R = 1.8
-pi_r_R = 7.824
-e_t = 0.92
-e_c = 0.91
+# atmos_REF = Prop2.AircraftEngines(12000)
+# gamma_c = 1.4
+# cp_c = 1.004
+# gamma_t = 1.3
+# cp_t = 1.239
+# Tt4_R = 1800
+# M0_R = 2
+# pi_c_R = 10
+# tau_c_R = 2.0771
+# eta_c = 0.8641
+# tau_t = 0.8155
+# pi_t = 0.3746
+# pi_d_max = 0.95
+# pi_d_R = 0.8788
+# pi_b = 0.94
+# pi_n = 0.96
+# eta_b = 0.98
+# eta_m = 0.99
+# P0_P9_R = 0.5
+# hpr = 42800
+# f = 0.03567
+# Pt9_P9_R = 11.62
+# F_mo = 806.9
+# S = 44.21
+# P0_R = 19400
+# T0_R = 216.7
+# m0_R = 50
+# F = 40345
+# A0 = 0.2717
+# ideal = False
+# tau_r_R = 1.8
+# pi_r_R = 7.824
+# e_t = 0.92
+# e_c = 0.91
 
-atmos_AT = Prop2.AircraftEngines(9000)
-M0_AT = 1.5
-Tt4_AT = 1670
-P0_P9_AT = 0.955
+# atmos_AT = Prop2.AircraftEngines(9000)
+# M0_AT = 1.5
+# Tt4_AT = 1670
+# P0_P9_AT = 0.955
 
-eta_nt = 1
+# eta_nt = 1
+
 #print('\nOffdesign \n')
 #print(jet.calcula_offdesign(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,pi_c_R,tau_c_R,Pt9_P9_R,m0_R,pi_b,pi_d_max,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_t,e_c))
 
-print('\nDatum \n')
-design = True
-print(jet.calcula_datum(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt))
+# print('\nDatum \n')
+# design = True
+# print(jet.calcula_datum(A0,gamma_c,gamma_t,cp_c,cp_t,hpr,atmos_REF,atmos_AT,ideal,M0_AT,P0_P9_AT,Tt4_AT,M0_R,T0_R,P0_R,P0_P9_R,tau_r_R,pi_r_R,Tt4_R,pi_d_R,Pt9_P9_R,m0_R,design,pi_b,pi_d_max,pi_c_R,tau_c_R,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt))
 
 
 #print('on design \n')
