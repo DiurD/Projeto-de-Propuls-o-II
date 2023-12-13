@@ -306,9 +306,9 @@ class motor_turbofan:
         'A/A*': [],
         }
 
-        P_c_CORE = saida['Pt [Pa]'][10]*(1-1/eta_nt_CORE*((gamma_c-1)/(gamma_c+1)))**((gamma_c)/(gamma_c-1))
+        P_c_CORE = saida['Pt [Pa]'][10]*(1-1/eta_nt_CORE*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
         output_Mattingly['P_c_CORE'] = P_c_CORE
-        P_c_FAN = saida['Pt [Pa]'][13]*(1-1/eta_nt_FAN*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
+        P_c_FAN = saida['Pt [Pa]'][13]*(1-1/eta_nt_FAN*((gamma_c-1)/(gamma_c+1)))**((gamma_c)/(gamma_c-1))
         output_Mattingly['P_c_FAN'] = P_c_FAN
 
         nova_saida['A [m²]'] = saida['A [m²]']
