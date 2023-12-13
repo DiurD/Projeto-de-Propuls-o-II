@@ -28,7 +28,7 @@ class motor_turbofan:
             else:
                 self.A[i] = (math.pi*self.D[i]**2)/4
         self.A[2] = self.A[2]-self.A[3]
-        self.A[10] = self.A[2]
+        self.A[11] = self.A[2]
         self.A[-1] = self.A[-1]-self.A[3]
         self.A[-2] = self.A[-1]
         self.alpha = self.A[2]/self.A[3]
