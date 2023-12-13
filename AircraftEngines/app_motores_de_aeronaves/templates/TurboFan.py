@@ -4,7 +4,7 @@ from app_motores_de_aeronaves.templates import Prop2
 
 class motor_turbofan:
     
-    def __init__(self,name,diameters,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,diam_fan):
+    def __init__(self,name,diameters,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,diam_fan,alfa):
         print("*** Criando um novo motor do tipo turbofan. Defina seus parâmetros a seguir: ***\n")
         self.name = name
         self.length = lenght
@@ -14,11 +14,13 @@ class motor_turbofan:
         diametros_fan = [num for num in diam_fan if num]
         self.D.extend(diametros_fan)
         self.A= diameters
+        print(self.A)
+        print(len(self.A))
         
         self.compressores_baixa = estagios_compressor_baixa
         self.compressores_alta = estagios_compressor_alta
-        self.pi_cL = self.compressores_baixa**aumento_pressao
-        self.pi_cH = self.compressores_alta**aumento_pressao
+        self.pi_cL = aumento_pressao**self.compressores_baixa
+        self.pi_cH = aumento_pressao**self.compressores_alta
         self.pi_c = self.pi_cL*self.pi_cH
 
         for i in range(len(self.D)):
@@ -31,7 +33,10 @@ class motor_turbofan:
         self.A[11] = self.A[2]
         self.A[-1] = self.A[-1]-self.A[3]
         self.A[-2] = self.A[-1]
-        self.alpha = self.A[2]/self.A[3]
+        if alfa:
+            self.alpha = alfa
+        else:
+            self.alpha = self.A[2]/self.A[3]
 
     def __str__(self):
         string = "------------\nNome: {}".format(self.name)
@@ -42,12 +47,15 @@ class motor_turbofan:
         string += "\n°°°°°°°°°°°°°°°°°°°°"
         return string 
 
+
+
     def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,atmos:Prop2.AircraftEngines,ideal,P0_P9,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f):
         
         T0,P0,_,_ = atmos.get_param()
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         pis = [float(1)]*14
-        pis[2] = pi_f
+        pis[3] = pi_f
+        print(pi_f)
         pis[4] = self.pi_cL
         pis[5] = self.pi_cH
         pis[6] = pi_b  
@@ -66,8 +74,8 @@ class motor_turbofan:
         Ps = [float(1)]*14
         Ts = [float(1)]*14
         Ms = [float(1)]*14
-        Ms[0] = self.M0
-        Ms[1] = 0.01
+        Ms[0] = 0.01
+        Ms[1] = self.M0
         Ms[2] = Ms[3]= Ms[4] = Ms[5] = self.M3
         Ms[6] = self.M3*1.2
         Ms[7] = Ms[8] =Ms[6]
@@ -75,7 +83,7 @@ class motor_turbofan:
         A_opt = [float(1)]*14
         A_Aopt = [float(1)]*14
 
-        output,self.T0,taus[1],pis[1],pis[2],taus[2],taus[3],tau_lambda,taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0 = atmos.real_turbofan(self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,taus[10],taus[13],self.pi_cL,self.pi_cH,pi_f,self.alpha)
+        output,self.T0,taus[1],pis[1],pis[2],taus[2],taus[3],tau_lambda,taus[4],taus[5],taus[7],taus[8],pis[7],pis[8],Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0,T9_Tt9,taus[6] = atmos.real_turbofan(self.M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,taus[10],taus[13],self.pi_cL,self.pi_cH,pi_f,self.alpha)
             
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9]
@@ -85,13 +93,8 @@ class motor_turbofan:
         output['Tt19/T0'] = [Tt19_T0]
         output['T19/T0'] = [T19_T0]
         output['T9/T0'] = [T9_T0]
+        output['T9/Tt9'] = [T9_Tt9]
         
-        taus[6] = Tt4/Tts[5]
-        taus[11] = taus[3]
-        pi_f = pis[3] = pis[11]
-        pi_cL = pis[4]
-        pi_cH = pis[5]
-        pis[9] = 0.92
         Ms[10] = (2/(gamma_c-1)*(Pt9_P9**((gamma_c-1)/gamma_c)-1) )**0.5
         Ms[12] = Ms[13] = (2/(gamma_c-1)*(Pt19_P19**((gamma_c-1)/gamma_c)-1))**0.5
 
@@ -109,8 +112,14 @@ class motor_turbofan:
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
-                Pts[i] = pis[i]*Pts[i-1]
-                Tts[i] = taus[i]*Tts[i-1]
+                if i==11:
+                    Pts[i]=Pts[3]
+                    Tts[i]=Tts[3]
+                else:
+                    Pts[i] = pis[i]*Pts[i-1]
+                    if i == 6:
+                        taus[6] = Tt4/Tts[5]
+                    Tts[i] = taus[i]*Tts[i-1]
                 Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
                 Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
@@ -120,6 +129,14 @@ class motor_turbofan:
         Ts[9] = Tts[0]*T9_T0
         A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
         A_opt[9]=self.A[9]/A_Aopt[9]
+
+        #taus[6] = Tt4/Tts[5]
+        taus[11] = taus[3]
+        # pi_f = pis[3] = pis[11]
+        #pi_cL = pis[4]
+        #pi_cH = pis[5]
+        pis[9] = 0.92
+
 
         saidas = {
         'Section': secao,
@@ -141,9 +158,20 @@ class motor_turbofan:
 
         secao = [0,1,2,2.1,2.5,3,4,4.5,5,8,9,13,18,19]
         pis = [float(1)]*14
-        pis[0] = 1
-        pis[6] = pi_b ; pis[10] = pi_n
+        pis[3] = pi_f
+        pis[4] = self.pi_cL
+        pis[5] = self.pi_cH
+        pis[6] = pi_b  
+        pis[10] = pi_n
+        pis[13] = pi_fn
         taus = [float(1)]*14
+
+        for i in range(len(taus)):
+            if i<=6:
+                taus[i] = pis[i]**((gamma_c - 1)/gamma_c)
+            else:
+                taus[i] = pis[i]**((gamma_t - 1)/gamma_t)
+
         Pts = [float(1)]*14
         Tts = [float(1)]*14
         Ps = [float(1)]*14
@@ -157,13 +185,13 @@ class motor_turbofan:
         output,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_AT,atmos_AT,ideal,P0_P9_AT,pi_b,pi_d_max,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f)
 
         if Pt9_P9_R == 1 and m0_R ==1:
-            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0 = atmos_AT.real_turbofan_off_design(M0_AT,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4_AT,pi_d_max,pi_b,self.pi_c,pi_tH,pi_n,pi_fn,saida['Tau'][7],eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],tau_lambda_R,saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],saida_REF['Pi'][3],saida_REF['Pi'][5],saida_REF['Pi'][4],saida_REF['Pi'][8],saida_REF['Tau'][3],saida_REF['Tau'][8],alpha_R,saida_REF['Mach'][1],saida_REF['Mach'][13],output_REF['m0_dot'][0])
+            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0,T9_Tt9,taus[6] = atmos_AT.real_turbofan_off_design(M0_AT,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4_AT,pi_d_max,pi_b,self.pi_c,pi_tH,pi_n,pi_fn,saida['Tau'][7],eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],saida_REF['Tau'][1],tau_lambda_R,saida_REF['Pi'][1],saida_REF['Tt [K]'][4],saida_REF['Pi'][3],saida_REF['Pi'][3],saida_REF['Pi'][5],saida_REF['Pi'][4],saida_REF['Pi'][8],saida_REF['Tau'][3],saida_REF['Tau'][8],alpha_R,saida_REF['Mach'][1],saida_REF['Mach'][13],output_REF['m0_dot'][0],taus[10])
         else:
-            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0 = atmos_AT.real_turbofan_off_design(M0_AT,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4_AT,pi_d_max,pi_b,self.pi_c,pi_tH,pi_n,pi_fn,saida['Tau'][7],eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,tau_r_R,output_REF['Tau_lambda'] ,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,self.alpha,M9_R,M19_R,m0_R)
+            output,self.T0,taus[5],taus[4],taus[1],pis[1],pis[2],tau_lambda,taus[8],taus[3],taus[4],pis[8],pis[4],taus[5],pis[5],pis[3],Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,taus[3],taus[8],tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0,T9_Tt9,taus[6] = atmos_AT.real_turbofan_off_design(M0_AT,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4_AT,pi_d_max,pi_b,self.pi_c,pi_tH,pi_n,pi_fn,saida['Tau'][7],eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,tau_r_R,output_REF['Tau_lambda'] ,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,self.alpha,M9_R,M19_R,m0_R,taus[10])
         
         Ms = [float(1)]*14
-        Ms[0] = self.M0
-        Ms[1] = 0.01
+        Ms[0] = 0.01
+        Ms[1] = self.M0
         Ms[2] = Ms[3]= Ms[4] = Ms[5] = self.M3
         Ms[6] = self.M3*1.2
         Ms[7] = Ms[8] =Ms[6]
@@ -180,14 +208,15 @@ class motor_turbofan:
         output['P19/P0'] = [P19_P0]
         output['Pt9/P0'] = [Pt9_P0]
         output['T19/T0'] = [T19_T0]
+        output['T9/Tt9'] = [T9_Tt9]
         output['P9/P0'] = [P9_P0]
         
-        taus[6] = Tt4_R/Tts[5]
+        
         tau_tH = taus[7]
         taus[11] = taus[3]
         pi_tH = pis[7]
         pis[9] = 0.92
-        pis[3] = pis[11]
+        pis[11] = pis[3]
         Ms[10] = (2/(gamma_c-1)*(Pt9_P9**((gamma_c-1)/gamma_c)-1) )**0.5
         Ms[12] = Ms[13] = (2/(gamma_c-1)*(Pt19_P19**((gamma_c-1)/gamma_c)-1))**0.5
 
@@ -205,13 +234,20 @@ class motor_turbofan:
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
-                Pts[i] = pis[i]*Pts[i-1]
-                Tts[i] = taus[i]*Tts[i-1]
+                if i==11:
+                    Pts[i]=Pts[3]
+                    Tts[i]=Tts[3]
+                else:
+                    Pts[i] = pis[i]*Pts[i-1]
+                    if i == 6:
+                        taus[6] = Tt4_R/Tts[5]
+                    Tts[i] = taus[i]*Tts[i-1]
                 Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
                 Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
 
+    
         Ps[9] = Pts[9]/Pt9_P9
         Ts[9] = Tts[0]*T9_T0
         A_Aopt[9] = (1/(Ms[9]**2)* (2/(gamma_t+1)*(1+(gamma_t-1)/2*Ms[9]**2))**((gamma_t+1)/(gamma_t-1))   )**0.5
@@ -252,15 +288,16 @@ class motor_turbofan:
         'Pos.':posicao,
         'Datum':datum,
         'D [m]':[],
+        'Mach':[],
+        'Pi':saida['Pi'],
+        'Pt [Pa]':[],
+        'P [Pa]':[],
+        'Tau': saida['Tau'],
+        'Tt [K]':[],
+        'T [K]':[],
         'A [m²]': [],
         'A* [m²]': [],
         'A/A*': [],
-        'Mach':[],
-        'Pt [Pa]':[],
-        'P [Pa]':[],
-        'Tt [K]':[],
-        'T [K]':[],
-        'P_c [Pa]': []
         }
 
         P_c_CORE = saida['Pt [Pa]'][10]*(1-1/eta_nt_CORE*((gamma_c-1)/(gamma_c+1)))**((gamma_c)/(gamma_c-1))
