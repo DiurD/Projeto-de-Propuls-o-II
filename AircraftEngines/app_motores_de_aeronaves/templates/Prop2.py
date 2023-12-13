@@ -473,7 +473,7 @@ class AircraftEngines:
         pi_c -= pi_c_increase
         return output,tau_r,pi_r,tau_f,tau_c,tau_lambda,tau_t,pi_t
 
-    def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,batch_size=1, min_pi_c=0.001, max_pi_c=40):
+    def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,A0,batch_size=1, min_pi_c=0.001, max_pi_c=40):
 
         """
         Description: This method calculates the on design parameters of a real twin spool turbofan engine.
@@ -523,7 +523,11 @@ class AircraftEngines:
             'eta_T': [],
             'eta_P': [],
             'eta_Total': [],
-            'FR': []
+            'FR': [],
+            'm0_dot': [],
+            'F': [],
+            'AF': [],
+            'FC': []            
         }
 
         R_c = (gamma_c - 1) / gamma_c * cp_c  # eq. 7.52a
@@ -592,6 +596,11 @@ class AircraftEngines:
         eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / ( (1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
         eta_Total = eta_P * eta_T
 
+        m0_dot = self.rho0*V0*A0 # Gabriel
+        F = F_m0*m0_dot # Gabriel
+        AF = 1/f # Gabriel
+        FC = F*S # Gabriel
+
         output['F_m0'].append(F_m0)
         output['f'].append(f)
         output['S'].append(S)
@@ -599,6 +608,10 @@ class AircraftEngines:
         output['eta_P'].append(eta_P)
         output['eta_Total'].append(eta_Total)
         output['FR'].append(FR)
+        output['m0_dot'].append(m0_dot)
+        output['F'].append(F)
+        output['AF'].append(AF)
+        output['FC'].append(FC)
 
         return output,self.T0,tau_r,pi_r,pi_d,tau_d,tau_f,tau_lambda,tau_cL,tau_cH,tau_tH,tau_tL,pi_tH,pi_tL,Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0,T9_Tt9,tau_b
 
@@ -686,7 +699,7 @@ class AircraftEngines:
         eta_P = 2*V0*(1 + alpha)*F_m0/(a0**2*((1 + f)*V9_a0**2 + alpha*V19_a0**2 - (1 + alpha)*M0**2))
         eta_Total = eta_P*eta_T
         F = F_m0 * m0
-        mf = S*F
+        FC = S*F
         AF = 1/f
         mC = m0*1/(1 + alpha)
         mF = m0*alpha/(1 + alpha)
@@ -710,7 +723,11 @@ class AircraftEngines:
             'M9': [M9],
             'M19': [M19],
             'N_fan': [N_NR_fan],
-            'N_hp_spool': [N_NR_H]
+            'N_hp_spool': [N_NR_H],
+            'm0_dot': [m0],
+            'F': [F],
+            'AF': [AF],
+            'FC': [FC]
         }
 
         return output,self.T0,tau_cH_R,tau_cL_R,tau_r,pi_r,pi_d,tau_lambda,tau_tL,tau_f,tau_cL,pi_tL,pi_cL,tau_cH,pi_cH,pi_f,Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,tau_f,tau_tL_R,tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0,T9_Tt9,tau_b
