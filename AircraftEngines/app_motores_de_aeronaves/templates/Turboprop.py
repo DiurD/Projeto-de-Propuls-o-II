@@ -1,5 +1,5 @@
 import re,math
-# import Prop2
+#import Prop2
 from app_motores_de_aeronaves.templates import Prop2
 
 class motor_turboprop:
@@ -56,11 +56,11 @@ class motor_turboprop:
 
         Ms = [float(1)]*11
         Ms[0] = self.M0
-        #Ms[1] = self.M0
-        #Ms[2] = 0.9*self.M0 #Pequena redução arbitrária de Mach antes de entrar no compressor.
-        #Ms[3] = self.M3
-        #Ms[4] = 1 #Página 562 Mattingly
-        #Ms[5] = 1 #Página 562 Mattingly
+        Ms[1] = self.M0
+        Ms[2] = 0.9*self.M0 #Pequena redução arbitrária de Mach antes de entrar no compressor.
+        Ms[3] = self.M3
+        Ms[4] = 1 #Página 562 Mattingly
+        Ms[5] = 1 #Página 562 Mattingly
         # Restante dos Machs abaixo, não colocar aqui.
             
         A_opt = [float(1)]*11
@@ -87,10 +87,10 @@ class motor_turboprop:
                 gamma = gamma_t
 
             if i == 0:
-                Pts[i] = P0
-                Tts[i] = T0
-                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
-                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+                Ps[i] = P0
+                Ts[i] = T0
+                Pts[i] = pis[i]*P0
+                Tts[i] = taus[i]*T0
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
@@ -127,8 +127,8 @@ class motor_turboprop:
     
     def calcula_datum(self,gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF:Prop2.AircraftEngines,atmos_AT:Prop2.AircraftEngines,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design:bool, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R,eta_nt):
 
-        secao = [0,    2 ,  3  ,  4  , 4.5 ,  5  ,  8   ,9]
-        datum = [0, 0.060,0.408,0.616,0.679,0.715,0.9498,1]
+        secao = [0,  1  ,   2  ,  3  ,  4  , 4.5 ,  5,   6   ,  7  ,  8   ,9]
+        datum = [0, 0.01, 0.060,0.408,0.616,0.679,0.715,0.801,0.853,0.9498,1]
         posicao = [self.length*i for i in datum]
 
         output_Mattingly_REF= {}
@@ -159,7 +159,7 @@ class motor_turboprop:
         P_c = saida['Pt [Pa]'][6]*(1-1/eta_nt*((gamma_t-1)/(gamma_t+1)))**((gamma_t)/(gamma_t-1))
         output_Mattingly['P_c'] = P_c
 
-        for i in range(1):
+        for i in range(0,11):
             #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
             #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             
@@ -175,37 +175,37 @@ class motor_turboprop:
             nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             nova_saida['T [K]'].append(saida['T [K]'][i])
         
-        for i in range(2,7):
-            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        # for i in range(2,7):
+        #     #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             
-            nova_saida['A [m²]'].append(saida['A [m²]'][i])
-            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
-            nova_saida['A/A*'].append(saida['A/A*'][i])
-            nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D [m]'].append(self.D[i])
+        #     nova_saida['A [m²]'].append(saida['A [m²]'][i])
+        #     nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+        #     nova_saida['A/A*'].append(saida['A/A*'][i])
+        #     nova_saida['Mach'].append(saida['Mach'][i])
+        #     nova_saida['D [m]'].append(self.D[i])
             
-            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+        #     nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
             
-            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
-            nova_saida['T [K]'].append(saida['T [K]'][i])
+        #     nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        #     nova_saida['T [K]'].append(saida['T [K]'][i])
 
-        for i in range(9,11):
-            #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        # for i in range(9,11):
+        #     #nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     #nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
             
-            nova_saida['A [m²]'].append(saida['A [m²]'][i])
-            nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
-            nova_saida['A/A*'].append(saida['A/A*'][i])
-            nova_saida['Mach'].append(saida['Mach'][i])
-            nova_saida['D [m]'].append(self.D[i])
+        #     nova_saida['A [m²]'].append(saida['A [m²]'][i])
+        #     nova_saida['A* [m²]'].append(saida['A* [m²]'][i])
+        #     nova_saida['A/A*'].append(saida['A/A*'][i])
+        #     nova_saida['Mach'].append(saida['Mach'][i])
+        #     nova_saida['D [m]'].append(self.D[i])
             
-            nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
-            nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
+        #     nova_saida['Pt [Pa]'].append(saida['Pt [Pa]'][i])
+        #     nova_saida['P [Pa]'].append(saida['P [Pa]'][i])
             
-            nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
-            nova_saida['T [K]'].append(saida['T [K]'][i])
+        #     nova_saida['Tt [K]'].append(saida['Tt [K]'][i])
+        #     nova_saida['T [K]'].append(saida['T [K]'][i])
         
         return output_Mattingly,saida,output_Mattingly_REF,saida_REF,nova_saida
                          
@@ -264,10 +264,10 @@ class motor_turboprop:
                 gamma = gamma_t
 
             if i == 0:
-                Pts[i] = P0
-                Tts[i] = T0
-                Ps[i] = Pts[i]/(1+(gamma-1)/2*Ms[i]**2)**(gamma/(gamma-1))
-                Ts[i] = Tts[i]/(1+(gamma-1)/2*Ms[i]**2)
+                Ps[i] = P0
+                Ts[i] = T0
+                Pts[i] = pis[i]*P0
+                Tts[i] = taus[i]*T0
                 A_Aopt[i] = (1/(Ms[i]**2)* (2/(gamma+1)*(1+(gamma-1)/2*Ms[i]**2))**((gamma+1)/(gamma-1))   )**0.5
                 A_opt[i]=self.A[i]/A_Aopt[i]
             else:
@@ -300,7 +300,7 @@ class motor_turboprop:
         
         
 
-#tutu = motor_turboprop('tutu',0.8)
+tutu = motor_turboprop('tutu',[1,1,1,1,1,1,1,1,1,1],1,0.8,0.13,3)
 
 
 #CALCULO IDEAL ON DESIGN
@@ -352,56 +352,56 @@ class motor_turboprop:
 
 # Teste Offdesign
 
-#print('começa daqui \n')
-#gamma_c = 1.4
-#gamma_t = 1.3
-#cp_c = 1.004
-#cp_t = 1.235
-#hpr = 42800
-#pi_c_R = 30
-#tau_t_R = tau_t = 0.55
-#eta_prop = 0.812
-#eta_propmax = 0.812
-#pi_tH = 0.2212
-#tau_tH = 0.7336
-#m0_dot_R = 14.55
-#atmos_REF = Prop2.AircraftEngines(0)
-#atmos_AT = Prop2.AircraftEngines(6000)
-#ideal = False
-#M0_AT = 0.6
-#Tt4_AT = 1670
-#M0_R = 0.1
-#T0_R = 288.2
-#P0_R = 101300
-#tau_r_R = 1.002
-#pi_r_R = 1.007
-#Tt4_R = 1670
-#pi_d_R = 0.98
-#tau_c_R = 2.6426
-#pi_tL_R = 0.2537
-#tau_tL_R = 0.7497
-#M9_R = 1 ##
-#Pt9_P9_R = 1.89 ##
-#eta_c = 0.845
-#eta_tL = 0.9224
-#pi_b = 0.94
-#pi_d_max = 0.98
-#pi_n = 0.98
-#eta_b = 0.995
-#eta_mL = 0.995
-#eta_mH = 0.995
-#eta_g = 0.99
-#e_c = 0.90
-#e_tH = 0.89
-#e_tL = 0.91
-#eta_nt = 1
+# print('começa daqui \n')
+# gamma_c = 1.4
+# gamma_t = 1.3
+# cp_c = 1.004
+# cp_t = 1.235
+# hpr = 42800
+# pi_c_R = 30
+# tau_t_R = tau_t = 0.55
+# eta_prop = 0.812
+# eta_propmax = 0.812
+# pi_tH = 0.2212
+# tau_tH = 0.7336
+# m0_dot_R = 14.55
+# atmos_REF = Prop2.AircraftEngines(0)
+# atmos_AT = Prop2.AircraftEngines(6000)
+# ideal = False
+# M0_AT = 0.6
+# Tt4_AT = 1670
+# M0_R = 0.1
+# T0_R = 288.2
+# P0_R = 101300
+# tau_r_R = 1.002
+# pi_r_R = 1.007
+# Tt4_R = 1670
+# pi_d_R = 0.98
+# tau_c_R = 2.6426
+# pi_tL_R = 0.2537
+# tau_tL_R = 0.7497
+# M9_R = 1 ##
+# Pt9_P9_R = 1.89 ##
+# eta_c = 0.845
+# eta_tL = 0.9224
+# pi_b = 0.94
+# pi_d_max = 0.98
+# pi_n = 0.98
+# eta_b = 0.995
+# eta_mL = 0.995
+# eta_mH = 0.995
+# eta_g = 0.99
+# e_c = 0.90
+# e_tH = 0.89
+# e_tL = 0.91
+# eta_nt = 1
 
 #print('Offdesign \n')
 #print(tutu.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t , hpr, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R,T0_R,P0_R,m0_dot_R, tau_r_R,pi_r_R,Tt4_R,pi_d_R,pi_c_R,tau_c_R,pi_tL_R,tau_tL_R,M9_R,Pt9_P9_R,eta_c, eta_tL, pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL))
 
-#print('Datum \n')
-#design = False
-#print(tutu.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R,eta_nt))
+# print('Datum \n')
+# design = True
+# print(tutu.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT,M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R, tau_t, eta_prop, eta_propmax, pi_tH, tau_tH,design, eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_R,eta_nt))
 
 
 #print('on design \n')
