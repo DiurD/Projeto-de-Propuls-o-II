@@ -134,13 +134,16 @@ def results(request):
     eta_f = float(eta_f[0]) if eta_f else float(1)
 
     eta_cL = [elem for elem in request.POST.getlist('eta_cL') if elem != '']
-    eta_cL = float(eta_cL[0]) if eta_c else float(1)
+    eta_cL = float(eta_cL) if eta_cL else float(1)
 
     eta_cH = [elem for elem in request.POST.getlist('eta_cH') if elem != '']
     eta_cH = float(eta_cH[0]) if eta_cH else float(1)
 
     eta_nt = [elem for elem in request.POST.getlist('eta_nt') if elem != '']
     eta_nt = float(eta_nt[0]) if eta_nt else float(1)
+
+    eta_nf = [elem for elem in request.POST.getlist('eta_nf') if elem != '']
+    eta_nf = float(eta_nf[0]) if eta_nf else float(1)
 
     e_f = [elem for elem in request.POST.getlist('e_f') if elem != '']
     e_f = float(e_f[0]) if e_f else float(1)
@@ -149,7 +152,7 @@ def results(request):
     e_c = float(e_c[0]) if e_c else float(1)
 
     e_cL = [elem for elem in request.POST.getlist('e_cL') if elem != '']
-    e_cL = float(e_cL[0]) if e_c else float(1)
+    e_cL = float(e_cL[0]) if e_cL else float(1)
 
     e_cH = [elem for elem in request.POST.getlist('e_cH') if elem != '']
     e_cH = float(e_cH[0]) if e_cH else float(1)
@@ -163,6 +166,17 @@ def results(request):
     e_t = [elem for elem in request.POST.getlist('e_t') if elem != '']
     e_t = float(e_t[0]) if e_t else float(1)
 
+    estagios_compressor_baixa = [elem for elem in request.POST.getlist('quantidade-baixas') if elem != '']
+    estagios_compressor_baixa = float(estagios_compressor_baixa[0]) if estagios_compressor_baixa else float(1)
+
+    estagios_compressor_alta = [elem for elem in request.POST.getlist('quantidade-altas') if elem != '']
+    estagios_compressor_alta = float(estagios_compressor_alta[0]) if estagios_compressor_alta else float(1)
+
+    aumento_pressao = [elem for elem in request.POST.getlist('aumento-estagios') if elem != '']
+    aumento_pressao = float(aumento_pressao[0]) if aumento_pressao else float(1)
+
+    alfa = [elem for elem in request.POST.getlist('alfa') if elem != '']
+    alfa = float(alfa[0]) if alfa else float(0)
 
 
     ## CRIAÇÃO DO BANCO DE DADOS ATMOSFÉRICOS
@@ -259,7 +273,8 @@ def results(request):
     ###
 
     D,DFan = diametros(request)
-
+    #print(D)
+    #print(DFan)
     # print('\n--- \n')
     # print(D)
     # print('\n---\n')
@@ -291,9 +306,9 @@ def results(request):
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,eta_nt)
 
         case 'turbofan':
-            TURBOFANES = turbofan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan) # ATRIBUIR ESSAS VARIÁVEIS
-            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOFANES.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_ref,M19_ref,tau_lambda_ref,pi_f_ref,pi_cH_ref,pi_cL_ref,pi_tL_ref,tau_f_ref,tau_tL_ref,Tt4)
-                                                                                                    
+            TURBOFANES = turbofan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan,alfa) # ATRIBUIR ESSAS VARIÁVEIS
+            Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOFANES.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_ref,M19_ref,tau_lambda_ref,pi_f_ref,pi_cH_ref,pi_cL_ref,pi_tL_ref,tau_f_ref,tau_tL_ref,eta_nt,eta_nf,pi_tH)
+                  
         case _:
             pass
             
@@ -301,7 +316,8 @@ def results(request):
     #dicionario_teste = {'x':list(range(10)),
     #                    'y': [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
     #                    'z': [69,420,69,420,69,420,69,420,69,420]}
-
+    #print(Datum)
+    #print('\n\n\n\n\n')
     context = { "Mattingly": Mattingly, # Mattlingly tem uma chave incompativel com templates "P0/P9", você pode então
                 "P0_P9": Mattingly.pop("P0/P9"), # separar essa chave do dicionário e passá-la individualmente.  
                 "Pt9_P9": Mattingly.pop("Pt9/P9"),
@@ -342,9 +358,11 @@ def diametros(request):
 
     for key in request.POST:
         #print(key)
-        if key in ['d13','d17','d18','d19']:
+        if key in ['d10','d11','d12','d13','d14','d15','d16','d17','d18','d19']:
             num = re.findall("[0-9][0-9]",key)[0]
             num = int(num[1])
+            print(num)
+            print(key)
             #print(num)
             #print(request.POST.getlist(key))
 
@@ -356,13 +374,13 @@ def diametros(request):
             #print(absoluto)
 
             if absoluto:
-                if request.POST.getlist(key):
+                if value:
                     diametros_fan[num] = float(value[0])
                 else:
                     diametros_fan[num] = float(0)
 
             else:
-                if request.POST.getlist(key):
+                if value:
                     diam = [elem for elem in request.POST.getlist('diametro-nominal') if elem != '']
                     if diam:
                         print(diam)
@@ -375,24 +393,26 @@ def diametros(request):
         elif key in ['d0','d1','d2','d3','d4','d5','d6','d7','d8','d9']:
 
             num = int(re.findall("[0-9]",key)[0])
+            
             #print(num)
             #print(request.POST.getlist(key))
 
             value = [elem for elem in request.POST.getlist(key) if elem != '']
             #print(value)
             
+            
             absoluto = True if request.POST['absoluto'] == 'true' else False
             #print(request.POST['absoluto'])
             #print(absoluto)
 
             if absoluto:
-                if request.POST.getlist(key):
+                if value:
                     diametros[num] = float(value[0])
                 else:
                     diametros[num] = float(0)
 
             else:
-                if request.POST.getlist(key):
+                if value:
                     diam = [elem for elem in request.POST.getlist('diametro-nominal') if elem != '']
                     if diam:
                         print(diam)
@@ -401,7 +421,8 @@ def diametros(request):
                         diametros[num] = 0
                 else:
                     diametros[num] = float(0)
-        
+    
+    diametros_fan[1] = diametros[2]
     return diametros,diametros_fan
 
 

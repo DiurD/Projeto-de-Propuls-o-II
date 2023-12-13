@@ -40,6 +40,10 @@
 				<b>Nome do motor: </b> {{ motor.name }}
 			</div>
 
+			<div class="tipo-do-motor">
+				<b>Nome do motor: </b> {{ motor.motor_type }}
+			</div>
+
 			<div class="M0">
 				<b>Velocidade do ar no escoamento livre [Mach]: </b> {{ motor.M0 }}
 			</div>
@@ -125,22 +129,22 @@
 					<td id="T9/T0">{{T9_T0.0|floatformat:3}}</td>
 				  </tr>
 
-				  {%if motor.motor_type is 'turbofan'%}
+				  {%if motor.motor_type == 'turbofan'%}
 				  <tr>
 					<td>Pressão crítica core(P<sub>c,C</sub>)</td> 
-					<td id="Pcc"> {{Mattingly.AF.0|floatformat:2}}</td>
+					<td id="Pcc"> {{Mattingly.P_c_CORE|floatformat:3}}</td>
 					<td>Pressão crítica fan(P<sub>c,fan</sub>)</td> 
-					<td id="Pcfan"> {{T9_T0.0|floatformat:3}}</td>
+					<td id="Pcfan"> {{Mattingly.P_c_FAN|floatformat:3}}</td>
 				  </tr>
 				  {%else %}
 				  <tr>
 					<td>Pressão crítica(P<sub>c,C</sub>)</td> 
-					<td id="Pcc"> {{Mattingly.AF.0|floatformat:2}}</td>
+					<td id="Pcc"> {{Mattingly.P_c.0|floatformat:3}}</td>
 				  </tr>
 
 				  {%endif%}
 
-				  {%if motor.motor_type is 'turboprop'%}
+				  {%if motor.motor_type == 'turboprop'%}
 				  <tr>
 					<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td> 
 					<td id="Coef-helice">{{Mattingly.AF.0|floatformat:2}}</td>
@@ -159,14 +163,14 @@
 
 		<section>
 			<div class="imagem-resultados">
-			{%if motor.motor_type is 'ramjet'%}
-				<img class="Ramjet-esquematico" src="{% static 'images/Ramjet-esquematico.png' %}" alt="">
-			{%elif motor.motor_type is 'turbojet'%}
-				<img class="Turbojet-esquematico" src="{% static 'images/Turbojet-esquematico-temp.jpg' %}" alt="">
-			{%elif motor.motor_type is 'turboprop'%}
-				<img class="Turboprop-esquematico" src="{% static 'images/Turboprop-esquematico-temp.jpg' %}" alt="">
-			{%elif motor.motor_type is 'turbofan'%}
-				<img class="Turbofan-esquematico" src="{% static 'images/Turbofan-esquematico-temp.jpg' %}" alt="">
+			{%if motor.motor_type == 'ramjet'%}
+				<img class="Ramjet-esquematico" src="{% static 'images/imagem-ramjet.png' %}" alt="">
+			{%elif motor.motor_type == 'turbojet'%}
+				<img class="Turbojet-esquematico" src="{% static 'images/imagem-turbojet.png' %}" alt="">
+			{%elif motor.motor_type == 'turboprop'%}
+				<img class="Turboprop-esquematico" src="{% static 'images/imagem-turboprop.png' %}" alt="">
+			{%elif motor.motor_type == 'turbofan'%}
+				<img class="Turbofan-esquematico" src="{% static 'images/imagem-turbofan.png' %}" alt="">
 			{%endif%}
 			</div>	
 		</section>

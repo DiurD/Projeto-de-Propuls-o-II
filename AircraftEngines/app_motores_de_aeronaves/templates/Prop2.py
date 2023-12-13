@@ -571,7 +571,9 @@ class AircraftEngines:
         M9 = (2 / (gamma_c - 1) * (Pt9_P9 ** ((gamma_c - 1) / gamma_c) - 1)) ** (1 / 2)
         Tt9_T0 = cp_c / cp_t * tau_lambda * tau_tH * tau_tL * tau_n
         T9_T0 = Tt9_T0 / Pt9_P9 ** ((gamma_t - 1) / gamma_t)
+        T9_Tt9 = T9_T0/Tt9_T0
         V9_a0 = M9 * (R_t * gamma_t / (R_c * gamma_c) * T9_T0) ** (1 / 2)
+        tau_b = Tt9_T0/(tau_r*tau_d*tau_cH*tau_cL*tau_tH*tau_tL*tau_n)
 
         # Parametros referentes a saida do bypass apos o fan
         Pt19_P19 = P0_P19 * pi_r * pi_d * pi_f * pi_fn
@@ -598,10 +600,10 @@ class AircraftEngines:
         output['eta_Total'].append(eta_Total)
         output['FR'].append(FR)
 
-        return output,self.T0,tau_r,pi_r,pi_d,tau_d,tau_f,tau_lambda,tau_cL,tau_cH,tau_tH,tau_tL,pi_tH,pi_tL,Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0
+        return output,self.T0,tau_r,pi_r,pi_d,tau_d,tau_f,tau_lambda,tau_cL,tau_cH,tau_tH,tau_tL,pi_tH,pi_tL,Pt9_P9,Tt9_T0,T9_T0,Pt19_P19,Tt19_T0,T19_T0,T9_Tt9,tau_b
 
     def real_turbofan_off_design(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_c,pi_tH,pi_n,pi_fn,tau_tH,eta_f,eta_cL,eta_cH,eta_b,eta_mL,eta_mH,eta_tL,M0_R,T0_R,P0_R,
-        tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R):
+        tau_r_R,tau_lambda_R,pi_r_R,Tt4_R,pi_d_R,pi_f_R,pi_cH_R,pi_cL_R,pi_tL_R,tau_f_R,tau_tL_R,alpha_R,M9_R,M19_R,m0_R,tau_n):
 
         tau_cH_R = pi_cH_R**((gamma_c - 1)/(gamma_c))
         tau_cL_R = pi_cL_R**((gamma_c - 1)/(gamma_c))
@@ -612,12 +614,17 @@ class AircraftEngines:
         tau_r = 1 + (gamma_c - 1)/2*M0**2
         pi_r = tau_r**(gamma_c/(gamma_c - 1))
 
+        
+
         if M0 <= 1:
             eta_r = 1
         else:
             eta_r = 1 - 0.075*(M0 - 1)**1.35
 
+
         pi_d = pi_d_max*eta_r
+        tau_d = pi_d ** ((gamma_c - 1) / gamma_c)
+
         tau_lambda = cp_t*Tt4/(cp_c*self.T0)
 
         teste = 10
@@ -661,7 +668,9 @@ class AircraftEngines:
 
         m0 = m0_R*(1 + alpha)/(1 + alpha_R)*self.P0*pi_r*pi_d*pi_cL*pi_cH/(P0_R*pi_r_R*pi_d_R*pi_cL_R*pi_cH_R)*(Tt4_R/Tt4)**(1/2)
         f = (tau_lambda - tau_r*tau_cL*tau_cH)/(hpr*eta_b/(cp_c*self.T0) - tau_lambda)
+        Tt9_T0 = cp_c / cp_t * tau_lambda * tau_tH * tau_tL * tau_n
         T9_T0 = tau_lambda*tau_tH*tau_tL/(Pt9_P9**((gamma_t - 1)/gamma_t))*cp_c/cp_t
+        T9_Tt9 = T9_T0/Tt9_T0
         V9_a0 = M9*(gamma_t*R_t/(gamma_c*R_c)*T9_T0)**(1/2)
         T19_T0 = tau_r*tau_f/(Pt19_P19**((gamma_c - 1)/gamma_c))
         V19_a0 = M19*(T19_T0)**(1/2)
@@ -681,10 +690,11 @@ class AircraftEngines:
         AF = 1/f
         mC = m0*1/(1 + alpha)
         mF = m0*alpha/(1 + alpha)
+        tau_b = Tt9_T0/(tau_r*tau_d*tau_cH*tau_cL*tau_tH*tau_tL*tau_n)
 
         output = {
             'F': [F],
-            'm0': [m0],
+            'm0_dot': [m0],
             'f': [f],
             'S': [S],
             'eta_T': [eta_T],
@@ -703,7 +713,7 @@ class AircraftEngines:
             'N_hp_spool': [N_NR_H]
         }
 
-        return output,self.T0,tau_cH_R,tau_cL_R,tau_r,pi_r,pi_d,tau_lambda,tau_tL,tau_f,tau_cL,pi_tL,pi_cL,tau_cH,pi_cH,pi_f,Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,tau_f,tau_tL_R,tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0
+        return output,self.T0,tau_cH_R,tau_cL_R,tau_r,pi_r,pi_d,tau_lambda,tau_tL,tau_f,tau_cL,pi_tL,pi_cL,tau_cH,pi_cH,pi_f,Pt19_P0,Pt19_P19,Pt9_P0,Pt9_P9,tau_f,tau_tL_R,tau_f_R,tau_cL_R,pi_tL_R,T9_T0,T19_T0,P19_P0,P9_P0,T9_Tt9,tau_b
 
 
 #------------------------- RAMJET -------------------------------------------------------
