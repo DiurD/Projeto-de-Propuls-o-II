@@ -37,7 +37,7 @@
 			<h2>Entradas da análise</h2>
 
 			<div class="nome-do-motor">
-				<b>Nome do motor: </b> {{ motor.name }}
+				<b>Nome do motor: </b> {{ motor.name  }}
 			</div>
 
 			<div class="tipo-do-motor">
@@ -106,58 +106,58 @@
 				<tbody>
 				  <tr>
 					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td> 
-					<td id="Empuxo-especifico">{{Mattingly.F_m0.0|floatformat:2}}</td>
+					<td id="Empuxo-especifico">{{Mattingly.F_m0.0|stringformat:".3E"}}</td>
 					<td>Eficiência térmica (&#x3B7<sub>T</sub>)</td> 
-					<td id="eta_T">{{Mattingly.eta_T.0|floatformat:4}}</td>
+					<td id="eta_T">{{Mattingly.eta_T.0|stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Vazão mássica (&#x1E41<sub>0</sub>) [kg/s]</td> 
-					<td id="vazao-massica">{{Mattingly.m0_dot.0|floatformat:2}}</td>
+					<td id="vazao-massica">{{Mattingly.m0_dot.0|stringformat:".3E"}}</td>
 					<td>Eficiência propulsiva (&#x3B7<sub>P</sub>)</td>
-					<td id="eta_P">{{Mattingly.eta_P.0|floatformat:4}}</td>
+					<td id="eta_P">{{Mattingly.eta_P.0|stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Empuxo (F) [N]</td> 
-					<td id="Empuxo">{{Mattingly.F.0|floatformat:2}}</td>
+					<td id="Empuxo">{{Mattingly.F.0|stringformat:".3E"}}</td>
 					<td>Eficiência Global (&#x3B7<sub>O</sub>)</td> 
-					<td id="eta_global">{{Mattingly.eta_Total.0|floatformat:4}}</td>
+					<td id="eta_global">{{Mattingly.eta_Total.0|stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Razão combustível/ar (f)</td> 
-					<td id="razao-combustivel-ar">{{Mattingly.f.0|floatformat:4}}</td>
+					<td id="razao-combustivel-ar">{{Mattingly.f.0|stringformat:".3E"}}</td>
 					<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>)</td> 
-					<td id="tau-lambda">{{Mattingly.Tau_lambda.0|floatformat:2}}</td>
+					<td id="tau-lambda">{{Mattingly.Tau_lambda.0|stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Consumo específico de combustível (S) [kg/(N.s)]</td> 
-					<td id="Consumo-especifico-combustivel">{{Mattingly.S.0|floatformat:8}}</td>
+					<td id="Consumo-especifico-combustivel">{{Mattingly.S.0|stringformat:".3E"}}</td>
 					<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>)</td> 
-					<td id="Pt9/P9">{{Pt9_P9.0 |floatformat:2}}</td>
+					<td id="Pt9/P9">{{Pt9_P9.0 |stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Consumo de combustível (FC) [kg/s]</td> 
-					<td id="consumo-combustivel">{{Mattingly.FC.0|floatformat:4}}</td>
+					<td id="consumo-combustivel">{{Mattingly.FC.0|stringformat:".3E"}}</td>
 					<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>9</sub>/T<sub>t9</sub>) </td>
-					<td id="Tt9/T9">{{T9_Tt9.0 |floatformat:4}}</td>
+					<td id="Tt9/T9">{{T9_Tt9.0 |stringformat:".3E"}}</td>
 				  </tr>
 				  <tr>
 					<td>Razão ar/combustível (AF)</td> 
-					<td id="Razao-ar-combustivel">{{Mattingly.AF.0|floatformat:2}}</td>
+					<td id="Razao-ar-combustivel">{{Mattingly.AF.0|stringformat:".3E"}}</td>
 					<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td> 
-					<td id="T9/T0">{{T9_T0.0|floatformat:3}}</td>
+					<td id="T9/T0">{{T9_T0.0|stringformat:".3E"}}</td>
 				  </tr>
 
 				  {%if motor.motor_type == 'turbofan'%}
 				  <tr>
 					<td>Pressão crítica core(P<sub>c,C</sub>)</td> 
-					<td id="Pcc"> {{Mattingly.P_c_CORE|floatformat:3}}</td>
+					<td id="Pcc"> {{Mattingly.P_c_CORE|stringformat:".3E"}}</td>
 					<td>Pressão crítica fan(P<sub>c,fan</sub>)</td> 
-					<td id="Pcfan"> {{Mattingly.P_c_FAN|floatformat:3}}</td>
+					<td id="Pcfan"> {{Mattingly.P_c_FAN|stringformat:".3E"}}</td>
 				  </tr>
 				  {%else %}
 				  <tr>
 					<td>Pressão crítica(P<sub>c,C</sub>)</td> 
-					<td id="Pcc"> {{Mattingly.P_c|floatformat:3}}</td>
+					<td id="Pcc"> {{Mattingly.P_c|stringformat:".3E"}}</td>
 				  </tr>
 
 				  {%endif%}
@@ -165,14 +165,14 @@
 				  {%if motor.motor_type == 'turboprop'%}
 				  <tr>
 					<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td> 
-					<td id="Coef-helice">{{Mattingly.C_prop.0|floatformat:2}}</td>
+					<td id="Coef-helice">{{Mattingly.C_prop.0|stringformat:".3E"}}</td>
 					<td>Coeficiente de trabalho do core (C<sub>C</sub>)</td> 
-					<td id="Coef-core">{{Mattingly.C_c.0|floatformat:3}}</td>
+					<td id="Coef-core">{{Mattingly.C_c.0|stringformat:".3E"}}</td>
 				  </tr>
 
 				  <tr>
 					<td>Coeficiente de trabalho total (C<sub>tot</sub>)</td>  
-					<td id="Coef-tot"> {{Mattingly.C_tot.0|floatformat:2}}</td>
+					<td id="Coef-tot"> {{Mattingly.C_tot.0|stringformat:".3E"}}</td>
 				  </tr>
 				  {%endif%}
 				</tbody>
@@ -230,8 +230,10 @@
 								{% for _,values in Datum.items %}
 									{%if values is Datum.Section%}
 									<td>{{ values|custom:i|floatformat:1}} </td>
-									{%else%}
+									{%elif values is Datum.Datum%}
 									<td>{{ values|custom:i|floatformat:3}} </td>
+									{%else%}
+									<td>{{ values|custom:i|stringformat:".2E"}} </td>
 									{%endif%}
 								{% endfor %}	
 							</tr>
