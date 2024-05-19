@@ -299,7 +299,7 @@ def results(request):
                        lenght = lenght,speed_in_combustion = M3, on_design=on_design,choked = choked,ideal = ideal,Tt4 = Tt4,M0 = M0,
                        hpr = hpr, cp_c = cp_c,cp_t = cp_t, gamma_c=gamma_c,gamma_t = gamma_t)
 
-    novo_motor.save()
+    # novo_motor.save()
 
     ###
 

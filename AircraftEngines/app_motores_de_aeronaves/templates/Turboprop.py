@@ -323,7 +323,7 @@ class motor_turboprop:
         
         
 
-tutu = motor_turboprop('tutu',[1,1,1,1,1,1,1,1,1,1],1,0.8,0.13,3)
+# tutu = motor_turboprop('tutu',[1,1,1,1,1,1,1,1,1,1],1,0.8,0.13,3)
 
 
 #CALCULO IDEAL ON DESIGN
