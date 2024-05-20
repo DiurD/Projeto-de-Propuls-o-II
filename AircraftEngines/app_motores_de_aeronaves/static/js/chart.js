@@ -73,8 +73,8 @@
         label: "Temperatura total [K]",
         hidden: true,
         data: datum.Tt,
-        borderColor: "yellow",
-        backgroundColor: "yellow",
+        borderColor: "#a98600",
+        backgroundColor: "#a98600",
         yAxisID: "y9",
       },
     ],
@@ -126,13 +126,21 @@
         },
         y1: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "left",
+          ticks: {
+            display: 'auto',
+            color: "red",
+          },
         },
         y2: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "right",
+          ticks: {
+            display: 'auto',
+            color: "blue",
+          },
 
           // grid line settings
           grid: {
@@ -141,10 +149,11 @@
         },
         y3: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "left",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "purple",
           },
 
           // grid line settings
@@ -154,10 +163,11 @@
         },
         y4: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "right",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "green",
           },
 
           // grid line settings
@@ -167,10 +177,11 @@
         },
         y5: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "left",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "orange",
           },
 
           // grid line settings
@@ -180,10 +191,11 @@
         },
         y6: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "right",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "pink",
           },
 
           // grid line settings
@@ -193,10 +205,11 @@
         },
         y7: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "left",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "gray",
           },
 
           // grid line settings
@@ -206,10 +219,11 @@
         },
         y8: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "right",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "black",
           },
 
           // grid line settings
@@ -219,10 +233,11 @@
         },
         y9: {
           type: "linear",
-          display: true,
+          display: 'auto',
           position: "left",
           ticks: {
-            display: false,
+            display: 'auto',
+            color: "#a98600",
           },
 
           // grid line settings
