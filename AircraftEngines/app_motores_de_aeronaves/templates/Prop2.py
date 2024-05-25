@@ -48,7 +48,7 @@ class AircraftEngines:
         Arguments:
             M0: Mach number                                     [  -  ]
             gamma: Ratio of specific heats                      [kJ/kgK]
-            cp: Specific heat at constant pressure              [ J/K ]
+            cp: Specific heat at constant pressure              [kJ/kgK]
             hpr: Low heating value of fuel                      [kJ/kg]
             Tt4: Total temperature leaving the burner           [  K  ]
             pi_c: Compressor total pressure ratio               [  -  ]
@@ -77,7 +77,7 @@ class AircraftEngines:
             'AF': []            
         }
 
-        R = (gamma - 1)/gamma * cp  # eq 5.18a
+        R = (gamma - 1)/gamma * cp * 1000  # eq 5.18a
         V0 = self.a0 * M0
         
         tau_r = 1 + (gamma - 1)/2 * M0**2  # eq 5.18c
@@ -133,10 +133,10 @@ class AircraftEngines:
 
         Arguments:
             M0: Mach number
-            gamma_c: Ratio of specific heats in the compressor          [kJ/kgK]
-            gamma_t: Ratio of specific heats in the turbine             [kJ/kgK]
-            cp_c: Specific heat at constant pressure in the compressor  [ J/K ]
-            cp_t: Specific heat at constant pressure in the turbine     [ J/K ]
+            gamma_c: Ratio of specific heats in the compressor          [  -  ]
+            gamma_t: Ratio of specific heats in the turbine             [  -  ]
+            cp_c: Specific heat at constant pressure in the compressor  [kJ/kgK]
+            cp_t: Specific heat at constant pressure in the turbine     [kJ/kgK]
             hpr: Low heating value of fuel                              [kJ/kg]
             Tt4: Total temperature leaving the burner                   [  K  ]
             pi_c: Compressor total pressure ratio                       [  -  ]
@@ -174,11 +174,11 @@ class AircraftEngines:
         }
 
         # Gas constants
-        R_c    = ((gamma_c - 1)/gamma_c ) * (cp_c)
-        R_t    = ((gamma_t - 1)/gamma_t ) * (cp_t)
+        R_c    = ((gamma_c - 1)/gamma_c ) * (cp_c) * 1000
+        R_t    = ((gamma_t - 1)/gamma_t ) * (cp_t) * 1000
 
         # Free stream
-        a0    = (gamma_c*1000*R_c*self.T0)**0.5
+        a0    = (gamma_c*R_c*self.T0)**0.5
         V0    = a0 * M0
         m0_dot = A0*self.rho0*V0
 
@@ -308,10 +308,10 @@ class AircraftEngines:
         Tt2_R = T0_R*tau_r_R
 
         #  Equations
-        R_c = (gamma_c - 1)/gamma_c*cp_c # J/(kg.K)
-        R_t = (gamma_t - 1)/gamma_t*cp_t # J/(kg.K)
+        R_c = (gamma_c - 1)/gamma_c*cp_c * 1000 # J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cp_t * 1000 # J/(kg.K)
         
-        a0 = (gamma_c*1000*R_c*T0)**(1/2) # m/s
+        a0 = (gamma_c*R_c*T0)**(1/2) # m/s
         V0 = a0*M0
         
         tau_r = 1 + (gamma_c - 1)/2*M0**2
@@ -387,15 +387,15 @@ class AircraftEngines:
         return output,tau_lambda, pi_r, tau_r, pi_d, tau_d, pi_c, tau_c, pi_b, tau_b, pi_t, tau_t, pi_n, tau_n, P0_P9, Pt9_P9, T9_Tt9, T9_T0, M9, N_NR
 
 #------------------------------- TURBOFAN ------------------------------------------------------------
-
+    # NOT BEING USED.
     def ideal_turbofan(self, M0, gamma, cp, hpr, Tt4, pi_c, pi_f, alpha, batch_size=1, min_pi_c=0.001, max_pi_c=40):
         """
         Description: This method calculates the on design parameters of an ideal turbofan engine.
 
         Arguments:
             M0: Mach number                                             [  -  ]
-            gamma: Ratio of specific heats                              [kJ/kgK]
-            cp: Specific heat at constant pressure                      [ J/K ]
+            gamma: Ratio of specific heats                              [  -  ]
+            cp: Specific heat at constant pressure                      [kJ/kgK]
             hpr: Low heating value of fuel                              [kJ/kg]
             Tt4: Total temperature leaving the burner                   [  K  ]
             pi_c: Compressor total pressure ratio                       [  -  ]
@@ -473,7 +473,7 @@ class AircraftEngines:
         pi_c -= pi_c_increase
         return output,tau_r,pi_r,tau_f,tau_c,tau_lambda,tau_t,pi_t
 
-    def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,A0,batch_size=1, min_pi_c=0.001, max_pi_c=40):
+    def real_turbofan(self,M0,gamma_c,gamma_t,cp_c,cp_t,hpr,Tt4,pi_d_max,pi_b,pi_n,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_b,eta_mL,eta_mH,P0_P9,P0_P19,tau_n,tau_fn,pi_cL,pi_cH,pi_f,alpha,A0):
 
         """
         Description: This method calculates the on design parameters of a real twin spool turbofan engine.
@@ -530,9 +530,9 @@ class AircraftEngines:
             'FC': []            
         }
 
-        R_c = (gamma_c - 1) / gamma_c * cp_c  # eq. 7.52a
-        R_t = (gamma_t - 1) / gamma_t * cp_t  # eq. 7.52b
-        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # eq. 7.52c
+        R_c = (gamma_c - 1) / gamma_c * cp_c * 1000  # eq. 7.52a
+        R_t = (gamma_t - 1) / gamma_t * cp_t * 1000  # eq. 7.52b
+        a0 = (gamma_c * R_c * self.T0) ** (1 / 2)  # eq. 7.52c 
         V0 = a0 * M0  # eq. 7.52d
 
         # Free stream parameters
@@ -592,7 +592,7 @@ class AircraftEngines:
         F_m0 = FF_m0 + FC_m0  # N/(kg/s)
         S = f / ((1 + alpha) * F_m0)
         FR = FF_m0 / FC_m0
-        eta_T = a0 * a0 * ((1 + f) * V9_a0 * V9_a0 + alpha * (V19_a0 * V19_a0) - (1 + alpha) * M0 * M0) / (2 * f * hpr)
+        eta_T = a0 * a0 * ((1 + f) * V9_a0 * V9_a0 + alpha * (V19_a0 * V19_a0) - (1 + alpha) * M0 * M0) / (2 * f * hpr * 1000) # creio que faltava um * 1000 aqui para adequar ao SI
         eta_P = 2 * M0 * ((1 + f) * V9_a0 + alpha * V19_a0 - (1 + alpha) * M0) / ( (1 + f) * (V9_a0 ** 2) + alpha * V19_a0 ** 2 - (1 + alpha) * M0 ** 2)
         eta_Total = eta_P * eta_T
 
@@ -620,9 +620,9 @@ class AircraftEngines:
 
         tau_cH_R = pi_cH_R**((gamma_c - 1)/(gamma_c))
         tau_cL_R = pi_cL_R**((gamma_c - 1)/(gamma_c))
-        R_c = (gamma_c - 1)/gamma_c*cp_c
-        R_t = (gamma_t - 1)/gamma_t*cp_t
-        a0 = (gamma_c*R_c*self.T0)**(1/2)
+        R_c = (gamma_c - 1)/gamma_c*cp_c * 1000
+        R_t = (gamma_t - 1)/gamma_t*cp_t * 1000
+        a0 = (gamma_c*R_c*self.T0)**(1/2) 
         V0 = a0*M0
         tau_r = 1 + (gamma_c - 1)/2*M0**2
         pi_r = tau_r**(gamma_c/(gamma_c - 1))
@@ -695,7 +695,7 @@ class AircraftEngines:
         S = f/((1 + alpha)*F_m0)
         N_NR_fan = (self.T0*tau_r/(T0_R*tau_r_R)*(pi_f**((gamma_c - 1)/gamma_c) - 1)/(pi_f_R**((gamma_c - 1)/gamma_c) - 1))**(1/2)
         N_NR_H = (self.T0*tau_r*tau_cL/(T0_R*tau_r_R*tau_cL_R)*(pi_cH**((gamma_c - 1)/gamma_c) - 1)/(pi_cH_R**((gamma_c - 1)/gamma_c) - 1))**(1/2)
-        eta_T = a0**2*((1 + f)*V9_a0**2 + alpha*(V19_a0**2)- (1 + alpha)*M0**2)/(2*f*hpr)
+        eta_T = a0**2*((1 + f)*V9_a0**2 + alpha*(V19_a0**2)- (1 + alpha)*M0**2)/(2*f*hpr*1000)
         eta_P = 2*V0*(1 + alpha)*F_m0/(a0**2*((1 + f)*V9_a0**2 + alpha*V19_a0**2 - (1 + alpha)*M0**2))
         eta_Total = eta_P*eta_T
         F = F_m0 * m0
@@ -741,8 +741,8 @@ class AircraftEngines:
         Arguments:
             M0: Mach number                             [  -  ]
             gamma: Ratio of specific heats              [  -  ]
-            cp: Specific heat at constant pressure      [J/kgK]
-            hpr: Low heating value of fuel              [ J/kg]
+            cp: Specific heat at constant pressure      [kJ/kgK]
+            hpr: Low heating value of fuel              [kJ/kg]
             Tt4: Total temperature leaving the burner   [  K  ]
 
         Returns: A dictionary containing the list of calculated outputs.
@@ -768,7 +768,7 @@ class AircraftEngines:
             #'FR': []
         }
 
-        R = (gamma - 1)/gamma*cp # J/(kg.K)
+        R = (gamma - 1)/gamma*cp*1000 # como foi multiplicado por 1000, agora está em J/(kg.K)
 
         a0 = (gamma*R*self.T0)**(1/2) #m/s
         V0 = M0*a0
@@ -806,15 +806,15 @@ class AircraftEngines:
 
         return output
 
-    def real_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1.0, gamma_c=1.4, gamma_t=1.4, cpc=1004.0, cpt=1004.0, eta_b=1.0):
+    def real_ramjet(self, M0, hpr, Tt4, A0, pi_b, pi_dmax, pi_n, P0_P9=1.0, gamma_c=1.4, gamma_t=1.4, cpc=1.004, cpt=1.004, eta_b=1.0):
         """
         Description: This method calculates the on design parameters of an ramjet turbojet engine.
 
         Arguments:
             M0: Mach number                             [  -  ]
             gamma: Ratio of specific heats              [  -  ]
-            cp: Specific heat at constant pressure      [J/kgK]
-            hpr: Low heating value of fuel              [ J/kg]
+            cp: Specific heat at constant pressure      [kJ/kgK]
+            hpr: Low heating value of fuel              [kJ/kg]
             Tt4: Total temperature leaving the burner   [  K  ]
 
         Returns: A dictionary containing the list of calculated outputs.
@@ -843,8 +843,8 @@ class AircraftEngines:
         }
         
         # Comentar sobre cpc 
-        R_c = (gamma_c - 1)/gamma_c*cpc # J/(kg.K)
-        R_t = (gamma_t - 1)/gamma_t*cpt
+        R_c = (gamma_c - 1)/gamma_c*cpc*1000 # como foi multiplicado por 1000, agora está em J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cpt*1000
 
         a0 = (gamma_c*R_c*self.T0)**(1/2) #m/s
         V0 = a0*M0
@@ -893,7 +893,7 @@ class AircraftEngines:
         
         AF = 1/f
 
-        eta_T = (a0**2)*((1+f)*((V9/a0)**2) - (M0**2) )/(2*f*hpr)
+        eta_T = (a0**2)*((1+f)*((V9/a0)**2) - (M0**2) )/(2*f*hpr*1000)
         eta_P = 2*V0*F_m0/( (a0**2)*((1+f)* ((V9/a0)**2) -M0**2)  )
         eta_Total = eta_P*eta_T
 
@@ -962,8 +962,8 @@ class AircraftEngines:
 
 
         #  Equations
-        R_c = (gamma_c - 1)/gamma_c*cp_c # J/(kg.K)
-        R_t = (gamma_t - 1)/gamma_t*cp_t # J/(kg.K)
+        R_c = (gamma_c - 1)/gamma_c*cp_c*1000 # J/(kg.K)
+        R_t = (gamma_t - 1)/gamma_t*cp_t*1000 # J/(kg.K)
         a0 = (gamma_c*R_c*T0)**(1/2) # m/s
         V0 = a0*M0
 
@@ -1002,7 +1002,7 @@ class AircraftEngines:
         F_m0 = a0*((1 + f)*V9_a0 - M0 + (1 + f)*R_t*T9_T0/(R_c*V9_a0)*(1 - P0_P9)/gamma_c) # N/(kg/s)
         F = F_m0*m0_dot # N
         S = f/F_m0 # (kgFuel/s)/N
-        eta_T = a0**2*((1 + f)*V9_a0**2 - M0**2)/(2*f*hpr)
+        eta_T = a0**2*((1 + f)*V9_a0**2 - M0**2)/(2*f*hpr*1000)
         eta_P = 2*V0*F_m0/(a0**2*((1 + f)*V9_a0**2 - M0**2))
         eta_Total = eta_P*eta_T
         N_NR = (T0*tau_r/(T0_R*tau_r_R)*(pi_c**((gamma_c - 1)/gamma_c) - 1)/(pi_c_R**((gamma_c - 1)/gamma_c) - 1))**(1/2)
@@ -1050,8 +1050,8 @@ class AircraftEngines:
         'C_tot': [] #C_Total -> C_tot
         }
 
-        R = (gamma - 1)/gamma*cp
-        a0 = (gamma*R*1000*self.T0)**(1/2)
+        R = (gamma - 1)/gamma*cp*1000
+        a0 = (gamma*R*self.T0)**(1/2)
         V0 = a0*M0 #m/s
         
         tau_r = 1 + (gamma - 1)/2*M0**2
@@ -1206,9 +1206,9 @@ class AircraftEngines:
         
         C_tot = C_prop + C_c
         
-        F_m0 = C_tot*cp_c*self.T0/V0
+        F_m0 = C_tot*cp_c*1000*self.T0/V0 # multipliquei por 1000 aqui por causa do cp
         S = f/F_m0
-        S_P = f/(C_tot*cp_c*self.T0)
+        S_P = f/(C_tot*cp_c*1000*self.T0) # multipliquei por 1000 aqui por causa do cp
 
         W_m0 = C_tot*cp_c*self.T0
 
@@ -1352,9 +1352,9 @@ class AircraftEngines:
         C_prop = eta_prop*eta_g*eta_mL*(1 + f)*tau_lambda*tau_tH*(1 - tau_tL)
         C_tot = C_c + C_prop
         
-        F_m0 = C_tot*cp_c*self.T0/V0
+        F_m0 = C_tot*cp_c*1000*self.T0/V0 #multipliquei por 1000 aqui por causa do cp
         S = f/F_m0
-        S_P = f/(C_tot*cp_c*self.T0)
+        S_P = f/(C_tot*cp_c*1000*self.T0) #multipliquei por 1000 aqui por causa do cp
         
         F = F_m0*m0_dot
 
