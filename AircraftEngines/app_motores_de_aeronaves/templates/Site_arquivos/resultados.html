@@ -103,6 +103,52 @@
 					<th colspan="4">Parâmetros de saída do motor</th>
 				  </tr>
 				</thead>
+				{%if motor.motor_type == 'turboprop'%}
+				<tbody>
+					<tr>
+						<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td>
+						<td id="Empuxo-especifico">{{Mattingly.F_m0.0|stringformat:".3E"}}</td>
+						<td>Eficiência térmica (&#x3B7<sub>T</sub>)</td>
+						<td id="eta_T">{{Mattingly.eta_T.0|stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Razão combustível/ar (f)</td>
+						<td id="razao-combustivel-ar">{{Mattingly.f.0|stringformat:".3E"}}</td>
+						<td>Eficiência propulsiva (&#x3B7<sub>P</sub>)</td>
+						<td id="eta_P">{{Mattingly.eta_P.0|stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Consumo específico de combustível (S) [kg/(N.s)]</td>
+						<td id="Consumo-especifico-combustivel">{{Mattingly.S.0|stringformat:".3E"}}</td>
+						<td>Eficiência Global (&#x3B7<sub>O</sub>)</td>
+						<td id="eta_global">{{Mattingly.eta_Total.0|stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Pressão crítica(P<sub>c,C</sub>)</td>
+						<td id="Pcc"> {{Mattingly.P_c|stringformat:".3E"}}</td>
+						<td>Razão da entalpia do queimador pela do escoamento livre (&#x03C4<sub>&#x3BB</sub>)</td>
+						<td id="tau-lambda">{{Mattingly.Tau_lambda.0|stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td>
+						<td id="Coef-helice">{{Mattingly.C_prop.0|stringformat:".3E"}}</td>
+						<td>Razão entre pressões de entrada e saída do bocal de saída (P<sub>t9</sub>/P<sub>9</sub>)</td>
+						<td id="Pt9/P9">{{Pt9_P9.0 |stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Coeficiente de trabalho do core (C<sub>C</sub>)</td>
+						<td id="Coef-core">{{Mattingly.C_c.0|stringformat:".3E"}}</td>
+						<td>Razão entre temperaturas de entrada e saída do bocal de saída (T<sub>9</sub>/T<sub>t9</sub>) </td>
+						<td id="Tt9/T9">{{T9_Tt9.0 |stringformat:".3E"}}</td>
+					</tr>
+					<tr>
+						<td>Coeficiente de trabalho total (C<sub>tot</sub>)</td>
+						<td id="Coef-tot"> {{Mattingly.C_tot.0|stringformat:".3E"}}</td>
+						<td>Razão entre temperaturas do bocal de saída e do escoamento livre (T<sub>9</sub>/T<sub>0</sub>)</td>
+						<td id="T9/T0">{{T9_T0.0|stringformat:".3E"}}</td>
+					</tr>
+				</tbody>
+				{%else %}
 				<tbody>
 				  <tr>
 					<td>Empuxo específico (F/&#x1E41<sub>0</sub>) [N.s/kg]</td> 
@@ -161,21 +207,8 @@
 				  </tr>
 
 				  {%endif%}
-
-				  {%if motor.motor_type == 'turboprop'%}
-				  <tr>
-					<td>Coeficiente de trabalho da hélice (C<sub>prop</sub>)</td> 
-					<td id="Coef-helice">{{Mattingly.C_prop.0|stringformat:".3E"}}</td>
-					<td>Coeficiente de trabalho do core (C<sub>C</sub>)</td> 
-					<td id="Coef-core">{{Mattingly.C_c.0|stringformat:".3E"}}</td>
-				  </tr>
-
-				  <tr>
-					<td>Coeficiente de trabalho total (C<sub>tot</sub>)</td>  
-					<td id="Coef-tot"> {{Mattingly.C_tot.0|stringformat:".3E"}}</td>
-				  </tr>
-				  {%endif%}
 				</tbody>
+				{%endif%}
 			</table>
 		</section> 
 

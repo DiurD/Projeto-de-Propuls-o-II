@@ -42,7 +42,7 @@ class motor_turboprop:
         return string 
 
 
-    def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4, pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,m0_dot,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL):
+    def calcula_parametrico(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4, pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL):
         
 
         T0,P0,_,_ = atmos.get_param()
@@ -64,7 +64,7 @@ class motor_turboprop:
         if ideal:     
             output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos.ideal_turboprop(self.M0,gamma_c,cp_c,hpr,Tt4,pi_c,tau_t,eta_prop)    
         else:
-            output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos.real_turboprop(self.M0,Tt4,gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_n,pi_c,e_c,e_tH,e_tL,tau_t,eta_b,eta_mL,eta_mH,eta_g,eta_prop,m0_dot)
+            output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos.real_turboprop(self.M0,Tt4,gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_n,pi_c,e_c,e_tH,e_tL,tau_t,eta_b,eta_mL,eta_mH,eta_g,eta_prop)
         
         output['Tau_lambda'] = [tau_lambda]
         output['P0/P9'] = [P0_P9]
@@ -147,7 +147,7 @@ class motor_turboprop:
         saida_REF = {}
 
         if design:                                                                                                                                                
-            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_AT, pi_c_R, tau_t, eta_prop,atmos_AT,ideal,m0_dot_R,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
+            output_Mattingly,saida = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_AT, pi_c_R, tau_t, eta_prop,atmos_AT,ideal,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
         else:                                               
             output_Mattingly,saida,output_Mattingly_REF,saida_REF = self.calcula_offdesign(gamma_c,gamma_t, cp_c , cp_t ,hpr, tau_t_R,eta_prop,eta_propmax,pi_tH,tau_tH,atmos_REF,atmos_AT,ideal,M0_AT,Tt4_AT, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R,eta_c, eta_tL,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
 
@@ -239,7 +239,7 @@ class motor_turboprop:
         T0,P0,_,_ = atmos_AT.get_param()
 
                                                 #(self, gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4,  pi_c, tau_t, eta_prop,atmos:Prop2.AircraftEngines,ideal,A0,pi_b=1.0,pi_d_max=1.0,pi_n=1.0,eta_b=1.0,eta_mL=1.0,eta_mH=1.0,eta_g=1.0,e_c=1.0,e_tH=1.0,e_tL=1.0):                                     
-        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,pi_c_R, tau_t_R, eta_prop,atmos_REF,                  ideal,m0_dot_R,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
+        output_REF,saida_REF = self.calcula_parametrico(gamma_c,gamma_t, cp_c , cp_t , hpr, Tt4_R,pi_c_R, tau_t_R, eta_prop,atmos_REF,                  ideal,pi_b,pi_d_max,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL)
         
         if Pt9_P9_R == 1 and m0_dot_R ==1:                                                                                                                                                                                                          #pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax, M0_R, T0_R, P0_R, m0_dot_R, tau_r_R, pi_r_R, Tt4_R, pi_d_R, pi_c_R, tau_c_R, pi_tL_R, tau_tL_R, M9_R, Pt9_P9_R
             output,tau_lambda,pis[0],taus[0],pis[2],taus[2],pis[3],taus[3],pis[4],taus[4],pis[5],taus[5],pis[6],taus[6],pis[9],taus[9],P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9 = atmos_AT.offdesign_turboprop(M0_AT, Tt4_AT, gamma_c,cp_c,gamma_t,cp_t,hpr,pi_d_max,pi_b,pi_tH,pi_n,tau_tH,eta_c,eta_b,eta_tL, eta_mL, eta_g, eta_propmax,saida_REF['Mach'][0],saida_REF['T [K]'][0],saida_REF['P [Pa]'][0],output_REF['m0_dot'][0],saida_REF['Tau'][0],saida_REF['Pi'][0],saida_REF['Tt [K]'][4],saida_REF['Pi'][2],saida_REF['Pi'][3],saida_REF['Tau'][3],saida_REF['Pi'][5],saida_REF['Tau'][5],saida_REF['Mach'][10],output_REF['Pt9/P9'][0])

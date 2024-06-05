@@ -1136,7 +1136,7 @@ class AircraftEngines:
         eta_mH,
         eta_g,
         eta_prop,
-        m0_dot, #Para calcular m0_dot. Caso queira inserir diretamente m0_dot "a gente" muda depois # Comentado podr Gabriel
+        #m0_dot, #Para calcular m0_dot. Caso queira inserir diretamente m0_dot "a gente" muda depois # Comentado podr Gabriel
 
         ):
         output = {
@@ -1229,7 +1229,7 @@ class AircraftEngines:
         output['C_tot'].append(C_tot)
         output['W_m0'].append(W_m0)
         output['S_P'].append(S_P)
-        output['m0_dot'].append(m0_dot) #Adicionado por Gabriel
+        #output['m0_dot'].append(m0_dot) #Adicionado por Gabriel
 
         return output,tau_lambda,pi_r,tau_r,pi_d,tau_d,pi_c,tau_c,pi_b,tau_b,pi_tH,tau_tH,pi_tL,tau_tL,pi_n,tau_n,P0_P9,Pt9_P9,T9_Tt9,T9_T0,M9
     
