@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from app_motores_de_aeronaves.templates import Prop2,ramjet,turboprop,turbofan,turbojet
+from app_motores_de_aeronaves.templates import Prop2,ramjet,Turboprop,TurboFan,TurboJet
 from app_motores_de_aeronaves.models import atmos,motor
 import re
 
@@ -311,15 +311,15 @@ def results(request):
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = RAMJETAO.calcula_datum(gamma_c,gamma_t,cp_c,cp_t,hpr,atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,eta_nt)
                                                                           
         case 'turbojet':
-            TURBOJETAO = turbojet.turbojet(nome,D,lenght,M0,M3,quantidade_entradas)
+            TURBOJETAO = TurboJet.turbojet(nome,D,lenght,M0,M3,quantidade_entradas)
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOJETAO.calcula_datum(A0,gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,P0_P9_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_c_ref,tau_c_ref,pi_t,tau_t,pi_n,eta_c,eta_b,eta_m,e_c,e_t,eta_nt)
                                                                                                     
         case 'turboprop':
-            TURBOPROPAO = turboprop.motor_turboprop(nome,D,lenght,M0,M3,quantidade_entradas) # VER O QUE TÁ DANDO PAU AQUI
+            TURBOPROPAO = Turboprop.motor_turboprop(nome,D,lenght,M0,M3,quantidade_entradas) # VER O QUE TÁ DANDO PAU AQUI
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOPROPAO.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,Tt4,M0_ref, T0_ref, P0_ref, m0_ref, tau_r_ref, pi_r_ref, Tt4_ref, pi_d_ref, pi_c_ref, tau_c_ref, pi_tL_ref, tau_tL_ref, M9_ref, Pt9_P9_ref, tau_t, eta_prop, eta_prop_max, pi_tH, tau_tH,on_design, eta_c, eta_tL,pi_b,pi_dmax,pi_n,eta_b,eta_mL,eta_mH,eta_g,e_c,e_tH,e_tL,tau_t_ref,eta_nt)
                                                                                                     
         case 'turbofan':
-            TURBOFANES = turbofan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan,alfa) # ATRIBUIR ESSAS VARIÁVEIS
+            TURBOFANES = TurboFan.motor_turbofan(nome,D,lenght,M0,M3,estagios_compressor_baixa,estagios_compressor_alta,aumento_pressao,DFan,alfa) # ATRIBUIR ESSAS VARIÁVEIS
             Mattingly,Todas_Secoes,Mattingly_REF,Todas_Secoes_REF,Datum = TURBOFANES.calcula_datum(gamma_c,gamma_t, cp_c , cp_t , hpr, atmosfera_ref,atmosfera,ideal,M0,P0_P9,Tt4,M0_ref,T0_ref,P0_ref,tau_r_ref,pi_r_ref,Tt4_ref,pi_d_ref,Pt9_P9_ref,m0_ref,on_design,pi_b,pi_dmax,pi_n,eta_b,pi_fn,e_cL,e_cH,e_f,e_tL,e_tH,eta_mL,eta_mH,P0_P19,pi_f,eta_f,eta_cL,eta_cH,eta_tL,M9_ref,M19_ref,tau_lambda_ref,pi_f_ref,pi_cH_ref,pi_cL_ref,pi_tL_ref,tau_f_ref,tau_tL_ref,eta_nt,eta_nf,pi_tH)
                   
         case _:
